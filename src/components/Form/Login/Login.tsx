@@ -93,9 +93,12 @@ function Login() {
   // Extrayez l'URL de redirection des paramètres de l'URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    console.log('urlParams', urlParams);
     const redirect = urlParams.get('redirect'); // On récupère la valeur du paramètre redirect (tout ce qui est après le ?redirect dans l'url)
+    console.log('redirect', redirect);
     if (redirect) {
       const cleanRedirect = redirect.slice(10); // On retire le undefined/ de l'url (aucune idée de pourquoi il y est par contre)
+      console.log('cleanRedirect', cleanRedirect);
       // Si redirect existe
       setRedirectUrl(cleanRedirect); // On met à jour le state redirectUrl
     }
@@ -107,18 +110,23 @@ function Login() {
    * Au submit, on récupère les données du formulaire et on dispatch l'action de connexion réussie
    * On redirige ensuite vers la page d'accueil
    */
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // On empêche le comportement par défaut du formulaire
     const form = event.currentTarget;
     const formData = new FormData(form);
 
     dispatch(resetMessage()); // On reset le message flash
-    dispatch(loginUser(formData)); // Dispatch de l'action de connexion
-    if (redirectUrl) {
-      // Si redirectUrl existe (c'est qu'une page ayant besoin d'être log est visitée)
-      navigate(redirectUrl); // Redirection vers la page stockée dans redirectUrl
-    } else {
-      navigate('/'); // Sinon, connexion classique, redirection vers la page d'accueil
+    try {
+      await dispatch(loginUser(formData)); // Dispatch de l'action de connexion
+      if (redirectUrl) {
+        console.log('redirectUrl', redirectUrl);
+        // Si redirectUrl existe (c'est qu'une page ayant besoin d'être log est visitée)
+        await navigate(redirectUrl); // Redirection vers la page stockée dans redirectUrl
+      } else {
+        await navigate('/'); // Sinon, connexion classique, redirection vers la page d'accueil
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
