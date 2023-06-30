@@ -81,7 +81,7 @@ function LinksComponent(props: BurgerI) {
       const loginUrl = `/?redirect=${encodeURIComponent(
         `${previousPath}/create-project`
       )}`;
-      navigate(loginUrl);
+      navigate(loginUrl); // Permet d'afficher dans l'url l'adresse de redirection, pour être récupéré par le composant Login
 
       if (windowWidth > 768) {
         // Si la fenêtre est plus grande que 768px, on ignore
