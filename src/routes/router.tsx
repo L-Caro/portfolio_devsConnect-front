@@ -10,23 +10,19 @@ import { useAppSelector } from '../hook/redux';
 // ? Composants
 import Root from './Root';
 import ErrorPage from './ErrorPage';
+import NotFound from '../components/NotFound/NotFound';
 
 import Home from '../components/App/Home/Home';
+
 import Members from '../components/App/Members/Members';
-import Projects from '../components/App/Projetcs/Projects';
-import ProjectDetail from '../components/App/Projetcs/ProjectDetail/ProjectDetail';
 import OneMember from '../components/App/Members/OneMember/OneMember';
 import MyProfile from '../components/App/Members/OneMember/MyProfile/MyProfile';
 
-import FormProject from '../components/App/Projetcs/FormProject/FormProject';
-import ModifyProject from '../components/App/Projetcs/ModifyProject/ModifyProject';
+import Projects from '../components/App/Projetcs/Projects';
+import OneProject from '../components/App/Projetcs/OneProject/OneProject';
+import CreateProject from '../components/App/Projetcs/CreateProject/CreateProject';
 
 import Cgu from '../components/App/Cgu/Cgu';
-
-import FormProject from '../components/App/Projetcs/FormProject/FormProject';
-import ModifyProject from '../components/App/Projetcs/ModifyProject/ModifyProject';
-import NotFound from '../components/NotFound/NotFound';
-
 
 // ? Fonction
 /** //! Fonction pour gérer l'affichage du profil ou de la page membre
@@ -52,13 +48,13 @@ const Router = createBrowserRouter(
       <Route errorElement={<NotFound />}>
         <Route index element={<Home />} />
         <Route path="/cgu" element={<Cgu />} />
+        {/* Members */}
         <Route path="/users" element={<Members />} />
         <Route path="/users/:id" element={<ProfileCondition />} />
-        <Route path="/create-my-project" element={<FormProject />} />
+        {/* Projects */}
         <Route path="/projects" element={<Projects />} />
-        <Route path="/projects/:id" element={<ProjectDetail />} />
-        <Route path="/modify-project/:id" element={<ModifyProject />} />
-        {/* Autres routes... */}
+        <Route path="/projects/:id" element={<OneProject />} />
+        <Route path="/create-project" element={<CreateProject />} />
       </Route>
     </Route>
   )

@@ -1,5 +1,5 @@
 // ? Librairies
-import { useRef, useEffect, FormEvent } from 'react';
+import { useRef, useEffect, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../hook/redux';
 
@@ -19,6 +19,8 @@ function Login() {
   // ? State
   // Redux
   const isLogged = useAppSelector((state) => state.user.login.logged); // Booléen pour savoir si l'utilisateur est connecté
+  // Local
+  const [redirectUrl, setRedirectUrl] = useState<string>(''); // Url de redirection après connexion
 
   // ? useRef
   const modalRef = useRef(null); // Référence pour la modale
@@ -47,6 +49,7 @@ function Login() {
         // On précise que modalRef.current éun element html (Element)
         // On précise que event.target représente un noeud du DOM (Node)
       ) {
+        navigate(0); // On reset la navigation en affichant la page actuelle
         dispatch(toggleModalLogin());
       }
     };
@@ -80,6 +83,24 @@ function Login() {
     }
   };
 
+  /** //* Fonction pour récupérer l'URL de redirection
+   * @param {URLSearchParams} urlParams - Paramètres de l'URL
+   * @param {string} redirect - URL de redirection
+   * Au chargement du composant, on récupère l'URL de redirection
+   * Si elle existe, on la stocke dans le state redirectUrl
+   * Si elle n'existe pas, on laisse le state redirectUrl vide
+   */
+  // Extrayez l'URL de redirection des paramètres de l'URL
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirect = urlParams.get('redirect'); // On récupère la valeur du paramètre redirect (tout ce qui est après le ?redirect dans l'url)
+    if (redirect) {
+      const cleanRedirect = redirect.slice(10); // On retire le undefined/ de l'url (aucune idée de pourquoi il y est par contre)
+      // Si redirect existe
+      setRedirectUrl(cleanRedirect); // On met à jour le state redirectUrl
+    }
+  }, []);
+
   /** //* Fonction pour soumettre le formulaire de connexion
    * @param {FormEvent<HTMLFormElement>} event - Événement formulaire
    * @param {FormData} formData - Données du formulaire
@@ -93,7 +114,12 @@ function Login() {
 
     dispatch(resetMessage()); // On reset le message flash
     dispatch(loginUser(formData)); // Dispatch de l'action de connexion
-    navigate('/'); // Redirection vers la page d'accueil
+    if (redirectUrl) {
+      // Si redirectUrl existe (c'est qu'une page ayant besoin d'être log est visitée)
+      navigate(redirectUrl); // Redirection vers la page stockée dans redirectUrl
+    } else {
+      navigate('/'); // Sinon, connexion classique, redirection vers la page d'accueil
+    }
   };
 
   // ? Rendu JSX
