@@ -105,7 +105,6 @@ function LinksComponent(props: BurgerI) {
          * @param {Function} NavLink - Permet de naviguer entre les pages
          * @param {string} to - On envoie l'ID du projet dans l'url
          * Permet de naviguer vers la page /create-my-project
-        <NavLink to="/create-my-project">Créer mon projet</NavLink>
          */}
 
         <NavLink to="/create-project">Créer mon projet</NavLink>
