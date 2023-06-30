@@ -4,6 +4,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   useParams,
+  Navigate,
 } from 'react-router-dom';
 import { useAppSelector } from '../hook/redux';
 
@@ -25,6 +26,15 @@ import CreateProject from '../components/App/Projetcs/CreateProject/CreateProjec
 import Cgu from '../components/App/Cgu/Cgu';
 
 // ? Fonction
+/** //! Fonction pour savoir si l'utilisateur est connecté
+ * @param {logged} boolean - Booléen pour savoir si l'utilisateur est connecté
+ * Fonction qui permet de récupérer le booléen pour savoir si l'utilisateur est connecté
+ */
+function isUserLogged() {
+  const logged = useAppSelector((state) => state.user.login.logged); // Booléen pour savoir si l'utilisateur est connecté
+  return logged;
+}
+
 /** //! Fonction pour gérer l'affichage du profil ou de la page membre
  * @param {id} number - ID du membre
  * @param {userId} number - ID du membre connecté
@@ -41,6 +51,16 @@ function ProfileCondition() {
   return <OneMember />; // Affiche OneMember si les IDs sont différents
 }
 
+/** //! Fonction de rendu conditionnel pour la route de création de projet
+ * @param {userLogged} boolean - Booléen pour savoir si l'utilisateur est connecté
+ * Affiche CreateProject si l'utilisateur est connecté
+ * Navigate vers la page d'accueil si l'utilisateur n'est pas connecté
+ */
+function RenderCreateProjectRoute() {
+  const userLogged = isUserLogged();
+  return userLogged ? <CreateProject /> : <Navigate to="/" />;
+}
+
 // ? Fonction principale
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -54,7 +74,7 @@ const Router = createBrowserRouter(
         {/* Projects */}
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/:id" element={<OneProject />} />
-        <Route path="/create-project" element={<CreateProject />} />
+        <Route path="/create-project" element={<RenderCreateProjectRoute />} />
       </Route>
     </Route>
   )
