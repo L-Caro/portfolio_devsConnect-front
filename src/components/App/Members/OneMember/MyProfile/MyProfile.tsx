@@ -3,14 +3,17 @@ import { useState, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../hook/redux';
 
 // ? Fonctions externes
-import { resetMessage, updateFlash } from '../../../../../store/reducer/main';
 import { fetchAllTags } from '../../../../../store/reducer/tag';
 import { fetchOneMember } from '../../../../../store/reducer/members';
 import updateMember from '../../../../../store/actions/updateMember';
 import { toggleEditMode } from '../../../../../store/reducer/log';
-import validatePassword from '../../../../../utils/validate form/validatePassword';
-import classMapping from '../../../../../utils/validate form/classMapping';
-import validateRules from '../../../../../utils/validate form/validateRules';
+import { resetMessage, updateFlash } from '../../../../../store/reducer/main';
+import {
+  classMapping,
+  validateField,
+  isFormValid,
+  errorMessages,
+} from '../../../../../utils/validate form/validateForm';
 
 // ? Composants
 import CustomSwitch from '../../../../../utils/customSwitchUI';
@@ -26,7 +29,7 @@ import { TagI, MemberI } from '../../../../../@types/interface';
 
 // ? Fonction principale
 function MyProfile() {
-  // ? State
+  // ? States
   // Store
   const member: MemberI | null = useAppSelector(
     (state) => state.members.member.data
@@ -40,16 +43,17 @@ function MyProfile() {
   const [selectedTags, setSelectedTags] = useState<TagI[] | undefined>(
     member?.tags
   ); // On récupère les tags du membre qu'on stocke (pour la gestion de l'update)
-  // const [isEditMode, setIsEditMode] = useState(false); // State pour le mode édition
   const [isOpenDeleteModale, setIsOpenDeleteModale] = useState(false); // State pour la modale de suppression
-  const [formFields, setFormFields] = useState({
-    firstname: { value: '', className: '', children: '' },
-    name: { value: '', className: '', children: '' },
-    pseudo: { value: '', className: '', children: '' },
-    email: { value: '', className: '', children: '' },
-    password: { value: '', className: '', children: '' },
-  });
 
+  // Etats pour la gestion du formulaire et des erreurs associées
+  const [formFields, setFormFields] = useState({
+    firstname: { value: '', className: '' },
+    lastname: { value: '', className: '' },
+    pseudo: { value: '', className: '' },
+    email: { value: '', className: '' },
+    password: { value: '', className: '' },
+    tags: { value: '', className: '' },
+  });
   // ? useRef
   const formRef = useRef<HTMLFormElement>(null); // Utiliser pour récupérer les données du formulaire (référence au <form>)
 
@@ -159,60 +163,25 @@ function MyProfile() {
     }
   };
 
-  const validateField = (value, fieldName) => {
-    const fieldRules = validateRules[fieldName];
-
-    if (fieldName === 'password') {
-      const { minLength, hasLowercase, hasUppercase, hasSpecialChar } =
-        fieldRules;
-
-      if (
-        value.length < minLength ||
-        !hasLowercase.test(value) ||
-        !hasUppercase.test(value) ||
-        !hasSpecialChar.test(value)
-      ) {
-        return {
-          className: classMapping.wrong,
-          children:
-            'Le mot de passe doit contenir au moins 8 caractères dont une majuscule, une minuscule et un caractère spécial',
-        };
-      }
-    } else if (fieldName === 'email') {
-      const { emailFormat } = fieldRules;
-
-      if (!emailFormat.test(value)) {
-        return {
-          className: classMapping.wrong,
-          children: 'Veuillez renseigner un email valide',
-        };
-      }
-    } else {
-      const { minLength, maxLength } = fieldRules;
-
-      if (value.length < minLength || value.length > maxLength) {
-        return {
-          className: classMapping.wrong,
-          children: 'Ce champ ne peut pas contenir plus de 30 caractères',
-        };
-      }
-    }
-
-    return classMapping.good;
-  };
-
+  /** //* Fonction de validation des champs
+   * @param {string} value - valeur du champ
+   * @param {string} fieldName - nom du champ
+   * Fonction qui vérifie si le champ est vide ou non
+   * Si le champ est vide, on retourne une string vide
+   * Si le champ n'est pas vide, on appelle la fonction validateField() du fichier utils.ts
+   * Cette fonction vérifiera si le champ est valide ou non
+   * On retourne le résultat dans le state formFields
+   */
   const handleChange = (event, fieldName) => {
     const { value } = event.target;
     const validation =
       value.length !== 0 ? validateField(value, fieldName) : '';
 
     let newClassName = '';
-    let newChildren = '';
 
     if (validation) {
-      const { className, children } = validation;
+      const { className } = validation;
       newClassName = classMapping[className];
-      newChildren = children;
     }
 
     setFormFields((prevState) => ({
@@ -220,7 +189,6 @@ function MyProfile() {
       [fieldName]: {
         value,
         className: newClassName,
-        children: newChildren,
       },
     }));
   };
@@ -243,89 +211,82 @@ function MyProfile() {
       ? formRef.current.querySelectorAll('.MyProfile--input') // On cible tous les inputs du formulaire
       : null;
 
-    // textarea
-    const firstname = inputs?.item(0) as HTMLInputElement; // On cible le premier input du formulaire
-    const name = inputs?.item(1) as HTMLInputElement; // On cible le deuxième input du formulaire
-    const pseudo = inputs?.item(2) as HTMLInputElement; // On cible le troisième input du formulaire
-    const email = inputs?.item(3) as HTMLInputElement; // On cible le quatrième input du formulaire
+    const firstname = document.querySelector('#firstname') as HTMLInputElement;
+    const lastname = document.querySelector('#lastname') as HTMLInputElement;
+    const pseudo = document.querySelector('#pseudo') as HTMLInputElement;
+    const email = document.querySelector('#email') as HTMLInputElement;
+    const password = document.querySelector('#password') as HTMLInputElement;
+
     const textarea = formRef.current
       ? formRef.current.querySelector('textarea') // On cible le textarea du formulaire
       : null;
     const textareaName: keyof MemberI = textarea?.name as keyof MemberI; // On récupère le name du textarea
     const textareaValue: string | undefined = textarea?.value; // On récupère la value du textarea
-    // email
-
-    // password
-    const passwordElement = document.querySelector(
-      '#password'
-    ) as HTMLInputElement;
-    const password = passwordElement.value;
 
     // erreurs du formulaire
-    const isFormValid = []; // Variable pour suivre l'état des conditions
 
     // ! Gestion des erreurs
 
     dispatch(resetMessage()); // On reset le message flash
 
-    if (firstname.value !== '' && validateField(firstname.value, 'firstname')) {
-      console.log('firstname', firstname.value);
-      isFormValid.push('firstname');
-    }
-    if (name.value !== '' && validateField(name.value, 'name')) {
-      isFormValid.push('name');
-    }
-    if (pseudo.value !== '' && validateField(pseudo.value, 'pseudo')) {
-      isFormValid.push('pseudo');
-    }
-    if (email.value !== '' && validateField(email.value, 'email')) {
-      isFormValid.push('email');
-    }
-    if (password !== '' && validateField(password, 'password')) {
-      isFormValid.push('password');
-    }
     if (selectedTags.length === 0) {
-      isFormValid.push('tags');
+      // Si aucun tag n'est sélectionné, on passe isFormValid.tags à false
+      isFormValid.tags = false;
+    } else {
+      // Sinon, on passe isFormValid.tags à true
+      isFormValid.tags = true;
     }
-    if (isFormValid.length === 1) {
-      console.log('isFormValid', isFormValid);
-      console.log('formField', formFields);
-      let errorMessage;
-      if (isFormValid[0] === 'firstname') {
-        errorMessage = formFields.firstname.children;
-      } else if (isFormValid[0] === 'name') {
-        errorMessage = formFields.name.children;
-      } else if (isFormValid[0] === 'pseudo') {
-        errorMessage = formFields.pseudo.children;
-      } else if (isFormValid[0] === 'email') {
-        errorMessage = formFields.email.children;
-      } else if (isFormValid[0] === 'password') {
-        errorMessage = formFields.password.children;
-      } else if (isFormValid[0] === 'tags') {
-        errorMessage = 'Veuillez sélectionner au moins un langage';
+
+    // On vérifie si les champs sont vides
+    ['firstname', 'lastname', 'pseudo', 'email', 'password'].forEach(
+      (field) => {
+        if (eval(field).value === '') {
+          // Si le champ est vide, on passe isFormValid[field] à true, car dans l'update on n'est pas obligé de tout modifier
+          isFormValid[field] = true;
+        }
       }
+    );
 
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: errorMessage,
-        })
+    // On compte le nombre de false dans isFormValid
+    const falseFieldCount = Object.values(isFormValid).filter(
+      (value) => value === false
+    ).length;
+
+    // Si un seul champ est vide, on affiche un message d'erreur spécifique à ce champ
+    if (falseFieldCount === 1) {
+      // On laisse le mode édition activé
+      dispatch(toggleEditMode(true));
+      // On récupère le nom du champ qui est vide
+      const invalidField = Object.keys(isFormValid).find(
+        (field) => !isFormValid[field]
       );
+
+      // On affiche le message d'erreur spécifique à ce champ
+      if (invalidField) {
+        dispatch(
+          updateFlash({
+            type: 'error',
+            children: errorMessages[invalidField],
+          })
+        );
+      }
     }
 
-    if (isFormValid.length > 1) {
-      console.log(isFormValid);
-
+    // Si plusieurs champs sont vides, on affiche un message d'erreur général
+    if (falseFieldCount > 1) {
+      // On laisse le mode édition activé
+      dispatch(toggleEditMode(true));
       dispatch(
         updateFlash({
           type: 'error',
-          children: 'Veuillez corriger les erreurs',
+          children: errorMessages.multiple,
         })
       );
     }
 
     // ! Soumission du formulaire
-    if (isFormValid.length === 0) {
+    // Si tous les champs sont remplis, on envoie le formulaire
+    if (falseFieldCount === 0) {
       // ? Gestion des inputs
       inputs?.forEach((input) => {
         // Pour chaque input
@@ -355,8 +316,8 @@ function MyProfile() {
       }
 
       // ? Gestion du password
-      formData.append('password', password);
-      objData.password = password;
+      formData.append('password', password.value);
+      objData.password = password.value;
 
       // ? Gestion du switch openToWork
       if (
@@ -384,8 +345,6 @@ function MyProfile() {
           formData: { availability: checked, ...objData }, // Dans formData, on ajoute la valeur de checked et on ajoute les données du formulaire (objData)
         })
       );
-    } else {
-      dispatch(toggleEditMode(true));
     }
   };
 
@@ -422,6 +381,7 @@ function MyProfile() {
               />
               {/* Pour chaque input, on désactive le champ si on est pas en mode édition */}
               <Input
+                id="firstname"
                 name="firstname"
                 slot="Prénom"
                 type="text"
@@ -432,16 +392,18 @@ function MyProfile() {
                 disabled={!isEditMode}
               />
               <Input
-                name="name"
+                id="lastname"
+                name="lastname"
                 slot="Nom"
                 type="text"
                 placeholder={member?.name || ''}
-                value={formFields.name.value}
-                onChange={(event) => handleChange(event, 'name')}
-                className={`MyProfile--input ${formFields.name.className}`}
+                value={formFields.lastname.value}
+                onChange={(event) => handleChange(event, 'lastname')}
+                className={`MyProfile--input ${formFields.lastname.className}`}
                 disabled={!isEditMode}
               />
               <Input
+                id="pseudo"
                 name="pseudo"
                 slot="Pseudo"
                 type="text"
@@ -452,9 +414,9 @@ function MyProfile() {
                 disabled={!isEditMode}
               />
               <Input
+                id="email"
                 name="email"
                 slot="Email"
-                id="email"
                 type="email"
                 placeholder={member?.email || ''}
                 value={formFields.email.value}
