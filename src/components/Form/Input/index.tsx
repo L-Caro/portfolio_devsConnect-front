@@ -1,5 +1,6 @@
 // ? Librairies
 import { useId, useState } from 'react';
+import Icon from '../../UI/Icon/Icon';
 
 // ? Typage local
 interface InputProps {

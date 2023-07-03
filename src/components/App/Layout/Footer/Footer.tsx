@@ -7,7 +7,9 @@ function Footer() {
   // ? Rendu JSX
   return (
     <div className="Footer">
-      <p className="Footer--contact">Contact: mail</p>
+      <a className="Footer--contact" href="mailto:lionelcaro74@gmail.com">
+        Contact: mail
+      </a>
       <p className="Footer--copyright">
         Copyright © 2023 - Tous droits réservés.
       </p>

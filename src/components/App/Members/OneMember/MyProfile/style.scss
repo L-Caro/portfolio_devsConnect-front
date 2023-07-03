@@ -15,6 +15,13 @@
             border: none;
         }
         &--firstField {
+            .Signin--inputText {
+                .MyProfile {
+                    .MyProfile--input {
+                        position: relative;
+                    }
+                }
+            }
             &--inputTextarea {
                 & textarea {
                     padding: 0 v.$font-xsmall;
@@ -294,6 +301,14 @@
                     margin: v.$font-xsmall auto; // Pour centrer l'image
                     width: v.$font-xxlarge + 2rem;
                     height: v.$font-xxlarge + 2rem;
+                }
+                &--Form--input--img {
+                    // position: absolute;
+                    // top: 50%;
+                    // right: 0;
+                    // transform: translateY(-50%);
+                    width: 20px;
+                    height: 20px;
                 }
             }
             &--secondField {

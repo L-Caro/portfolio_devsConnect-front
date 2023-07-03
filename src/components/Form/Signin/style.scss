@@ -1,6 +1,10 @@
 @use '../../../styles/variables' as v;
 @use '../../../styles/mixins' as m; // @include pour utiliser
 
+.inputWrap {
+    position: relative;
+}
+
 .Signin {
     //? Modale
     @include m.flex-center; // mixin pour flex center auto

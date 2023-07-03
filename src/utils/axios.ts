@@ -20,7 +20,7 @@ axiosInstance.interceptors.response.use(
     axError = error;
     if (error.response) {
       // La requête a reçu une réponse avec un code d'erreur (4xx, 5xx)
-      const { status, data } = error.response;
+      const { status, data, config } = error.response;
       console.log(error.response);
       let errorMessage = 'Une erreur est survenue';
 
@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
         errorMessage = 'Erreur interne du serveur';
       }
 
-      return Promise.reject({ message: errorMessage, data });
+      return Promise.reject({ message: errorMessage, data, config });
     }
     if (error.request) {
       // La requête n'a pas reçu de réponse (pas de connexion réseau, par exemple)
@@ -68,12 +68,12 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    const originalRequest = error.config;
+    const originalRequest = axError.config;
 
     // Vérifie si la requête a échoué avec une erreur 401 (jeton expiré)
     if (
-      error.response &&
-      error.response.status === 401 &&
+      axError.response &&
+      axError.response.status === 401 &&
       !originalRequest.retry
     ) {
       // On indique que la requête a déjà été tentée
@@ -81,8 +81,7 @@ axiosInstance.interceptors.response.use(
 
       return (
         axiosInstance
-          // On envoie une requête pour rafraîchir le jeton
-          .post(`http://localhost:3000/refresh-token`, {
+          .post(`/refresh-token`, {
             refreshToken: localStorage.getItem('refreshToken'),
           })
           // On récupère la réponse
@@ -96,7 +95,6 @@ axiosInstance.interceptors.response.use(
               localStorage.clear();
               localStorage.setItem('accessToken', newAccessToken);
               localStorage.setItem('refreshToken', refreshToken);
-
               // On met à jour le header de la requête avec le nouveau jeton
               originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
