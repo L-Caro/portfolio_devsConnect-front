@@ -11,7 +11,7 @@ import {
 import signinUser from '../../../store/actions/signin';
 import { fetchAllTags } from '../../../store/reducer/tag';
 import { resetMessage, updateFlash } from '../../../store/reducer/main';
-import validatePassword from '../../../utils/validatePassword';
+import validatePassword from '../../../utils/validate form/validatePassword';
 
 // ? Composants externes
 import CustomSwitch from '../../../utils/customSwitchUI';

@@ -49,6 +49,25 @@ body {
     text-align: center;
 }
 
+// ! Style pour les erreurs/succès de formulaire
+.wrong {
+    border: 2px solid rgba(97, 32, 32, 0.7);
+    background: rgba(125, 63, 63, 0.4);
+    &::placeholder {
+        color: rgba(97, 32, 32, 0.7);
+        // color: v.$color;
+        font-weight: 600;
+    }
+}
+.good {
+    border: 2px solid rgba(24, 67, 35, 0.7);
+    background: rgba(63, 163, 88, 0.4);
+    &::placeholder {
+        color: rgba(24, 67, 35, 0.7);
+        font-weight: 600;
+    }
+}
+
 // ! Message flash
 // Container
 .MuiAlert-root {
