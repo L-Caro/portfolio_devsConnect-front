@@ -36,7 +36,9 @@ function PasswordModale({
   // ? States
   // Redux
   const id = useAppSelector((state) => state.user.login.id); // id du membre connecté
-  const { message, status } = useAppSelector((state) => state.ajax); // Message de validation ou d'erreur
+  const { passwordMessage, passwordStatus } = useAppSelector(
+    (state) => state.ajax
+  ); // Message de validation ou d'erreur
 
   // Local
   const [formFields, setFormFields] = useState({
@@ -53,8 +55,6 @@ function PasswordModale({
   const dispatch = useAppDispatch();
 
   // ? useEffect
-  // ? useEffect
-  useEffect(() => {}, [status, message, dispatch]);
 
   //* Pour le clic externe à la modale
   useEffect(() => {
@@ -124,8 +124,8 @@ function PasswordModale({
    * Si le statut est success, on passe isFormValid.oldPassword à true
    * Sinon, on passe isFormValid.oldPassword à false
    */
-  const checkStatus = () => {
-    if (status === 'success') {
+  const checkPasswordStatus = () => {
+    if (passwordStatus === 'success') {
       isFormValid.oldPassword = true;
     } else {
       isFormValid.oldPassword = false;
@@ -136,8 +136,8 @@ function PasswordModale({
    * Pour avoir toujours l'état à jour
    */
   useEffect(() => {
-    checkStatus();
-  }, [status]);
+    checkPasswordStatus();
+  }, [passwordStatus]);
 
   /** //* Fonction de validation des champs
    * @param {string} value - valeur du champ
@@ -304,14 +304,14 @@ function PasswordModale({
               placeholder="*****"
               value={formFields.oldPassword.value}
               onChange={(event) => {
-                checkStatus();
+                checkPasswordStatus();
                 verifyPassword(event);
                 handleChange(event, 'oldPassword');
               }}
               className={
                 oldPassword === ''
                   ? 'MyProfile--input'
-                  : status === 'success'
+                  : passwordStatus === 'success'
                   ? `MyProfile--input ${'good'}`
                   : `MyProfile--input ${'wrong'}`
               }
@@ -320,12 +320,16 @@ function PasswordModale({
               className={
                 oldPassword === ''
                   ? ''
-                  : status === 'success'
+                  : passwordStatus === 'success'
                   ? 'good'
                   : 'wrong'
               }
             >
-              {oldPassword === '' ? '' : status === 'success' ? message : ''}
+              {oldPassword === ''
+                ? ''
+                : passwordStatus === 'success'
+                ? passwordMessage
+                : ''}
             </span>
             <Input
               id="newPassword"

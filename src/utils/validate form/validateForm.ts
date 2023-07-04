@@ -65,7 +65,7 @@ export const errorMessages = {
   tags: 'Veuillez sélectionner au moins un language',
   description: 'Veuillez renseigner une description',
   cgu: "Veuillez accepter les conditions générales d'utilisation",
-  multiple: 'Certains champs ne sont pas conforme',
+  multiple: 'Certains champs ne sont pas conformes',
 };
 
 // Variable pour les classes CSS
@@ -77,7 +77,7 @@ export const classMapping = {
 // Fonction pour valider les champs du formulaire
 export const validateField = (value, fieldName, options = {}) => {
   // options = {} permet de mettre un objet vide par défaut si on ne passe pas d'option
-  const { newPasswordValue = undefined } = options; // newPasswordValue n'est pas utilisé dans toutes les vérifications, donc on le met en optionnel avec une valeur par défaut
+  const { newPasswordValue = undefined, pseudoStatus = undefined } = options; // newPasswordValue n'est pas utilisé dans toutes les vérifications, donc on le met en optionnel avec une valeur par défaut
 
   const fieldRules = formRules[fieldName];
 
@@ -167,7 +167,11 @@ export const validateField = (value, fieldName, options = {}) => {
   if (fieldName === 'pseudo') {
     const { minLength, maxLength } = fieldRules;
 
-    if (value.length < minLength || value.length > maxLength) {
+    if (
+      value.length < minLength ||
+      value.length > maxLength ||
+      pseudoStatus === 'error'
+    ) {
       isFormValid.pseudo = false;
       return {
         className: classMapping.wrong,

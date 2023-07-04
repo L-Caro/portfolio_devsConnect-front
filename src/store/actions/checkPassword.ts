@@ -5,7 +5,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/axios';
 
 const checkPassword = createAsyncThunk(
-  'password/checkPassword',
+  'ajax/checkPassword',
   async (oldPassword, id) => {
     try {
       const { data } = await axiosInstance.post(

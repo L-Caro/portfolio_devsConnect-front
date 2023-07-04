@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // ? Librairies
 import { useState, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../../hook/redux';
@@ -6,6 +7,9 @@ import { useAppDispatch, useAppSelector } from '../../../../../hook/redux';
 import { fetchAllTags } from '../../../../../store/reducer/tag';
 import { fetchOneMember } from '../../../../../store/reducer/members';
 import updateMember from '../../../../../store/actions/updateMember';
+import checkPseudo from '../../../../../store/actions/checkPseudo';
+import checkEmail from '../../../../../store/actions/checkEmail';
+
 import { toggleEditMode } from '../../../../../store/reducer/log';
 import { resetMessage, updateFlash } from '../../../../../store/reducer/main';
 import {
@@ -38,12 +42,16 @@ function MyProfile() {
   const userId = useAppSelector((state) => state.user.login.id); // On récupère l'id de l'utilisateur connecté
   const allTags: TagI[] = useAppSelector((state) => state.tag.list.data); // On récupère les tags
   const isEditMode = useAppSelector((state) => state.log.isEditMode); // On récupère le state isEditMode
+  const { pseudoMessage, emailMessage, pseudoStatus, emailStatus } =
+    useAppSelector((state) => state.ajax);
 
   // Local
   const [checked, setChecked] = useState(false); // Valeur du switch
   const [selectedTags, setSelectedTags] = useState<TagI[] | undefined>(
     member?.tags
   ); // On récupère les tags du membre qu'on stocke (pour la gestion de l'update)
+  const [oldPseudo, setOldPseudo] = useState(''); // Ancien mot de passe
+  const [oldEmail, setOldEmail] = useState(''); // Ancien mot de passe
   const [isOpenDeleteModale, setIsOpenDeleteModale] = useState(false); // State pour la modale de suppression
   const [isOpenPasswordModale, setIsOpenPasswordModale] = useState(false); // State pour la modale de modification du mot de passe
 
@@ -179,6 +187,37 @@ function MyProfile() {
     }
   };
 
+  /** //* Fonction de vérification du pseudo
+   * @param {React.ChangeEvent<HTMLInputElement>} e - Événement de changement de valeur
+   * On récupère la valeur du champ
+   * On appelle la fonction checkPseudo() du fichier actions/checkPseudo.ts
+   * On lui passe en paramètre l'ancien pseudo du membre connecté
+   */
+  const verifyPseudo = (event) => {
+    if (event.target.value) {
+      dispatch(checkPseudo({ oldPseudo: event.target.value }));
+    }
+  };
+  /** //* Fonction de vérification du statut de la requête Ajax
+   * @param {string} status - Statut de la requête Ajax
+   * Si le statut est success, on passe isFormValid.Pseudo à true
+   * Sinon, on passe isFormValid.Pseudo à false
+   */
+  const checkPseudoStatus = () => {
+    if (pseudoStatus === 'success') {
+      isFormValid.pseudo = true;
+    } else if (pseudoStatus === 'error') {
+      isFormValid.pseudo = false;
+    }
+  };
+  /** //* useEffect pour vérifier le statut de la requête Ajax
+   * Quand le statut change, on appelle la fonction checkStatus()
+   * Pour avoir toujours l'état à jour
+   */
+  useEffect(() => {
+    checkPseudoStatus();
+  }, [pseudoStatus, oldPseudo]);
+
   /** //* Fonction de validation des champs
    * @param {string} value - valeur du champ
    * @param {string} fieldName - nom du champ
@@ -188,16 +227,33 @@ function MyProfile() {
    * Cette fonction vérifiera si le champ est valide ou non
    * On retourne le résultat dans le state formFields
    */
-  const handleChange = (event, fieldName, options) => {
-    const { value } = event.target;
-    const validation =
-      value.length !== 0 ? validateField(value, fieldName, options) : '';
+  const handleChange = (event, fieldName) => {
+    // La propriété value qui servira a appelé la fonction validateField peut soit provenir de onChange de l'input pseudo,
+    // soit du useEffect, qui lui relance la fonction handleChange avec oldPseudo (à jour)
+    // Donc on initialise value à '' et on la met à jour selon le cas
+    let value = '';
+    // Si on a un event et que event.target existe, on récupère la valeur de l'input
+    if (event && event.target) {
+      value = event.target.value;
+      // Sinon, en fonction du fieldName, on récupère la valeur de oldPseudo ou oldEmail
+    } else if (fieldName === 'pseudo') {
+      // On récupère la valeur de oldPseudo
+      value = oldPseudo;
+    } else if (fieldName === 'email') {
+      // On récupère la valeur de oldEmail
+      value = oldEmail;
+    }
+    const options = { pseudoStatus };
 
     let newClassName = '';
 
-    if (validation) {
-      const { className } = validation;
-      newClassName = classMapping[className];
+    if (value.length !== 0) {
+      const validation = validateField(value, fieldName, options);
+
+      if (validation) {
+        const { className } = validation;
+        newClassName = classMapping[className];
+      }
     }
 
     setFormFields((prevState) => ({
@@ -208,6 +264,12 @@ function MyProfile() {
       },
     }));
   };
+  //! Comme le status de la requête Ajax est asynchrone, et que la validation des champs se fait sur un fichier externe
+  //! on doit utiliser un useEffect pour mettre à jour le state pseudoStatus et emailStatus pour relancer la fonction
+  useEffect(() => {
+    handleChange(oldPseudo, 'pseudo');
+    handleChange(oldEmail, 'email');
+  }, [pseudoStatus, oldPseudo, oldEmail]);
 
   /** //* Fonction d'envoi du formulaire
    * @param {React.FormEvent<HTMLFormElement>} event - event du formulaire
@@ -418,10 +480,22 @@ function MyProfile() {
                 type="text"
                 placeholder={member?.pseudo || ''}
                 value={formFields.pseudo.value}
-                onChange={(event) => handleChange(event, 'pseudo')}
+                onChange={(event) => {
+                  setOldPseudo(event.target.value);
+                  handleChange(event, 'pseudo');
+                  verifyPseudo(event);
+                  checkPseudoStatus();
+                }}
                 className={`MyProfile--input ${formFields.pseudo.className}`}
                 disabled={!isEditMode}
               />
+              <span>
+                {oldPseudo === ''
+                  ? ''
+                  : pseudoStatus === 'error'
+                  ? pseudoMessage
+                  : ''}
+              </span>
               <Input
                 id="email"
                 name="email"
