@@ -3,7 +3,9 @@ export const isFormValid = {
   lastname: true,
   pseudo: true,
   email: true,
-  password: true,
+  oldPassword: true,
+  newPassword: true,
+  confirmPassword: true,
   tags: true,
   description: true,
   cgu: true,
@@ -19,7 +21,19 @@ export const formRules = {
   pseudo: {
     maxLength: 30,
   },
-  password: {
+  oldPassword: {
+    minLength: 8,
+    hasLowercase: /[a-z]/,
+    hasUppercase: /[A-Z]/,
+    hasSpecialChar: /[\W_]/,
+  },
+  newPassword: {
+    minLength: 8,
+    hasLowercase: /[a-z]/,
+    hasUppercase: /[A-Z]/,
+    hasSpecialChar: /[\W_]/,
+  },
+  confirmPassword: {
     minLength: 8,
     hasLowercase: /[a-z]/,
     hasUppercase: /[A-Z]/,
@@ -43,8 +57,11 @@ export const errorMessages = {
   lastname: 'Veuillez renseigner un nom de moins de 30 caractères',
   pseudo: 'Veuillez renseigner un pseudo de moins de 30 caractères',
   email: 'Veuillez renseigner un email valide',
-  password:
+  oldPassword: 'Ce mot de passe ne correspond pas à votre mot de passe actuel',
+  newPassword:
     'Le mot de passe doit contenir au moins 8 caractères dont une majuscule, une minuscule et un caractère spécial',
+  confirmPassword:
+    'La confirmation du mot de passe doit être identique au nouveau mot de passe',
   tags: 'Veuillez sélectionner au moins un language',
   description: 'Veuillez renseigner une description',
   cgu: "Veuillez accepter les conditions générales d'utilisation",
@@ -58,10 +75,13 @@ export const classMapping = {
 };
 
 // Fonction pour valider les champs du formulaire
-export const validateField = (value, fieldName) => {
+export const validateField = (value, fieldName, options = {}) => {
+  // options = {} permet de mettre un objet vide par défaut si on ne passe pas d'option
+  const { newPasswordValue = undefined } = options; // newPasswordValue n'est pas utilisé dans toutes les vérifications, donc on le met en optionnel avec une valeur par défaut
+
   const fieldRules = formRules[fieldName];
 
-  if (fieldName === 'password') {
+  if (fieldName === 'newPassword') {
     const { minLength, hasLowercase, hasUppercase, hasSpecialChar } =
       fieldRules;
 
@@ -71,13 +91,25 @@ export const validateField = (value, fieldName) => {
       !hasUppercase.test(value) ||
       !hasSpecialChar.test(value)
     ) {
-      isFormValid.password = false;
+      isFormValid.newPassword = false;
       return {
         className: classMapping.wrong,
       };
     }
-    isFormValid.password = true;
-  } else if (fieldName === 'email') {
+
+    isFormValid.newPassword = true;
+  }
+  if (fieldName === 'confirmPassword') {
+    if (value !== newPasswordValue) {
+      isFormValid.confirmPassword = false;
+      return {
+        className: classMapping.wrong,
+      };
+    }
+
+    isFormValid.confirmPassword = true;
+  }
+  if (fieldName === 'email') {
     const { emailFormat } = fieldRules;
 
     if (!emailFormat.test(value)) {
@@ -87,7 +119,8 @@ export const validateField = (value, fieldName) => {
       };
     }
     isFormValid.email = true;
-  } else if (fieldName === 'description') {
+  }
+  if (fieldName === 'description') {
     const { minLength } = fieldRules;
 
     if (value.length < minLength) {
@@ -97,7 +130,8 @@ export const validateField = (value, fieldName) => {
       };
     }
     isFormValid.description = true;
-  } else if (fieldName === 'cgu') {
+  }
+  if (fieldName === 'cgu') {
     const { isChecked } = fieldRules;
 
     if (!isChecked) {
@@ -107,7 +141,8 @@ export const validateField = (value, fieldName) => {
       };
     }
     isFormValid.cgu = true;
-  } else if (fieldName === 'firstname') {
+  }
+  if (fieldName === 'firstname') {
     const { minLength, maxLength } = fieldRules;
 
     if (value.length < minLength || value.length > maxLength) {
@@ -117,7 +152,8 @@ export const validateField = (value, fieldName) => {
       };
     }
     isFormValid.firstname = true;
-  } else if (fieldName === 'lastname') {
+  }
+  if (fieldName === 'lastname') {
     const { minLength, maxLength } = fieldRules;
 
     if (value.length < minLength || value.length > maxLength) {
@@ -127,7 +163,8 @@ export const validateField = (value, fieldName) => {
       };
     }
     isFormValid.lastname = true;
-  } else if (fieldName === 'pseudo') {
+  }
+  if (fieldName === 'pseudo') {
     const { minLength, maxLength } = fieldRules;
 
     if (value.length < minLength || value.length > maxLength) {

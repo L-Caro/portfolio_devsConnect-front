@@ -15,7 +15,6 @@ const updateMember = createAsyncThunk(
   'user/updateMember',
   async ({ id, formData }: UpdateMemberI) => {
     try {
-      console.log('localstorage', localStorage);
       const { data } = await axiosInstance.put(`/api/users/${id}`, formData);
       // ? On retourne le state
 

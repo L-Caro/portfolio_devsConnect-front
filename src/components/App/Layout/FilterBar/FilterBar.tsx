@@ -45,7 +45,7 @@ function FilterBar({
     const filteredResults = members.filter((member) => {
       //* Filtre par nom ou prénom
       // on filtre le nom du membre par rapport à la valeur de la recherche
-      const nameResult = member.name
+      const nameResult = member.lastname
         .toLowerCase()
         .includes(searchText.toLowerCase());
       // on filtre le prénom du membre par rapport à la valeur de la recherche

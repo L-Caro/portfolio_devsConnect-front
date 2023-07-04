@@ -181,7 +181,7 @@ function Signin() {
     const formData = new FormData(form);
 
     const firstname = formData.get('firstname');
-    const name = formData.get('name');
+    const lastname = formData.get('lastname');
     const pseudo = formData.get('pseudo');
     const description = formData.get('description');
     const email = formData.get('email').toString();
@@ -229,8 +229,8 @@ function Signin() {
         isFormValid = false;
       }
     }
-    if (name !== '') {
-      if (name.length < 1 || name.length > 30) {
+    if (lastname !== '') {
+      if (lastname.length < 1 || lastname.length > 30) {
         dispatch(
           updateFlash({
             type: 'error',
@@ -251,7 +251,7 @@ function Signin() {
         isFormValid = false;
       }
     }
-    if (name === '') {
+    if (lastname === '') {
       dispatch(
         updateFlash({
           type: 'error',
@@ -354,7 +354,7 @@ function Signin() {
               placeholder="Prénom"
               slot="Prénom"
             />
-            <Input name="name" type="text" placeholder="Nom" slot="Nom" />
+            <Input name="lastname" type="text" placeholder="Nom" slot="Nom" />
             <Input
               name="pseudo"
               type="text"

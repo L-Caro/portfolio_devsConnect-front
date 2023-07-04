@@ -8,6 +8,7 @@ import logReducer from './reducer/log';
 import membersReducer from './reducer/members';
 import tagReducer from './reducer/tag';
 import projectsReducer from './reducer/projects';
+import ajaxReducer from './reducer/ajax';
 
 // ? Fonction qui permet de créer le store
 const store = configureStore({
@@ -19,6 +20,7 @@ const store = configureStore({
     members: membersReducer,
     tag: tagReducer,
     projects: projectsReducer,
+    ajax: ajaxReducer,
   },
 });
 

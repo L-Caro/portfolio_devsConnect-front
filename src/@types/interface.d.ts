@@ -10,7 +10,7 @@ export interface BurgerI {
 
 export interface MemberI {
   id: number;
-  name: string;
+  lastname: string;
   firstname: string;
   email: string;
   password: string;

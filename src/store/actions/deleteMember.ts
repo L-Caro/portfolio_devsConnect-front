@@ -9,9 +9,8 @@ const deleteMember = createAsyncThunk(
   'user/deleteMember',
   async (id: string) => {
     try {
-      const { data } = await axiosInstance.delete(`/api/users/${id}`);
+      await axiosInstance.delete(`/api/users/${id}`);
       // ? On retourne le state
-      return { data };
     } catch (error) {
       console.error('Error:', error);
       throw error;

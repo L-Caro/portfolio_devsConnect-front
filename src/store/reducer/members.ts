@@ -4,6 +4,7 @@ import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
 // ? Fonctions externes
 import updateMember from '../actions/updateMember';
 import deleteMember from '../actions/deleteMember';
+import checkPassword from '../actions/checkPassword';
 
 // ? Instance Axios
 import axiosInstance from '../../utils/axios';

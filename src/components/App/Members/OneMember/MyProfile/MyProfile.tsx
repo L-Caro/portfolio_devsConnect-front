@@ -20,6 +20,7 @@ import CustomSwitch from '../../../../../utils/customSwitchUI';
 import ProjectCard from '../ProjectCard';
 import Input from '../../../../Form/Input';
 import DeleteModale from './DeleteModale/DeleteModale';
+import PasswordModale from './PasswordModale/PasswordModale';
 
 // ? Styles
 import './style.scss';
@@ -44,6 +45,7 @@ function MyProfile() {
     member?.tags
   ); // On récupère les tags du membre qu'on stocke (pour la gestion de l'update)
   const [isOpenDeleteModale, setIsOpenDeleteModale] = useState(false); // State pour la modale de suppression
+  const [isOpenPasswordModale, setIsOpenPasswordModale] = useState(false); // State pour la modale de modification du mot de passe
 
   // Etats pour la gestion du formulaire et des erreurs associées
   const [formFields, setFormFields] = useState({
@@ -51,7 +53,6 @@ function MyProfile() {
     lastname: { value: '', className: '' },
     pseudo: { value: '', className: '' },
     email: { value: '', className: '' },
-    password: { value: '', className: '' },
     tags: { value: '', className: '' },
   });
   // ? useRef
@@ -67,7 +68,13 @@ function MyProfile() {
       dispatch(fetchOneMember(userIdString));
       setChecked(member?.availability); // On stocke la valeur de l'availability du membre dans le state checked
     }
-  }, [dispatch, isEditMode, userId, member?.availability]); // On rappelle le useEffect à chaque modification du state isEditMode et/ou userId
+  }, [
+    dispatch,
+    isEditMode,
+    userId,
+    member?.availability,
+    isOpenPasswordModale,
+  ]); // On rappelle le useEffect à chaque modification du state isEditMode et/ou userId
 
   useEffect(() => {
     // On récupère tous les tags
@@ -99,6 +106,15 @@ function MyProfile() {
    */
   const handleDeleteModale = () => {
     setIsOpenDeleteModale(!isOpenDeleteModale);
+  };
+
+  /** //* Fonction pour le bouton modifier le mot de passe
+   * @param {boolean} isOpenPasswordModale - valeur du state isOpenPasswordModale
+   * Au clic, on inverse la valeur du state isOpenPasswordModale
+   * qui affiche ou non la modale de suppression
+   */
+  const handlePasswordModale = () => {
+    setIsOpenPasswordModale(!isOpenPasswordModale);
   };
 
   /** //* Fonction pour la modification du tableau selectedTags
@@ -172,10 +188,10 @@ function MyProfile() {
    * Cette fonction vérifiera si le champ est valide ou non
    * On retourne le résultat dans le state formFields
    */
-  const handleChange = (event, fieldName) => {
+  const handleChange = (event, fieldName, options) => {
     const { value } = event.target;
     const validation =
-      value.length !== 0 ? validateField(value, fieldName) : '';
+      value.length !== 0 ? validateField(value, fieldName, options) : '';
 
     let newClassName = '';
 
@@ -215,7 +231,6 @@ function MyProfile() {
     const lastname = document.querySelector('#lastname') as HTMLInputElement;
     const pseudo = document.querySelector('#pseudo') as HTMLInputElement;
     const email = document.querySelector('#email') as HTMLInputElement;
-    const password = document.querySelector('#password') as HTMLInputElement;
 
     const textarea = formRef.current
       ? formRef.current.querySelector('textarea') // On cible le textarea du formulaire
@@ -238,14 +253,12 @@ function MyProfile() {
     }
 
     // On vérifie si les champs sont vides
-    ['firstname', 'lastname', 'pseudo', 'email', 'password'].forEach(
-      (field) => {
-        if (eval(field).value === '') {
-          // Si le champ est vide, on passe isFormValid[field] à true, car dans l'update on n'est pas obligé de tout modifier
-          isFormValid[field] = true;
-        }
+    ['firstname', 'lastname', 'pseudo', 'email'].forEach((field) => {
+      if (eval(field).value === '') {
+        // Si le champ est vide, on passe isFormValid[field] à true, car dans l'update on n'est pas obligé de tout modifier
+        isFormValid[field] = true;
       }
-    );
+    });
 
     // On compte le nombre de false dans isFormValid
     const falseFieldCount = Object.values(isFormValid).filter(
@@ -315,10 +328,6 @@ function MyProfile() {
         objData[textareaName] = textareaValue; // On ajoute textareaValue à objData
       }
 
-      // ? Gestion du password
-      formData.append('password', password.value);
-      objData.password = password.value;
-
       // ? Gestion du switch openToWork
       if (
         checked !== undefined && // On vérifie que checked existe
@@ -369,7 +378,7 @@ function MyProfile() {
     <>
       <div className="MyProfile">
         <h2 className="MyProfile--title">
-          {member?.firstname} {member?.name}
+          {member?.firstname} {member?.lastname}
         </h2>
         <form ref={formRef} onSubmit={handleSubmit}>
           <div className="MyProfile--content">
@@ -396,7 +405,7 @@ function MyProfile() {
                 name="lastname"
                 slot="Nom"
                 type="text"
-                placeholder={member?.name || ''}
+                placeholder={member?.lastname || ''}
                 value={formFields.lastname.value}
                 onChange={(event) => handleChange(event, 'lastname')}
                 className={`MyProfile--input ${formFields.lastname.className}`}
@@ -424,17 +433,26 @@ function MyProfile() {
                 className={`MyProfile--input ${formFields.email.className}`}
                 disabled={!isEditMode}
               />
-              <Input
-                id="password"
-                slot="Mot de passe"
-                name="password"
-                type="password"
-                placeholder="*****"
-                value={formFields.password.value}
-                onChange={(event) => handleChange(event, 'password')}
-                className={`MyProfile--input ${formFields.password.className}`}
-                disabled={!isEditMode}
-              />
+              {!isEditMode ? (
+                <Input
+                  slot="mot de passe"
+                  name="password"
+                  type="password"
+                  placeholder="mode édition pour modification"
+                  className="MyProfile--input"
+                  disabled
+                />
+              ) : (
+                <button
+                  type="button"
+                  className="MyProfile--fourthField--button--delete" // TODO: A modifier (mauvaise classe)
+                  onClick={handlePasswordModale}
+                  disabled={!isEditMode}
+                >
+                  Modifier le mot de passe
+                </button>
+              )}
+
               <div className="MyProfile--content--firstField--openToWork">
                 <p>Ouvert aux projets</p>
                 <CustomSwitch
@@ -601,6 +619,19 @@ function MyProfile() {
         <DeleteModale
           isOpenDeleteModale={isOpenDeleteModale}
           setIsOpenDeleteModale={setIsOpenDeleteModale}
+        />
+      )}
+      {/** //! Modale de changement de password
+       * @param {boolean} isOpenPasswordModale - Si la modale est ouverte ou non
+       * @param {function} setIsOpenPasswordModale - Setter pour modifier isOpenPasswordModale
+       * Si isOpenPasswordModale est true, on affiche la modale
+       * On envoie à la modale la fonction setIsOpenPasswordModale pour pouvoir la fermer depuis la modale
+       */}
+      {isOpenPasswordModale && (
+        <PasswordModale
+          selectedTags={selectedTags} // Obligé de renvoyer les tags, sinon ils disparaissent
+          isOpenPasswordModale={isOpenPasswordModale}
+          setIsOpenPasswordModale={setIsOpenPasswordModale}
         />
       )}
     </>
