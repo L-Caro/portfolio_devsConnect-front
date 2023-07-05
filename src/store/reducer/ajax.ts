@@ -39,6 +39,8 @@ const ajaxReducer = createReducer(initialState, (builder) => {
   });
   builder.addCase(checkPassword.rejected, (state) => {
     state.loading = false;
+    state.passwordMessage =
+      'Une erreur est survenue, veuillez réessayer ultérieurement.';
   });
   builder.addCase(checkPseudo.pending, (state) => {
     state.loading = true;
@@ -51,6 +53,8 @@ const ajaxReducer = createReducer(initialState, (builder) => {
   });
   builder.addCase(checkPseudo.rejected, (state) => {
     state.loading = false;
+    state.pseudoMessage =
+      'Une erreur est survenue, veuillez réessayer ultérieurement.';
   });
   builder.addCase(checkEmail.pending, (state) => {
     state.loading = true;
@@ -63,6 +67,8 @@ const ajaxReducer = createReducer(initialState, (builder) => {
   });
   builder.addCase(checkEmail.rejected, (state) => {
     state.loading = false;
+    state.emailMessage =
+      'Une erreur est survenue, veuillez réessayer ultérieurement.';
   });
 });
 

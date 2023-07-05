@@ -187,8 +187,12 @@ function MyProfile() {
     }
   };
 
+  // ! ==== Requêtes Ajax ====
+  // ! =======================
+  // ? Verification pseudo
+
   /** //* Fonction de vérification du pseudo
-   * @param {React.ChangeEvent<HTMLInputElement>} e - Événement de changement de valeur
+   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement de valeur
    * On récupère la valeur du champ
    * On appelle la fonction checkPseudo() du fichier actions/checkPseudo.ts
    * On lui passe en paramètre l'ancien pseudo du membre connecté
@@ -210,7 +214,7 @@ function MyProfile() {
       isFormValid.pseudo = false;
     }
   };
-  /** //* useEffect pour vérifier le statut de la requête Ajax
+  /** //* useEffect pour relancer la verification du statut de la requête Ajax
    * Quand le statut change, on appelle la fonction checkStatus()
    * Pour avoir toujours l'état à jour
    */
@@ -218,15 +222,42 @@ function MyProfile() {
     checkPseudoStatus();
   }, [pseudoStatus, oldPseudo]);
 
-  /** //* Fonction de validation des champs
-   * @param {string} value - valeur du champ
-   * @param {string} fieldName - nom du champ
-   * Fonction qui vérifie si le champ est vide ou non
-   * Si le champ est vide, on retourne une string vide
-   * Si le champ n'est pas vide, on appelle la fonction validateField() du fichier utils.ts
-   * Cette fonction vérifiera si le champ est valide ou non
-   * On retourne le résultat dans le state formFields
+  // ? Verification email
+
+  /** //* Fonction de vérification du email
+   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement de valeur
+   * On récupère la valeur du champ
+   * On appelle la fonction checkEmail() du fichier actions/checkEmail.ts
+   * On lui passe en paramètre l'ancien email du membre connecté
    */
+  const verifyEmail = (event) => {
+    if (event.target.value) {
+      dispatch(checkEmail({ oldEmail: event.target.value }));
+    }
+  };
+  /** //* Fonction de vérification du statut de la requête Ajax
+   * @param {string} status - Statut de la requête Ajax
+   * Si le statut est success, on passe isFormValid.Email à true
+   * Sinon, on passe isFormValid.Email à false
+   */
+  const checkEmailStatus = () => {
+    if (emailStatus === 'success') {
+      isFormValid.email = true;
+    } else if (emailStatus === 'error') {
+      isFormValid.email = false;
+    }
+  };
+  /** //* useEffect pour relancer la verification du statut de la requête Ajax
+   * Quand le statut change, on appelle la fonction checkStatus()
+   * Pour avoir toujours l'état à jour
+   */
+  useEffect(() => {
+    checkEmailStatus();
+  }, [emailStatus, oldEmail]);
+
+  // ! ==== Verification des champs ====
+  // ! =================================
+
   const handleChange = (event, fieldName) => {
     // La propriété value qui servira a appelé la fonction validateField peut soit provenir de onChange de l'input pseudo,
     // soit du useEffect, qui lui relance la fonction handleChange avec oldPseudo (à jour)
@@ -243,7 +274,7 @@ function MyProfile() {
       // On récupère la valeur de oldEmail
       value = oldEmail;
     }
-    const options = { pseudoStatus };
+    const options = { pseudoStatus, emailStatus };
 
     let newClassName = '';
 
@@ -269,7 +300,10 @@ function MyProfile() {
   useEffect(() => {
     handleChange(oldPseudo, 'pseudo');
     handleChange(oldEmail, 'email');
-  }, [pseudoStatus, oldPseudo, oldEmail]);
+  }, [pseudoStatus, emailStatus, oldPseudo, oldEmail]);
+
+  // ! ==== Envoie du formulaire ====
+  // ! ==============================
 
   /** //* Fonction d'envoi du formulaire
    * @param {React.FormEvent<HTMLFormElement>} event - event du formulaire
@@ -503,10 +537,22 @@ function MyProfile() {
                 type="email"
                 placeholder={member?.email || ''}
                 value={formFields.email.value}
-                onChange={(event) => handleChange(event, 'email')}
+                onChange={(event) => {
+                  setOldEmail(event.target.value);
+                  handleChange(event, 'email');
+                  verifyEmail(event);
+                  checkEmailStatus();
+                }}
                 className={`MyProfile--input ${formFields.email.className}`}
                 disabled={!isEditMode}
               />
+              <span>
+                {oldEmail === ''
+                  ? ''
+                  : emailStatus === 'error'
+                  ? emailMessage
+                  : ''}
+              </span>
               {!isEditMode ? (
                 <Input
                   slot="mot de passe"

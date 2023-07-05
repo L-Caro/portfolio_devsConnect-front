@@ -4,9 +4,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 // ? instance Axios
 import axiosInstance from '../../utils/axios';
 
-const checkEmail = createAsyncThunk('ajax/checkEmail', async (email) => {
+const checkEmail = createAsyncThunk('ajax/checkEmail', async (oldEmail) => {
   try {
-    const { data } = await axiosInstance.post('/api/users/checkEmail', email);
+    const { data } = await axiosInstance.post(
+      '/api/users/checkEmail',
+      oldEmail
+    );
     return data;
   } catch (error) {
     console.error('Error:', error);
