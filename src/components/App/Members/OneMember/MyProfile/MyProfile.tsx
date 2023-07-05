@@ -299,8 +299,10 @@ function MyProfile() {
   //! on doit utiliser un useEffect pour mettre à jour le state pseudoStatus et emailStatus pour relancer la fonction
   useEffect(() => {
     handleChange(oldPseudo, 'pseudo');
+  }, [pseudoStatus, oldPseudo]);
+  useEffect(() => {
     handleChange(oldEmail, 'email');
-  }, [pseudoStatus, emailStatus, oldPseudo, oldEmail]);
+  }, [emailStatus, oldEmail]);
 
   // ! ==== Envoie du formulaire ====
   // ! ==============================

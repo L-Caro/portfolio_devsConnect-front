@@ -88,44 +88,12 @@ const mainReducer = createReducer(initialState, (builder) => {
       };
     });
 
-  //* Cas de l'inscription échouée
-  builder.addCase(signinUser.rejected, (state) => {
-    if (axError.response.data.message.includes('Email')) {
-      state.flash = {
-        type: 'error',
-        children: 'Cette adresse email est déjà utilisée',
-      };
-    }
-    if (axError.response.data.message.includes('Pseudo')) {
-      state.flash = {
-        type: 'error',
-        children: 'Ce pseudo est déjà utilisé',
-      };
-    }
-  });
-
   //* Cas de la mise à jour du membre réussie
   builder.addCase(updateMember.fulfilled, (state) => {
     state.flash = {
       type: 'success',
       children: 'Les changements ont bien été pris en compte !',
     };
-  });
-
-  //* Cas de la mise à jour du membre échouée
-  builder.addCase(updateMember.rejected, (state, action) => {
-    if (axError.response.data.message.includes('user_email_key')) {
-      state.flash = {
-        type: 'error',
-        children: 'Cette adresse email est déjà utilisée',
-      };
-    }
-    if (axError.response.data.message.includes('user_pseudo_key')) {
-      state.flash = {
-        type: 'error',
-        children: 'Ce pseudo est déjà utilisé',
-      };
-    }
   });
 
   //* Cas de la suppression du membre réussie

@@ -4,6 +4,7 @@ export const isFormValid = {
   pseudo: true,
   email: true,
   oldPassword: true,
+  password: true,
   newPassword: true,
   confirmPassword: true,
   tags: true,
@@ -21,7 +22,7 @@ export const formRules = {
   pseudo: {
     maxLength: 30,
   },
-  oldPassword: {
+  password: {
     minLength: 8,
     hasLowercase: /[a-z]/,
     hasUppercase: /[A-Z]/,
@@ -33,14 +34,8 @@ export const formRules = {
     hasUppercase: /[A-Z]/,
     hasSpecialChar: /[\W_]/,
   },
-  confirmPassword: {
-    minLength: 8,
-    hasLowercase: /[a-z]/,
-    hasUppercase: /[A-Z]/,
-    hasSpecialChar: /[\W_]/,
-  },
   description: {
-    minLength: 1,
+    minLength: 2,
   },
   email: {
     emailFormat:
@@ -55,9 +50,11 @@ export const formRules = {
 export const errorMessages = {
   firstname: 'Veuillez renseigner un prénom de moins de 30 caractères',
   lastname: 'Veuillez renseigner un nom de moins de 30 caractères',
-  pseudo: 'Veuillez renseigner un pseudo de moins de 30 caractères',
-  email: 'Veuillez renseigner un email valide',
+  pseudo: '',
+  email: '',
   oldPassword: 'Ce mot de passe ne correspond pas à votre mot de passe actuel',
+  password:
+    'Le mot de passe doit contenir au moins 8 caractères dont une majuscule, une minuscule et un caractère spécial',
   newPassword:
     'Le mot de passe doit contenir au moins 8 caractères dont une majuscule, une minuscule et un caractère spécial',
   confirmPassword:
@@ -85,6 +82,24 @@ export const validateField = (value, fieldName, options = {}) => {
 
   const fieldRules = formRules[fieldName];
 
+  if (fieldName === 'password') {
+    const { minLength, hasLowercase, hasUppercase, hasSpecialChar } =
+      fieldRules;
+
+    if (
+      value.length < minLength ||
+      !hasLowercase.test(value) ||
+      !hasUppercase.test(value) ||
+      !hasSpecialChar.test(value)
+    ) {
+      isFormValid.password = false;
+      return {
+        className: classMapping.wrong,
+      };
+    }
+
+    isFormValid.password = true;
+  }
   if (fieldName === 'newPassword') {
     const { minLength, hasLowercase, hasUppercase, hasSpecialChar } =
       fieldRules;
@@ -118,6 +133,8 @@ export const validateField = (value, fieldName, options = {}) => {
 
     if (emailStatus === 'error') {
       errorMessages.email = 'Cet email est déjà utilisé';
+    } else {
+      errorMessages.email = 'Veuillez renseigner un email valide';
     }
 
     if (!emailFormat.test(value) || emailStatus === 'error') {
@@ -177,6 +194,9 @@ export const validateField = (value, fieldName, options = {}) => {
 
     if (pseudoStatus === 'error') {
       errorMessages.pseudo = 'Ce pseudo est déjà utilisé';
+    } else {
+      errorMessages.pseudo =
+        'Veuillez renseigner un pseudo de moins de 30 caractères';
     }
     if (
       value.length < minLength ||

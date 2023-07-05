@@ -1,22 +1,29 @@
+/* eslint-disable no-nested-ternary */
 // ? Librairies
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../hook/redux';
 
 // ? Fonctions externes
+import { fetchAllTags } from '../../../store/reducer/tag';
+import signinUser from '../../../store/actions/signin';
+import checkPseudo from '../../../store/actions/checkPseudo';
+import checkEmail from '../../../store/actions/checkEmail';
+
 import {
   toggleModalLogin,
   toggleModalSignin,
 } from '../../../store/reducer/log';
-import signinUser from '../../../store/actions/signin';
-import { fetchAllTags } from '../../../store/reducer/tag';
 import { resetMessage, updateFlash } from '../../../store/reducer/main';
-import validatePassword from '../../../utils/validate form/validatePassword';
-
-// ? Composants externes
-import CustomSwitch from '../../../utils/customSwitchUI';
+import {
+  classMapping,
+  validateField,
+  isFormValid,
+  errorMessages,
+} from '../../../utils/validate form/validateForm';
 
 // ? Composants
+import CustomSwitch from '../../../utils/customSwitchUI';
 import Input from '../Input';
 
 // ? Styles
@@ -31,10 +38,26 @@ function Signin() {
   const allTagsFromApi: TagSelectedI[] = useAppSelector(
     (state) => state.tag.list.data
   ); // Tableau des tags récupérés depuis l'API
+  const { pseudoMessage, emailMessage, pseudoStatus, emailStatus } =
+    useAppSelector((state) => state.ajax);
   // Local
-  const [selectedTags, setSelectedTags] = useState<TagSelectedI[]>([]); // Tableau des tags sélectionnés par l'utilisateur
   const [checked, setChecked] = useState(true); // State pour le check de open to work
+  const [selectedTags, setSelectedTags] = useState<TagSelectedI[]>([]); // Tableau des tags sélectionnés par l'utilisateur
   const [cgu, setCgu] = useState(false); // State pour la case à cocher CGU
+
+  const [oldPseudo, setOldPseudo] = useState(''); // Ancien mot de passe
+  const [oldEmail, setOldEmail] = useState(''); // Ancien mot de passe
+
+  // Etats pour la gestion du formulaire et des erreurs associées
+  const [formFields, setFormFields] = useState({
+    firstname: { value: '', className: '' },
+    lastname: { value: '', className: '' },
+    pseudo: { value: '', className: '' },
+    email: { value: '', className: '' },
+    password: { value: '', className: '' },
+    description: { value: '', className: '' },
+    tags: { value: '', className: '' },
+  });
 
   // ? useRef
   const modalRef = useRef(null); // Référence pour la modale
@@ -75,6 +98,7 @@ function Signin() {
   }, [dispatch]);
 
   // ? Fonctions
+
   /** //* Fonction pour ouvrir ou fermer la modale de connexion
    * @param {toggleModalSignin} dispatch - Dispatch de l'action pour ouvrir ou fermer la modale
    * Au clic, on dispatch l'action pour ouvrir ou fermer la modale
@@ -167,7 +191,127 @@ function Signin() {
     }
   };
 
-  /** //! Fonction pour l'envoie du formulaire
+  // ! ==== Requêtes Ajax ====
+  // ! =======================
+  // ? Verification pseudo
+
+  /** //* Fonction de vérification du pseudo
+   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement de valeur
+   * On récupère la valeur du champ
+   * On appelle la fonction checkPseudo() du fichier actions/checkPseudo.ts
+   * On lui passe en paramètre l'ancien pseudo du membre connecté
+   */
+  const verifyPseudo = (event) => {
+    if (event.target.value) {
+      dispatch(checkPseudo({ oldPseudo: event.target.value }));
+    }
+  };
+  /** //* Fonction de vérification du statut de la requête Ajax
+   * @param {string} status - Statut de la requête Ajax
+   * Si le statut est success, on passe isFormValid.Pseudo à true
+   * Sinon, on passe isFormValid.Pseudo à false
+   */
+  const checkPseudoStatus = () => {
+    if (pseudoStatus === 'success') {
+      isFormValid.pseudo = true;
+    } else if (pseudoStatus === 'error') {
+      isFormValid.pseudo = false;
+    }
+  };
+  /** //* useEffect pour relancer la verification du statut de la requête Ajax
+   * Quand le statut change, on appelle la fonction checkStatus()
+   * Pour avoir toujours l'état à jour
+   */
+  useEffect(() => {
+    checkPseudoStatus();
+  }, [pseudoStatus, oldPseudo]);
+
+  // ? Verification email
+
+  /** //* Fonction de vérification du email
+   * @param {React.ChangeEvent<HTMLInputElement>} event - Événement de changement de valeur
+   * On récupère la valeur du champ
+   * On appelle la fonction checkEmail() du fichier actions/checkEmail.ts
+   * On lui passe en paramètre l'ancien email du membre connecté
+   */
+  const verifyEmail = (event) => {
+    if (event.target.value) {
+      dispatch(checkEmail({ oldEmail: event.target.value }));
+    }
+  };
+  /** //* Fonction de vérification du statut de la requête Ajax
+   * @param {string} status - Statut de la requête Ajax
+   * Si le statut est success, on passe isFormValid.Email à true
+   * Sinon, on passe isFormValid.Email à false
+   */
+  const checkEmailStatus = () => {
+    if (emailStatus === 'success') {
+      isFormValid.email = true;
+    } else if (emailStatus === 'error') {
+      isFormValid.email = false;
+    }
+  };
+  /** //* useEffect pour relancer la verification du statut de la requête Ajax
+   * Quand le statut change, on appelle la fonction checkStatus()
+   * Pour avoir toujours l'état à jour
+   */
+  useEffect(() => {
+    checkEmailStatus();
+  }, [emailStatus, oldEmail]);
+
+  // ! ==== Verification des champs ====
+  // ! =================================
+
+  const handleChange = (event, fieldName) => {
+    // La propriété value qui servira a appelé la fonction validateField peut soit provenir de onChange de l'input pseudo,
+    // soit du useEffect, qui lui relance la fonction handleChange avec oldPseudo (à jour)
+    // Donc on initialise value à '' et on la met à jour selon le cas
+    let value = '';
+    // Si on a un event et que event.target existe, on récupère la valeur de l'input
+    if (event && event.target) {
+      value = event.target.value;
+      // Sinon, en fonction du fieldName, on récupère la valeur de oldPseudo ou oldEmail
+    } else if (fieldName === 'pseudo') {
+      // On récupère la valeur de oldPseudo
+      value = oldPseudo;
+    } else if (fieldName === 'email') {
+      // On récupère la valeur de oldEmail
+      value = oldEmail;
+    }
+    const options = { pseudoStatus, emailStatus };
+
+    let newClassName = '';
+
+    if (value.length !== 0) {
+      const validation = validateField(value, fieldName, options);
+
+      if (validation) {
+        const { className } = validation;
+        newClassName = classMapping[className];
+      }
+    }
+
+    setFormFields((prevState) => ({
+      ...prevState,
+      [fieldName]: {
+        value,
+        className: newClassName,
+      },
+    }));
+  };
+  //! Comme le status de la requête Ajax est asynchrone, et que la validation des champs se fait sur un fichier externe
+  //! on doit utiliser un useEffect pour mettre à jour le state pseudoStatus et emailStatus pour relancer la fonction
+  useEffect(() => {
+    handleChange(oldPseudo, 'pseudo');
+  }, [pseudoStatus, oldPseudo]);
+  useEffect(() => {
+    handleChange(oldEmail, 'email');
+  }, [emailStatus, oldEmail]);
+
+  // ! ==== Envoie du formulaire ====
+  // ! ==============================
+
+  /** //* Fonction pour l'envoie du formulaire
    * @param {React.FormEvent<HTMLFormElement>} event - Événement formulaire
    * @param {FormData} formData - Données du formulaire
    * @param {selectedTags} selectedTags - Tableau des tags sélectionnés par l'utilisateur
@@ -186,130 +330,60 @@ function Signin() {
     const description = formData.get('description');
     const email = formData.get('email').toString();
     const password = formData.get('password');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex pour vérifier le format de l'email
-
-    let isFormValid = true; // Variable pour suivre l'état des conditions
 
     dispatch(resetMessage()); // On reset le message flash
-    if (cgu === false) {
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: "Veuillez accepter les conditions générales d'utilisation",
-        })
-      );
-      isFormValid = false;
-    }
+
+    // Gestion des erreurs tags
     if (selectedTags.length === 0) {
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: 'Veuillez sélectionner au moins une techno',
-        })
-      );
-      isFormValid = false;
+      // Si aucun tag n'est sélectionné, on passe isFormValid.tags à false
+      isFormValid.tags = false;
+    } else {
+      // Sinon, on passe isFormValid.tags à true
+      isFormValid.tags = true;
     }
-    if (firstname === '') {
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: 'Veuillez renseigner votre prénom',
-        })
-      );
-      isFormValid = false;
+
+    // Gestion des erreurs cgu
+    if (cgu === false) {
+      isFormValid.cgu = false;
+    } else {
+      isFormValid.cgu = true;
     }
-    if (firstname !== '') {
-      if (firstname.length < 1 || firstname.length > 30) {
+
+    // On compte le nombre de false dans isFormValid
+    const falseFieldCount = Object.values(isFormValid).filter(
+      (value) => value === false
+    ).length;
+
+    // Si un seul champ est vide, on affiche un message d'erreur spécifique à ce champ
+    if (falseFieldCount === 1) {
+      // On récupère le nom du champ qui est vide
+      const invalidField = Object.keys(isFormValid).find(
+        (field) => !isFormValid[field]
+      );
+
+      // On affiche le message d'erreur spécifique à ce champ
+      if (invalidField) {
         dispatch(
           updateFlash({
             type: 'error',
-            children: 'Votre prénom doit contenir entre 1 et 30 caractères',
+            children: errorMessages[invalidField],
           })
         );
-        isFormValid = false;
-      }
-    }
-    if (lastname !== '') {
-      if (lastname.length < 1 || lastname.length > 30) {
-        dispatch(
-          updateFlash({
-            type: 'error',
-            children: 'Votre nom doit contenir entre 1 et 30 caractères',
-          })
-        );
-        isFormValid = false;
-      }
-    }
-    if (pseudo !== '') {
-      if (pseudo.length < 1 || pseudo.length > 30) {
-        dispatch(
-          updateFlash({
-            type: 'error',
-            children: 'Votre pseudo doit contenir entre 1 et 30 caractères',
-          })
-        );
-        isFormValid = false;
-      }
-    }
-    if (lastname === '') {
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: 'Veuillez renseigner votre nom',
-        })
-      );
-      isFormValid = false;
-    }
-    if (pseudo === '') {
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: 'Veuillez renseigner un pseudo',
-        })
-      );
-      isFormValid = false;
-    }
-    if (description === '') {
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: 'Veuillez renseigner une description',
-        })
-      );
-      isFormValid = false;
-    }
-    if (email === '' || !emailRegex.test(email)) {
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: 'Veuillez renseigner un email valide',
-        })
-      );
-      isFormValid = false;
-    }
-    if (password === '') {
-      dispatch(
-        updateFlash({
-          type: 'error',
-          children: 'Veuillez renseigner un mot de passe',
-        })
-      );
-      isFormValid = false;
-    }
-    if (password !== '') {
-      const validationResult = validatePassword(password); // On vérifie que le mot de passe est valide
-      if (validationResult !== '') {
-        dispatch(
-          updateFlash({
-            type: 'error',
-            children: validationResult,
-          })
-        );
-        isFormValid = false;
       }
     }
 
-    if (isFormValid) {
+    // Si plusieurs champs sont vides, on affiche un message d'erreur général
+    if (falseFieldCount > 1) {
+      dispatch(
+        updateFlash({
+          type: 'error',
+          children: errorMessages.multiple,
+        })
+      );
+    }
+    // ! Soumission du formulaire
+    // Si tous les champs sont remplis, on envoie le formulaire
+    if (falseFieldCount === 0) {
       // Créer un tableau pour les données de selectedTags
       const selectedTagsData = selectedTags.map((tag) => tag.id);
       // Convertir le tableau en chaîne JSON
@@ -323,6 +397,7 @@ function Signin() {
       dispatch(toggleModalLogin()); // On ouvre la modale de connexion
     }
   };
+
   // ? Rendu JSX
   return (
     <div className="Signin">
@@ -350,28 +425,72 @@ function Signin() {
             {/* Input maison, importé */}
             <Input
               name="firstname"
+              slot="Prénom"
               type="text"
               placeholder="Prénom"
-              slot="Prénom"
+              value={formFields.firstname.value}
+              onChange={(event) => handleChange(event, 'firstname')}
+              className={`Form--input ${formFields.firstname.className}`}
             />
-            <Input name="lastname" type="text" placeholder="Nom" slot="Nom" />
+            <Input
+              name="lastname"
+              slot="Nom"
+              type="text"
+              placeholder="Nom"
+              value={formFields.lastname.value}
+              onChange={(event) => handleChange(event, 'lastname')}
+              className={`Form--input ${formFields.lastname.className}`}
+            />
             <Input
               name="pseudo"
+              slot="Pseudo"
               type="text"
               placeholder="Pseudo"
-              slot="Pseudo"
+              value={formFields.pseudo.value}
+              onChange={(event) => {
+                setOldPseudo(event.target.value);
+                handleChange(event, 'pseudo');
+                verifyPseudo(event);
+                checkPseudoStatus();
+              }}
+              className={`Form--input ${formFields.pseudo.className}`}
             />
+            <span>
+              {oldPseudo === ''
+                ? ''
+                : pseudoStatus === 'error'
+                ? pseudoMessage
+                : ''}
+            </span>
             <Input
               name="email"
+              slot="Email"
               type="text"
               placeholder="Adresse Email"
-              slot="Email"
+              value={formFields.email.value}
+              onChange={(event) => {
+                setOldEmail(event.target.value);
+                handleChange(event, 'email');
+                verifyEmail(event);
+                checkEmailStatus();
+              }}
+              className={`Form--input ${formFields.email.className}`}
             />
+            <span>
+              {oldEmail === ''
+                ? ''
+                : emailStatus === 'error'
+                ? emailMessage
+                : ''}
+            </span>
             <Input
               name="password"
+              slot="Mot de passe"
               type="password"
               placeholder="Mot de passe"
-              slot="Mot de passe"
+              value={formFields.password.value}
+              onChange={(event) => handleChange(event, 'password')}
+              className={`Form--input ${formFields.password.className}`}
             />
 
             <div className="Signin--openToWork">
@@ -384,14 +503,21 @@ function Signin() {
             </div>
             <label htmlFor="description" className="Signin--inputTextarea">
               A propos de moi
-              <textarea name="description" id="description" />
+              <textarea
+                id="description"
+                name="description"
+                placeholder="Entrez une description de vous"
+                value={formFields.description.value}
+                onChange={(event) => handleChange(event, 'description')}
+                className={`Form--input ${formFields.description.className}`}
+              />
             </label>
           </fieldset>
 
           <fieldset className="Signin--field">
             <div className="Signin--technos">
               <h3>Mes technos</h3>
-              <p>(Choisissez entre 1 et 5 technos)</p>
+              <p>(Choisissez 1 language minimum)</p>
               <div className="Signin--techno">
                 {/* //? On map sur le tableau des technos récupérées depuis l'API */}
                 {allTagsFromApi.map((techno: TagSelectedI) => (
