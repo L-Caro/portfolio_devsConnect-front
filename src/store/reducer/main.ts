@@ -8,9 +8,6 @@ import logout from '../actions/logout';
 import updateMember from '../actions/updateMember';
 import deleteMember from '../actions/deleteMember';
 
-// ? instance axios
-import { axError } from '../../utils/axios';
-
 // ? Typage global
 import { FlashI } from '../../@types/interface';
 
@@ -78,6 +75,7 @@ const mainReducer = createReducer(initialState, (builder) => {
         type: 'success',
         children: 'Au revoir !',
       };
+      state.pseudo = null;
     })
 
     //* Cas de l'inscription réussie

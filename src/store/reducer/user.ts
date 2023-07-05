@@ -65,6 +65,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(logout, (state) => {
       state.login.logged = false;
       state.login.pseudo = null;
+      state.login.id = null;
 
       //! à la déconnexion, on supprime le token
       delete axiosInstance.defaults.headers.common.Authorization;

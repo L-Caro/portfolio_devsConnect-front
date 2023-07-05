@@ -45,6 +45,18 @@ body {
     min-height: 100vh; // On règle la hauteur à 100vh pour que tout l'espace vertical soit pris
 }
 
+.Loader {
+    flex-grow: 1;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    & p {
+        text-align: center;
+        color: grey;
+    }
+}
+
 //! Couleur du texte `disponible/indisponible` dans membre(s)/projet(s)
 .open {
     color: green;
@@ -64,11 +76,13 @@ body {
 
 .wrong {
     border: 2.4px solid rgba(185, 6, 6, 0.9);
-    background: rgba(211, 97, 97, 0.2);
+    // background: rgba(211, 97, 97, 0.2);
+    color: rgba(185, 6, 6, 0.9);
 }
 .good {
     border: 2.4px solid rgba(6, 133, 38, 0.9);
-    background: rgba(35, 116, 55, 0.2);
+    // background: rgba(35, 116, 55, 0.2);
+    color: rgba(6, 133, 38, 0.9);
 }
 
 // ! Message flash
