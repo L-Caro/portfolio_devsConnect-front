@@ -137,7 +137,7 @@ function PasswordModale({
    */
   useEffect(() => {
     checkPasswordStatus();
-  }, [passwordStatus]);
+  }, [passwordStatus, oldPassword]);
 
   /** //* Fonction de validation des champs
    * @param {string} value - valeur du champ
@@ -149,7 +149,19 @@ function PasswordModale({
    * On retourne le résultat dans le state formFields
    */
   const handleChange = (event, fieldName) => {
-    const { value } = event.target;
+    // La propriété value qui servira a appelé la fonction validateField peut soit provenir de onChange de l'input password,
+    // soit du useEffect, qui lui relance la fonction handleChange avec oldPassword (à jour)
+    // Donc on initialise value à '' et on la met à jour selon le cas
+    let value = '';
+    // Si on a un event et que event.target existe, on récupère la valeur de l'input
+    if (event && event.target) {
+      value = event.target.value;
+      // Sinon, en fonction du fieldName, on récupère la valeur de oldPassword
+    } else if (fieldName === 'oldPassword') {
+      // On récupère la valeur de oldPseudo
+      value = oldPassword;
+    }
+
     const newPasswordValue = formFields.newPassword.value;
 
     const options = { newPasswordValue };
@@ -171,6 +183,12 @@ function PasswordModale({
       },
     }));
   };
+
+  //! Comme le status de la requête Ajax est asynchrone, et que la validation des champs se fait sur un fichier externe
+  //! on doit utiliser un useEffect pour mettre à jour le state pseudoStatus et emailStatus pour relancer la fonction
+  useEffect(() => {
+    handleChange(oldPassword, 'oldPassword');
+  }, [passwordStatus, oldPassword]);
 
   /** //* Fonction d'envoi du formulaire
    * @param {React.FormEvent<HTMLFormElement>} event - event du formulaire
@@ -298,58 +316,83 @@ function PasswordModale({
           <div className="PasswordModale--form--submit">
             <Input
               id="oldPassword"
-              slot="Ancien mot de passe"
               name="password"
+              slot="Ancien mot de passe"
               type="password"
               placeholder="*****"
               value={formFields.oldPassword.value}
+              className={`MyProfile--input ${formFields.oldPassword.className}`}
               onChange={(event) => {
                 checkPasswordStatus();
                 verifyPassword(event);
                 handleChange(event, 'oldPassword');
               }}
-              className={
-                oldPassword === ''
-                  ? 'MyProfile--input'
-                  : passwordStatus === 'success'
-                  ? `MyProfile--input ${'good'}`
-                  : `MyProfile--input ${'wrong'}`
+              helperText={
+                formFields.oldPassword.value !== '' &&
+                isFormValid.oldPassword === false ? (
+                  <span className="wrong">{errorMessages.oldPassword}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.oldPassword.value === ''
+                  ? 'perso'
+                  : isFormValid.oldPassword === false
+                  ? 'error'
+                  : 'success'
               }
             />
-            <span
-              className={
-                oldPassword === ''
-                  ? ''
-                  : passwordStatus === 'success'
-                  ? 'good'
-                  : 'wrong'
-              }
-            >
-              {oldPassword === ''
-                ? ''
-                : passwordStatus === 'success'
-                ? passwordMessage
-                : ''}
-            </span>
+
             <Input
               id="newPassword"
-              slot="Nouveau mot de passe"
               name="password"
+              slot="Nouveau mot de passe"
               type="password"
               placeholder="*****"
               value={formFields.newPassword.value}
-              onChange={(event) => handleChange(event, 'newPassword')}
               className={`MyProfile--input ${formFields.newPassword.className}`}
+              onChange={(event) => handleChange(event, 'newPassword')}
+              helperText={
+                formFields.newPassword.value !== '' &&
+                isFormValid.newPassword === false ? (
+                  <span className="wrong">{errorMessages.newPassword}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.newPassword.value === ''
+                  ? 'perso'
+                  : isFormValid.newPassword === false
+                  ? 'error'
+                  : 'success'
+              }
             />
             <Input
               id="confirmPassword"
-              slot="Confirmation du mot de passe"
               name="password"
+              slot="Confirmation du mot de passe"
               type="password"
               placeholder="*****"
               value={formFields.confirmPassword.value}
-              onChange={(event) => handleChange(event, 'confirmPassword')}
               className={`MyProfile--input ${formFields.confirmPassword.className}`}
+              onChange={(event) => handleChange(event, 'confirmPassword')}
+              helperText={
+                formFields.confirmPassword.value !== '' &&
+                isFormValid.confirmPassword === false ? (
+                  <span className="wrong">{errorMessages.confirmPassword}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.confirmPassword.value === ''
+                  ? 'perso'
+                  : isFormValid.confirmPassword === false
+                  ? 'error'
+                  : 'success'
+              }
             />
             <button
               type="button"

@@ -1,0 +1,47 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m; // @include pour utiliser
+
+// ! Style pour les erreurs/succès de formulaire
+//? Container d'input
+.MuiInputBase-root {
+    width: 100%;
+    background-color: rgba(164, 164, 164, 0.4);
+    // background-color: pink;
+    & input {
+        color: rgb(32, 32, 32);
+        font-size: 1.3rem;
+        font-weight: 700;
+        &::placeholder {
+            color: rgb(32, 32, 32);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+    }
+}
+
+// Couleur plus clair dans le formulaire d'inscription
+.Signin--input {
+    .MuiInputBase-root {
+        & input {
+            color: #d3d3d3;
+            &::placeholder {
+                color: #d3d3d3;
+            }
+        }
+    }
+    .MuiSvgIcon-root {
+        color: #d3d3d3;
+    }
+}
+
+//? Icône d'ceil pour afficher le mot de passe
+.MuiSvgIcon-root {
+    cursor: pointer;
+}
+
+.wrong {
+    color: rgba(185, 6, 6, 0.9);
+}
+.good {
+    color: rgba(6, 133, 38, 0.9);
+}

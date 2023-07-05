@@ -31,6 +31,7 @@ import './style.scss';
 
 // ? Typage global
 import { TagI, MemberI } from '../../../../../@types/interface';
+import Textarea from '../../../../Form/Textarea/Textarea';
 
 // ? Fonction principale
 function MyProfile() {
@@ -62,6 +63,7 @@ function MyProfile() {
     pseudo: { value: '', className: '' },
     email: { value: '', className: '' },
     tags: { value: '', className: '' },
+    description: { value: '', className: '' },
   });
   // ? useRef
   const formRef = useRef<HTMLFormElement>(null); // Utiliser pour récupérer les données du formulaire (référence au <form>)
@@ -104,6 +106,17 @@ function MyProfile() {
    * Au clic, on inverse la valeur du state isEditMode
    */
   const handleCancelClick = () => {
+    // On réinitialise les messages d'erreur et isFormValid pour ne rien garder en mémoire
+    formFields.firstname.value = '';
+    formFields.lastname.value = '';
+    formFields.pseudo.value = '';
+    formFields.email.value = '';
+    formFields.description.value = '';
+    isFormValid.firstname = true;
+    isFormValid.lastname = true;
+    isFormValid.pseudo = true;
+    isFormValid.email = true;
+    isFormValid.description = true;
     dispatch(toggleEditMode());
   };
 
@@ -490,77 +503,133 @@ function MyProfile() {
               <Input
                 id="firstname"
                 name="firstname"
-                slot="Prénom"
+                slot={isEditMode ? 'Prénom' : null}
                 type="text"
                 placeholder={member?.firstname || ''}
                 value={formFields.firstname.value}
-                onChange={(event) => handleChange(event, 'firstname')}
-                className={`MyProfile--input ${formFields.firstname.className}`}
+                className={`MuiInputBase-input ${formFields.firstname.className}`}
                 disabled={!isEditMode}
+                onChange={(event) => handleChange(event, 'firstname')}
+                helperText={
+                  formFields.firstname.value !== '' &&
+                  isFormValid.firstname === false ? (
+                    <span className="wrong">{errorMessages.firstname}</span>
+                  ) : (
+                    ''
+                  )
+                }
+                color={
+                  formFields.firstname.value === ''
+                    ? 'perso'
+                    : isFormValid.firstname === false
+                    ? 'error'
+                    : 'success'
+                }
               />
               <Input
                 id="lastname"
                 name="lastname"
-                slot="Nom"
+                slot={isEditMode ? 'Nom' : null}
                 type="text"
                 placeholder={member?.lastname || ''}
                 value={formFields.lastname.value}
-                onChange={(event) => handleChange(event, 'lastname')}
                 className={`MyProfile--input ${formFields.lastname.className}`}
                 disabled={!isEditMode}
+                onChange={(event) => handleChange(event, 'lastname')}
+                helperText={
+                  formFields.lastname.value !== '' &&
+                  isFormValid.lastname === false ? (
+                    <span className="wrong">{errorMessages.lastname}</span>
+                  ) : (
+                    ''
+                  )
+                }
+                color={
+                  formFields.lastname.value === ''
+                    ? 'perso'
+                    : isFormValid.lastname === false
+                    ? 'error'
+                    : 'success'
+                }
               />
               <Input
                 id="pseudo"
                 name="pseudo"
-                slot="Pseudo"
+                slot={isEditMode ? 'Pseudo' : null}
                 type="text"
                 placeholder={member?.pseudo || ''}
                 value={formFields.pseudo.value}
+                className={`MyProfile--input ${formFields.pseudo.className}`}
+                disabled={!isEditMode}
                 onChange={(event) => {
                   setOldPseudo(event.target.value);
                   handleChange(event, 'pseudo');
                   verifyPseudo(event);
                   checkPseudoStatus();
                 }}
-                className={`MyProfile--input ${formFields.pseudo.className}`}
-                disabled={!isEditMode}
+                helperText={
+                  formFields.pseudo.value !== '' && pseudoStatus === 'error' ? (
+                    <span className="wrong">{pseudoMessage}</span>
+                  ) : formFields.pseudo.value !== '' &&
+                    isFormValid.pseudo === false ? (
+                    <span className="wrong">{errorMessages.pseudo}</span>
+                  ) : formFields.pseudo.value !== '' &&
+                    isFormValid.pseudo === true ? (
+                    <span className="good">{pseudoMessage}</span>
+                  ) : (
+                    ''
+                  )
+                }
+                color={
+                  formFields.pseudo.value === ''
+                    ? 'perso'
+                    : isFormValid.pseudo === false
+                    ? 'error'
+                    : 'success'
+                }
               />
-              <span>
-                {oldPseudo === ''
-                  ? ''
-                  : pseudoStatus === 'error'
-                  ? pseudoMessage
-                  : ''}
-              </span>
               <Input
                 id="email"
                 name="email"
-                slot="Email"
+                slot={isEditMode ? 'Email' : null}
                 type="email"
                 placeholder={member?.email || ''}
                 value={formFields.email.value}
+                className={`MyProfile--input ${formFields.email.className}`}
+                disabled={!isEditMode}
                 onChange={(event) => {
                   setOldEmail(event.target.value);
                   handleChange(event, 'email');
                   verifyEmail(event);
                   checkEmailStatus();
                 }}
-                className={`MyProfile--input ${formFields.email.className}`}
-                disabled={!isEditMode}
+                helperText={
+                  formFields.email.value !== '' && emailStatus === 'error' ? (
+                    <span className="wrong">{emailMessage}</span>
+                  ) : formFields.email.value !== '' &&
+                    isFormValid.email === false ? (
+                    <span className="wrong">{errorMessages.email}</span>
+                  ) : formFields.email.value !== '' &&
+                    isFormValid.email === true ? (
+                    <span className="good">{emailMessage}</span>
+                  ) : (
+                    ''
+                  )
+                }
+                color={
+                  formFields.email.value === ''
+                    ? 'perso'
+                    : isFormValid.email === false
+                    ? 'error'
+                    : 'success'
+                }
               />
-              <span>
-                {oldEmail === ''
-                  ? ''
-                  : emailStatus === 'error'
-                  ? emailMessage
-                  : ''}
-              </span>
               {!isEditMode ? (
                 <Input
-                  slot="mot de passe"
+                  id="password"
                   name="password"
                   type="password"
-                  placeholder="mode édition pour modification"
+                  placeholder="Editez pour modifier"
                   className="MyProfile--input"
                   disabled
                 />
@@ -595,6 +664,7 @@ function MyProfile() {
                   placeholder={member?.description || ''}
                   disabled={!isEditMode} // On désactive le textarea si on est pas en mode édition
                 />
+                <Textarea name="description" placeholder="A propos de moi" />
               </label>
             </fieldset>
             <fieldset className="MyProfile--content--secondField">

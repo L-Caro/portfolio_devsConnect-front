@@ -25,6 +25,7 @@ import {
 // ? Composants
 import CustomSwitch from '../../../utils/customSwitchUI';
 import Input from '../Input';
+import Textarea from '../Textarea/Textarea';
 
 // ? Styles
 import './style.scss';
@@ -424,73 +425,143 @@ function Signin() {
           <fieldset className="Signin--field">
             {/* Input maison, importé */}
             <Input
+              id="firstname"
               name="firstname"
               slot="Prénom"
               type="text"
               placeholder="Prénom"
               value={formFields.firstname.value}
+              className={`Signin--input ${formFields.firstname.className}`}
               onChange={(event) => handleChange(event, 'firstname')}
-              className={`Form--input ${formFields.firstname.className}`}
+              helperText={
+                formFields.firstname.value !== '' &&
+                isFormValid.firstname === false ? (
+                  <span className="wrong">{errorMessages.firstname}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.firstname.value === ''
+                  ? 'lightestPerso'
+                  : isFormValid.firstname === false
+                  ? 'error'
+                  : 'success'
+              }
             />
             <Input
+              id="lastname"
               name="lastname"
               slot="Nom"
               type="text"
               placeholder="Nom"
               value={formFields.lastname.value}
+              className={`Signin--input ${formFields.lastname.className}`}
               onChange={(event) => handleChange(event, 'lastname')}
-              className={`Form--input ${formFields.lastname.className}`}
+              helperText={
+                formFields.lastname.value !== '' &&
+                isFormValid.lastname === false ? (
+                  <span className="wrong">{errorMessages.lastname}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.lastname.value === ''
+                  ? 'lightestPerso'
+                  : isFormValid.lastname === false
+                  ? 'error'
+                  : 'success'
+              }
             />
             <Input
+              id="pseudo"
               name="pseudo"
               slot="Pseudo"
               type="text"
               placeholder="Pseudo"
               value={formFields.pseudo.value}
+              className={`Signin--input ${formFields.pseudo.className}`}
               onChange={(event) => {
                 setOldPseudo(event.target.value);
                 handleChange(event, 'pseudo');
                 verifyPseudo(event);
                 checkPseudoStatus();
               }}
-              className={`Form--input ${formFields.pseudo.className}`}
+              helperText={
+                formFields.pseudo.value !== '' && pseudoStatus === 'error' ? (
+                  <span className="wrong">{pseudoMessage}</span>
+                ) : formFields.pseudo.value !== '' &&
+                  isFormValid.pseudo === false ? (
+                  <span className="wrong">{errorMessages.pseudo}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.pseudo.value === ''
+                  ? 'lightestPerso'
+                  : isFormValid.pseudo === false
+                  ? 'error'
+                  : 'success'
+              }
             />
-            <span>
-              {oldPseudo === ''
-                ? ''
-                : pseudoStatus === 'error'
-                ? pseudoMessage
-                : ''}
-            </span>
             <Input
+              id="email"
               name="email"
               slot="Email"
               type="text"
               placeholder="Adresse Email"
               value={formFields.email.value}
+              className={`Signin--input ${formFields.email.className}`}
               onChange={(event) => {
                 setOldEmail(event.target.value);
                 handleChange(event, 'email');
                 verifyEmail(event);
                 checkEmailStatus();
               }}
-              className={`Form--input ${formFields.email.className}`}
+              helperText={
+                formFields.email.value !== '' && emailStatus === 'error' ? (
+                  <span className="wrong">{emailMessage}</span>
+                ) : formFields.email.value !== '' &&
+                  isFormValid.email === false ? (
+                  <span className="wrong">{errorMessages.email}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.email.value === ''
+                  ? 'lightestPerso'
+                  : isFormValid.email === false
+                  ? 'error'
+                  : 'success'
+              }
             />
-            <span>
-              {oldEmail === ''
-                ? ''
-                : emailStatus === 'error'
-                ? emailMessage
-                : ''}
-            </span>
             <Input
+              id="password"
               name="password"
               slot="Mot de passe"
               type="password"
               placeholder="Mot de passe"
               value={formFields.password.value}
+              className={`Signin--input ${formFields.password.className}`}
               onChange={(event) => handleChange(event, 'password')}
-              className={`Form--input ${formFields.password.className}`}
+              helperText={
+                formFields.password.value !== '' &&
+                isFormValid.password === false ? (
+                  <span className="wrong">{errorMessages.password}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.password.value === ''
+                  ? 'lightestPerso'
+                  : isFormValid.password === false
+                  ? 'error'
+                  : 'success'
+              }
             />
 
             <div className="Signin--openToWork">
@@ -501,17 +572,16 @@ function Signin() {
                 onChange={handleSwitch} // On appelle la fonction handleSwitch() au changement
               />
             </div>
-            <label htmlFor="description" className="Signin--inputTextarea">
-              A propos de moi
-              <textarea
-                id="description"
-                name="description"
-                placeholder="Entrez une description de vous"
-                value={formFields.description.value}
-                onChange={(event) => handleChange(event, 'description')}
-                className={`Form--input ${formFields.description.className}`}
-              />
-            </label>
+
+            <textarea
+              id="description"
+              name="description"
+              slot="A propos de moi"
+              placeholder="A propos de moi"
+              value={formFields.description.value}
+              onChange={(event) => handleChange(event, 'description')}
+              className={`Form--input ${formFields.description.className}`}
+            />
           </fieldset>
 
           <fieldset className="Signin--field">

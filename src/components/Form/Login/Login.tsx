@@ -157,12 +157,14 @@ function Login() {
           <Input
             name="email"
             type="email"
+            slot="Adresse email"
             placeholder="Adresse Email"
             className="Login--inputText"
           />
           <Input
             name="password"
             type="password"
+            slot="Mot de passe"
             placeholder="Mot de passe"
             className="Login--inputText"
           />
