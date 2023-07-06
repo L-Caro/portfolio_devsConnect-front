@@ -125,6 +125,8 @@ function SelectComponent({
       ...baseStyles,
       margin: 'auto 0',
       fontSize: '1.5rem',
+      '@media (max-width: 500px)': { fontSize: '1rem' },
+      '@media (max-width: 324px)': { fontSize: '0.6rem' },
     }),
     //! Input > Container des valeurs sélectionnées
     multiValue: (baseStyles: CSSObject) => ({

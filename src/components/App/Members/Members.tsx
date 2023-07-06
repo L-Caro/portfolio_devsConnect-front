@@ -1,6 +1,9 @@
 // ? Librairies
 import { useEffect, useState } from 'react';
-import { Audio } from 'react-loader-spinner';
+import { Audio } from 'react-loader-spinner'; // Composant pour spinner
+import { TablePagination, ThemeProvider } from '@mui/material';
+import paginationUITheme from '../../../utils/CustomPaginationUI';
+
 import { useAppSelector, useAppDispatch } from '../../../hook/redux';
 
 // ? Fonctions externes
@@ -26,6 +29,8 @@ function Members() {
 
   // local
   const [filteredMembers, setFilteredMembers] = useState<MemberI[]>(members); // Variable filteredMembers pour stocker les membres filtrés en provenance du composant FilterBar
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   // ? Dispatch
   const dispatch = useAppDispatch();
@@ -36,6 +41,30 @@ function Members() {
     dispatch(fetchAllMembers());
   }, [dispatch]);
 
+  // ? Fonctions
+  /** //* Fonction pour changer de page
+   * @param {Object} event - Evénement
+   * @param {Number} newPage - Nouvelle page
+   * Au clic sur un bouton de pagination, on met à jour la page
+   */
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
+
+  /** //* Fonction pour changer le nombre de membres par page
+   * @param {Object} event - Evénement
+   * Au changement du nombre de membres par page, on met à jour le nombre de membres par page
+   * On remet la page à 0
+   */
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   // En cas de chargement des membres, on affiche un indicateur de chargement
   if (loading) {
     return (
@@ -75,22 +104,40 @@ function Members() {
        * On envoie au composant la fonction pour mettre à jour la liste des membres filtrés
        */}
       <FilterBar members={members} setFilteredMembers={setFilteredMembers} />
+      <ThemeProvider theme={paginationUITheme}>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          component="div"
+          labelRowsPerPage="Résultats par page"
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to} sur ${count !== -1 ? count : `plus de ${to}`}`
+          }
+          count={filteredMembers.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </ThemeProvider>
 
       <h2 className="Members--title">Tous les membres</h2>
       {filteredMembers.length === 0 && (
         <p className="noResult">Aucun résultat pour vos critères</p>
       )}
+
       <div className="Members--containerCard">
         {/* On map sur la liste en retour de la barre de recherche pour les cartes members */}
-        {filteredMembers.map((member: MemberI) => (
-          /** //! CardMember.tsx
-           * @param {Object} member - Données du membre
-           * @param {Number} key - Clé unique pour chaque membre
-           * On envoie au composant CardMember les données de chaque membre
-           * et une clé unique
-           */
-          <CardMember key={member.id} member={member} />
-        ))}
+        {filteredMembers
+          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          .map((member: MemberI) => (
+            /** //! CardMember.tsx
+             * @param {Object} member - Données du membre
+             * @param {Number} key - Clé unique pour chaque membre
+             * On envoie au composant CardMember les données de chaque membre
+             * et une clé unique
+             */
+            <CardMember key={member.id} member={member} />
+          ))}
       </div>
     </div>
   );
