@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Audio } from 'react-loader-spinner';
+
 import { useAppSelector, useAppDispatch } from '../../../../hook/redux';
 
 // ? Fonctions externes
@@ -9,10 +10,10 @@ import { fetchOneMember } from '../../../../store/reducer/members';
 
 // ? Composants
 import ProjectCard from './ProjectCard';
+import NotFound from '../../../NotFound/NotFound';
 
 // ? Styles
 import './style.scss';
-import NotFound from '../../../NotFound/NotFound';
 
 // ? Fonction principale
 function OneMember() {
@@ -78,7 +79,7 @@ function OneMember() {
       </div>
       <div className="OneMember">
         <h2 className="OneMember--title">
-          {member.firstname} {member.name}
+          {member.firstname} {member.lastname}
         </h2>
         <div className="OneMember--content">
           <div className="OneMember--firstField">
@@ -88,7 +89,7 @@ function OneMember() {
               className="OneMember--firstField--image"
             />
             <h2 className="OneMember--firstField--title">
-              {member.firstname} {member.name}
+              {member.firstname} {member.lastname}
             </h2>
 
             <a
@@ -155,6 +156,7 @@ function OneMember() {
                  * On envoie au composant ProjectCard les données de chaque projet
                  * et une clé unique
                  */}
+
                 {member.projects.map((project) => (
                   <ProjectCard key={project.id} projectID={project} />
                 ))}

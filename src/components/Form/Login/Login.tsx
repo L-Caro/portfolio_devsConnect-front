@@ -5,7 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../hook/redux';
 
 // ? Fonctions externes
-import { toggleModalLogin } from '../../../store/reducer/log';
+import {
+  toggleModalLogin,
+  toggleModalSignin,
+} from '../../../store/reducer/log';
 import loginUser from '../../../store/actions/login';
 import { resetMessage } from '../../../store/reducer/main';
 
@@ -69,7 +72,6 @@ function Login() {
   const handleLogin = () => {
     dispatch(toggleModalLogin());
   };
-
   /** //! Accessibilité
    * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
    * @param {toggleModalLogin} dispatch - Dispatch de l'action pour ouvrir ou fermer la modale
@@ -78,6 +80,29 @@ function Login() {
    * Si la touche enter ou espace est pressée, on appelle la fonction handleLogin() juste au dessus.
    */
   const handleLoginKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'enter' || event.key === ' ') {
+      handleLogin();
+    }
+  };
+
+  /** //* Fonction pour ouvrir la modale d'inscription
+   * @param {toggleModalSignin} dispatch - Dispatch de l'action pour ouvrir ou fermer la modale
+   * Au clic, on dispatch l'action pour ouvrir ou fermer la modale
+   * On ferme également la modale de connexion
+   * On ouvre la modale d'inscription
+   */
+  const handleSignin = () => {
+    dispatch(toggleModalLogin());
+    dispatch(toggleModalSignin());
+  };
+  /** //! Accessibilité
+   * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
+   * @param {toggleModalLogin} dispatch - Dispatch de l'action pour ouvrir ou fermer la modale
+   * * Une div n'est pas un element clickable par défaut.
+   * On ajoute un fonction d’accessibilité pour le clavier.
+   * Si la touche enter ou espace est pressée, on appelle la fonction handleLogin() juste au dessus.
+   */
+  const handleSigninKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'enter' || event.key === ' ') {
       handleLogin();
     }
@@ -178,6 +203,16 @@ function Login() {
           <button type="submit" className="Login--form--submit">
             Se connecter
           </button>
+          <p className="Login--text">Pas encore inscrit ?</p>
+          <div
+            className="Login--Link-to-Signin"
+            onClick={handleSignin}
+            tabIndex={0} // On précise que la div est focusable
+            role="button"
+            onKeyDown={handleSigninKeyDown}
+          >
+            C&apos;est par içi
+          </div>
         </form>
         <p>DevsConnect</p>
       </div>

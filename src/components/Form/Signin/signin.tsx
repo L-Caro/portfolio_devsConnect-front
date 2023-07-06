@@ -25,7 +25,6 @@ import {
 // ? Composants
 import CustomSwitch from '../../../utils/customSwitchUI';
 import Input from '../Input';
-import Textarea from '../Textarea/Textarea';
 
 // ? Styles
 import './style.scss';
@@ -108,7 +107,6 @@ function Signin() {
     // On dispatch l'action qui va gérer l'ouverture de la modale
     dispatch(toggleModalSignin());
   };
-
   /** //! Accessibilité
    * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
    * @param {toggleModalSignin} dispatch - Dispatch de l'action pour ouvrir ou fermer la modale
@@ -119,6 +117,29 @@ function Signin() {
   const handleSigninKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'enter' || event.key === ' ') {
       handleSignin();
+    }
+  };
+
+  /** //* Fonction pour ouvrir la modale de connexion
+   * @param {toggleModalLogin} dispatch - Dispatch de l'action pour ouvrir ou fermer la modale
+   * Au clic, on dispatch l'action pour ouvrir ou fermer la modale
+   * On ferme également la modale de connexion
+   * On ouvre la modale d'inscription
+   */
+  const handleLogin = () => {
+    dispatch(toggleModalSignin());
+    dispatch(toggleModalLogin());
+  };
+  /** //! Accessibilité
+   * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
+   * @param {toggleModalSignin} dispatch - Dispatch de l'action pour ouvrir ou fermer la modale
+   * * Une div n'est pas un element clickable par défaut.
+   * On ajoute un fonction d’accessibilité pour le clavier.
+   * Si la touche enter ou espace est pressée, on appelle la fonction handleLogin() juste au dessus.
+   */
+  const handleLoginKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'enter' || event.key === ' ') {
+      handleLogin();
     }
   };
 
@@ -416,6 +437,16 @@ function Signin() {
             onKeyDown={handleSigninKeyDown} // On appelle la fonction handleSigninKeyDown() au clavier
           >
             X
+          </div>
+          <p className="Signin--text">Déjà membre ?</p>
+          <div
+            className="Signin--Link-to-Login"
+            onClick={handleLogin}
+            tabIndex={0} // On précise que la div est focusable
+            role="button"
+            onKeyDown={handleLoginKeyDown}
+          >
+            Connectez vous !
           </div>
         </div>
         <form
