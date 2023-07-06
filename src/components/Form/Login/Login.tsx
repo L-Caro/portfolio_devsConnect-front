@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // ? Librairies
 import { useRef, useEffect, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -155,18 +156,24 @@ function Login() {
           {' '}
           {/* On appelle la fonction handleSubmit() au submit */}
           <Input
+            id="email"
             name="email"
-            type="email"
             slot="Adresse email"
+            type="email"
             placeholder="Adresse Email"
-            className="Login--inputText"
+            aria-label="Adresse Email"
+            className="Signin--input"
+            color="lightestPerso"
           />
           <Input
+            id="password"
             name="password"
-            type="password"
             slot="Mot de passe"
+            type="password"
             placeholder="Mot de passe"
-            className="Login--inputText"
+            aria-label="Mot de passe"
+            className="Signin--input"
+            color="lightestPerso"
           />
           <button type="submit" className="Login--form--submit">
             Se connecter

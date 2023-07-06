@@ -31,7 +31,6 @@ import './style.scss';
 
 // ? Typage global
 import { TagI, MemberI } from '../../../../../@types/interface';
-import Textarea from '../../../../Form/Textarea/Textarea';
 
 // ? Fonction principale
 function MyProfile() {
@@ -506,6 +505,7 @@ function MyProfile() {
                 slot={isEditMode ? 'Prénom' : null}
                 type="text"
                 placeholder={member?.firstname || ''}
+                aria-label="Prénom"
                 value={formFields.firstname.value}
                 className={`MuiInputBase-input ${formFields.firstname.className}`}
                 disabled={!isEditMode}
@@ -532,6 +532,7 @@ function MyProfile() {
                 slot={isEditMode ? 'Nom' : null}
                 type="text"
                 placeholder={member?.lastname || ''}
+                aria-label="Nom"
                 value={formFields.lastname.value}
                 className={`MyProfile--input ${formFields.lastname.className}`}
                 disabled={!isEditMode}
@@ -558,6 +559,7 @@ function MyProfile() {
                 slot={isEditMode ? 'Pseudo' : null}
                 type="text"
                 placeholder={member?.pseudo || ''}
+                aria-label="Pseudo"
                 value={formFields.pseudo.value}
                 className={`MyProfile--input ${formFields.pseudo.className}`}
                 disabled={!isEditMode}
@@ -594,6 +596,7 @@ function MyProfile() {
                 slot={isEditMode ? 'Email' : null}
                 type="email"
                 placeholder={member?.email || ''}
+                aria-label="Email"
                 value={formFields.email.value}
                 className={`MyProfile--input ${formFields.email.className}`}
                 disabled={!isEditMode}
@@ -643,7 +646,36 @@ function MyProfile() {
                   Modifier le mot de passe
                 </button>
               )}
-
+              <Input
+                id="description"
+                name="description"
+                multiline
+                rows={5}
+                rowsMax={5}
+                slot={isEditMode ? 'A propos de moi' : null}
+                type="text"
+                placeholder={member?.description || ''}
+                aria-label="A propos de moi"
+                value={formFields.description.value}
+                className={`MyProfile--input ${formFields.description.className}`}
+                disabled={!isEditMode}
+                onChange={(event) => handleChange(event, 'description')}
+                helperText={
+                  formFields.description.value !== '' &&
+                  isFormValid.description === false ? (
+                    <span className="wrong">{errorMessages.description}</span>
+                  ) : (
+                    ''
+                  )
+                }
+                color={
+                  formFields.description.value === ''
+                    ? 'perso'
+                    : isFormValid.description === false
+                    ? 'error'
+                    : 'success'
+                }
+              />
               <div className="MyProfile--content--firstField--openToWork">
                 <p>Ouvert aux projets</p>
                 <CustomSwitch
@@ -653,19 +685,6 @@ function MyProfile() {
                   disabled={!isEditMode} // On désactive le switch si on est pas en mode édition
                 />
               </div>
-              <label
-                htmlFor="description"
-                className="MyProfile--content--firstField--inputTextarea"
-              >
-                A propos de moi :
-                <textarea
-                  name="description"
-                  id="description"
-                  placeholder={member?.description || ''}
-                  disabled={!isEditMode} // On désactive le textarea si on est pas en mode édition
-                />
-                <Textarea name="description" placeholder="A propos de moi" />
-              </label>
             </fieldset>
             <fieldset className="MyProfile--content--secondField">
               <img

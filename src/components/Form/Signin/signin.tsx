@@ -430,6 +430,7 @@ function Signin() {
               slot="Prénom"
               type="text"
               placeholder="Prénom"
+              aria-label="Prénom"
               value={formFields.firstname.value}
               className={`Signin--input ${formFields.firstname.className}`}
               onChange={(event) => handleChange(event, 'firstname')}
@@ -455,6 +456,7 @@ function Signin() {
               slot="Nom"
               type="text"
               placeholder="Nom"
+              aria-label="Nom"
               value={formFields.lastname.value}
               className={`Signin--input ${formFields.lastname.className}`}
               onChange={(event) => handleChange(event, 'lastname')}
@@ -480,6 +482,7 @@ function Signin() {
               slot="Pseudo"
               type="text"
               placeholder="Pseudo"
+              aria-label="Pseudo"
               value={formFields.pseudo.value}
               className={`Signin--input ${formFields.pseudo.className}`}
               onChange={(event) => {
@@ -512,6 +515,7 @@ function Signin() {
               slot="Email"
               type="text"
               placeholder="Adresse Email"
+              aria-label="Adresse Email"
               value={formFields.email.value}
               className={`Signin--input ${formFields.email.className}`}
               onChange={(event) => {
@@ -544,6 +548,7 @@ function Signin() {
               slot="Mot de passe"
               type="password"
               placeholder="Mot de passe"
+              aria-label="Mot de passe"
               value={formFields.password.value}
               className={`Signin--input ${formFields.password.className}`}
               onChange={(event) => handleChange(event, 'password')}
@@ -563,6 +568,35 @@ function Signin() {
                   : 'success'
               }
             />
+            <Input
+              id="description"
+              name="description"
+              slot="A propose de moi"
+              type="text"
+              placeholder="Une petite présentation ?"
+              aria-label="A propos de moi"
+              multiline
+              rows={5}
+              rowsMax={5}
+              value={formFields.description.value}
+              className={`Signin--input ${formFields.description.className}`}
+              onChange={(event) => handleChange(event, 'description')}
+              helperText={
+                formFields.description.value !== '' &&
+                isFormValid.description === false ? (
+                  <span className="wrong">{errorMessages.description}</span>
+                ) : (
+                  ''
+                )
+              }
+              color={
+                formFields.description.value === ''
+                  ? 'lightestPerso'
+                  : isFormValid.description === false
+                  ? 'error'
+                  : 'success'
+              }
+            />
 
             <div className="Signin--openToWork">
               <p>Ouvert aux projets</p>
@@ -572,16 +606,6 @@ function Signin() {
                 onChange={handleSwitch} // On appelle la fonction handleSwitch() au changement
               />
             </div>
-
-            <textarea
-              id="description"
-              name="description"
-              slot="A propos de moi"
-              placeholder="A propos de moi"
-              value={formFields.description.value}
-              onChange={(event) => handleChange(event, 'description')}
-              className={`Form--input ${formFields.description.className}`}
-            />
           </fieldset>
 
           <fieldset className="Signin--field">

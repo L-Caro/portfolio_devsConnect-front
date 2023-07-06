@@ -320,6 +320,7 @@ function PasswordModale({
               slot="Ancien mot de passe"
               type="password"
               placeholder="*****"
+              aria-label="Ancien mot de passe"
               value={formFields.oldPassword.value}
               className={`MyProfile--input ${formFields.oldPassword.className}`}
               onChange={(event) => {
@@ -350,6 +351,7 @@ function PasswordModale({
               slot="Nouveau mot de passe"
               type="password"
               placeholder="*****"
+              aria-label="Nouveau mot de passe"
               value={formFields.newPassword.value}
               className={`MyProfile--input ${formFields.newPassword.className}`}
               onChange={(event) => handleChange(event, 'newPassword')}
@@ -375,6 +377,7 @@ function PasswordModale({
               slot="Confirmation du mot de passe"
               type="password"
               placeholder="*****"
+              aria-label="Confirmation du mot de passe"
               value={formFields.confirmPassword.value}
               className={`MyProfile--input ${formFields.confirmPassword.className}`}
               onChange={(event) => handleChange(event, 'confirmPassword')}

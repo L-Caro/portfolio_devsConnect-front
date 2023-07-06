@@ -1,6 +1,7 @@
 // ? Librairies
 import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Audio } from 'react-loader-spinner';
 import { useAppSelector, useAppDispatch } from '../../../../hook/redux';
 
 // ? Fonctions externes
@@ -36,7 +37,20 @@ function OneMember() {
 
   // En cas de chargement des membres, on affiche un indicateur de chargement
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="Loader">
+        <Audio
+          height="80"
+          width="80"
+          radius="9"
+          color="grey"
+          ariaLabel="three-dots-loading"
+          wrapperStyle
+          wrapperClass
+        />
+        <p>loading</p>
+      </div>
+    );
   }
 
   // Si la réponse ne vient pas, on affiche une erreur serveur
