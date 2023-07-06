@@ -2,11 +2,9 @@ import { createTheme } from '@mui/material/styles';
 
 const paginationUITheme = createTheme({
   components: {
-    // Name of the component
     MuiTablePagination: {
       styleOverrides: {
         root: {
-          // Some CSS
           display: 'flex',
           alignItems: 'center',
           '@media (min-width: 1080px)': {
@@ -18,8 +16,6 @@ const paginationUITheme = createTheme({
           '@media (max-width: 768px)': {
             justifyContent: 'left',
           },
-          '@media (max-width: 500px)': {},
-          '@media (max-width: 324px)': {},
           background: '#454545',
           borderTop: '1.5px dashed #D3D3D3',
           opacity: '0.8',
@@ -35,8 +31,6 @@ const paginationUITheme = createTheme({
             padding: '0 1.5rem',
             width: '50rem',
           },
-          '@media (max-width: 500px)': {},
-          '@media (max-width: 324px)': {},
         },
         select: {
           display: 'flex',
@@ -59,14 +53,13 @@ const paginationUITheme = createTheme({
           },
         },
         selectLabel: {
-          // textAlign: 'center',
           '@media (min-width: 1080px)': {
-            fontSize: '2rem',
             width: '40%',
+            fontSize: '2rem',
           },
           '@media (max-width: 1080px)': {
-            fontSize: '2rem',
             width: '35%',
+            fontSize: '2rem',
           },
           '@media (max-width: 768px)': {
             fontSize: '1.5rem',
@@ -82,23 +75,23 @@ const paginationUITheme = createTheme({
         // Résultats par page (1 - 10 de 100)
         displayedRows: {
           '@media (min-width: 1080px)': {
-            fontSize: '1.5rem',
             width: '20%',
+            fontSize: '1.5rem',
           },
           '@media (max-width: 1080px)': {
-            fontSize: '1.5rem',
             width: '25%',
+            fontSize: '1.5rem',
           },
           '@media (max-width: 768px)': {
-            fontSize: '1rem',
             width: '20%',
+            fontSize: '1rem',
           },
           '@media (max-width: 500px)': {
             width: '25%',
           },
           '@media (max-width: 324px)': {
-            fontSize: '0.6rem',
             width: '22%',
+            fontSize: '0.6rem',
           },
         },
         // Boutons de navigation (Précédent, Suivant)
@@ -110,7 +103,6 @@ const paginationUITheme = createTheme({
           '@media (max-width: 1080px)': {
             width: '15%',
           },
-          '@media (max-width: 768px)': {},
           '@media (max-width: 500px)': {
             width: '22%',
           },
@@ -118,7 +110,6 @@ const paginationUITheme = createTheme({
             width: '25%',
           },
         },
-        // Name of the slot
       },
     },
     MuiToolbar: {
@@ -126,7 +117,6 @@ const paginationUITheme = createTheme({
         // Style commun des composants
         root: {
           color: '#D3D3D3',
-
           '@media (min-width: 600px)': {
             paddingLeft: '0', // Retire la marge par défaut qui prenait la tête!
           },
@@ -149,7 +139,6 @@ const paginationUITheme = createTheme({
           '@media (max-width: 500px)': {
             width: '15%',
           },
-          '@media (max-width: 324px)': {},
         },
       },
     },
