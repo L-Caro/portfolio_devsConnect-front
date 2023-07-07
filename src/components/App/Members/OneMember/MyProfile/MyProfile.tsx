@@ -10,7 +10,11 @@ import updateMember from '../../../../../store/actions/updateMember';
 import checkPseudo from '../../../../../store/actions/checkPseudo';
 import checkEmail from '../../../../../store/actions/checkEmail';
 
-import { toggleEditMode } from '../../../../../store/reducer/log';
+import {
+  toggleEditMode,
+  toggleModalDelete,
+  toggleModalPassword,
+} from '../../../../../store/reducer/log';
 import { resetMessage, updateFlash } from '../../../../../store/reducer/main';
 import {
   classMapping,
@@ -52,7 +56,8 @@ function MyProfile() {
   ); // On récupère les tags du membre qu'on stocke (pour la gestion de l'update)
   const [oldPseudo, setOldPseudo] = useState(''); // Ancien mot de passe
   const [oldEmail, setOldEmail] = useState(''); // Ancien mot de passe
-  const [isOpenDeleteModale, setIsOpenDeleteModale] = useState(false); // State pour la modale de suppression
+
+  const { modalDelete, modalPassword } = useAppSelector((state) => state.log); // On récupère le state modale
   const [isOpenPasswordModale, setIsOpenPasswordModale] = useState(false); // State pour la modale de modification du mot de passe
 
   // Etats pour la gestion du formulaire et des erreurs associées
@@ -77,13 +82,7 @@ function MyProfile() {
       dispatch(fetchOneMember(userIdString));
       setChecked(member?.availability); // On stocke la valeur de l'availability du membre dans le state checked
     }
-  }, [
-    dispatch,
-    isEditMode,
-    userId,
-    member?.availability,
-    isOpenPasswordModale,
-  ]); // On rappelle le useEffect à chaque modification du state isEditMode et/ou userId
+  }, [dispatch, isEditMode, userId, member?.availability, modalPassword]); // On rappelle le useEffect à chaque modification du state isEditMode et/ou userId
 
   useEffect(() => {
     // On récupère tous les tags
@@ -120,21 +119,21 @@ function MyProfile() {
   };
 
   /** //* Fonction pour le bouton delete
-   * @param {boolean} isOpenDeleteModale - valeur du state isOpenDeleteModale
-   * Au clic, on inverse la valeur du state isOpenDeleteModale
+   * @param {boolean} modalDelete - valeur du state modalDelete
+   * Au clic, on inverse la valeur du state modalDelete
    * qui affiche ou non la modale de suppression
    */
   const handleDeleteModale = () => {
-    setIsOpenDeleteModale(!isOpenDeleteModale);
+    dispatch(toggleModalDelete());
   };
 
   /** //* Fonction pour le bouton modifier le mot de passe
-   * @param {boolean} isOpenPasswordModale - valeur du state isOpenPasswordModale
-   * Au clic, on inverse la valeur du state isOpenPasswordModale
+   * @param {boolean} modalPassword - valeur du state modalPassword
+   * Au clic, on inverse la valeur du state modalPassword
    * qui affiche ou non la modale de suppression
    */
   const handlePasswordModale = () => {
-    setIsOpenPasswordModale(!isOpenPasswordModale);
+    dispatch(toggleModalPassword());
   };
 
   /** //* Fonction pour la modification du tableau selectedTags
@@ -821,28 +820,15 @@ function MyProfile() {
         </form>
       </div>
       {/** //! Modale de suppression
-       * @param {boolean} isOpenDeleteModale - Si la modale est ouverte ou non
-       * @param {function} setIsOpenDeleteModale - Setter pour modifier isOpenDeleteModale
-       * Si isOpenDeleteModale est true, on affiche la modale
-       * On envoie à la modale la fonction setIsOpenDeleteModale pour pouvoir la fermer depuis la modale
+       * Si modalDelete est true, on affiche la modale
        */}
-      {isOpenDeleteModale && (
-        <DeleteModale
-          isOpenDeleteModale={isOpenDeleteModale}
-          setIsOpenDeleteModale={setIsOpenDeleteModale}
-        />
-      )}
+      {modalDelete && <DeleteModale />}
       {/** //! Modale de changement de password
-       * @param {boolean} isOpenPasswordModale - Si la modale est ouverte ou non
-       * @param {function} setIsOpenPasswordModale - Setter pour modifier isOpenPasswordModale
-       * Si isOpenPasswordModale est true, on affiche la modale
-       * On envoie à la modale la fonction setIsOpenPasswordModale pour pouvoir la fermer depuis la modale
+       * Si modalPassword est true, on affiche la modale
        */}
-      {isOpenPasswordModale && (
+      {modalPassword && (
         <PasswordModale
           selectedTags={selectedTags} // Obligé de renvoyer les tags, sinon ils disparaissent
-          isOpenPasswordModale={isOpenPasswordModale}
-          setIsOpenPasswordModale={setIsOpenPasswordModale}
         />
       )}
     </>

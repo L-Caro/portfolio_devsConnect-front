@@ -22,9 +22,16 @@ function Root() {
   const flash: FlashI | null | undefined = useAppSelector(
     (state) => state.main.flash
   );
+  const { modalLogin, modalSignin, modalDelete, modalPassword } =
+    useAppSelector((state) => state.log);
 
   // ? Dispatch
   const dispatch = useAppDispatch();
+
+  // ? Permet de bloquer le scroll du body quand une modale est ouverte
+  if (modalLogin || modalSignin || modalDelete || modalPassword) {
+    document.body.style.overflow = 'hidden';
+  }
 
   // ? useEffect
   /** //*Timer pour le message flash

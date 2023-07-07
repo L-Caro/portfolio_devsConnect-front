@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from '../../../../../../hook/redux';
 // ? Fonctions externes
 import deleteMember from '../../../../../../store/actions/deleteMember';
 import logout from '../../../../../../store/actions/logout';
+import { toggleModalDelete } from '../../../../../../store/reducer/log';
 
 // ? Composants
 
@@ -13,16 +14,11 @@ import logout from '../../../../../../store/actions/logout';
 import './style.scss';
 
 // ? Fonction principale
-function DeleteModale({
-  isOpenDeleteModale,
-  setIsOpenDeleteModale,
-}: {
-  isOpenDeleteModale: boolean;
-  setIsOpenDeleteModale: (isOpen: boolean) => void;
-}) {
+function DeleteModale() {
   // ? States
   // Redux
   const id = useAppSelector((state) => state.user.login.id); // id du membre connecté
+  const { modalDelete } = useAppSelector((state) => state.log); // État des modales
 
   // ? useRef
   const modalRef = useRef(null); // Permet de cibler la modale
@@ -44,7 +40,7 @@ function DeleteModale({
         // On précise que modalRef.current éun element html (Element)
         // On précise que event.target représente un noeud du DOM (Node)
       ) {
-        setIsOpenDeleteModale(!isOpenDeleteModale);
+        dispatch(toggleModalDelete());
       }
     };
 
@@ -53,20 +49,20 @@ function DeleteModale({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpenDeleteModale, setIsOpenDeleteModale]);
+  }, [modalDelete, dispatch]);
 
   // ? Fonctions
   /** //* Fonction pour fermer la modale avec la croix ou le bouton annuler
-   * @param {boolean} isOpenDeleteModale - État de la modale
+   * @param {boolean} DeleteModale - État de la modale
    * Au clic, on inverse l'état de la modale
    */
   const handleDeleteModale = () => {
-    setIsOpenDeleteModale(!isOpenDeleteModale);
+    dispatch(toggleModalDelete());
   };
 
   /** //! Accessibilité
    * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
-   * @param {boolean} isOpenDeleteModale - État de la modale
+   * @param {boolean} DeleteModale - État de la modale
    * * Une div n'est pas un element clickable par défaut.
    * On ajoute un fonction d’accessibilité pour le clavier.
    * Si la touche enter ou espace est pressée, on appelle la fonction handleDeleteModale() juste au dessus.
@@ -81,12 +77,12 @@ function DeleteModale({
 
   /** //* Fonction d'envoi du formulaire
    * @param {FormEvent<HTMLFormElement>} event - Événement formulaire
-   * @param {boolean} isOpenDeleteModale - État de la modale
+   * @param {boolean} deleteModale - État de la modale
    * Au submit, on envoie les données du formulaire au serveur
    */
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // On empêche le comportement par défaut du formulaire
-    setIsOpenDeleteModale(!isOpenDeleteModale); // On ferme la modale
+    dispatch(toggleModalDelete()); // On ferme la modale
     if (id !== null) {
       dispatch(deleteMember(id.toString())); // On supprime le membre
       navigate('/'); // On redirige vers la page d'accueil
@@ -102,7 +98,7 @@ function DeleteModale({
           <h2 className="DeleteModale--title">Suppression</h2>
           <div
             /** //? Bouton fermer la modale
-             * @param {boolean} isOpenDeleteModale - État de la modale
+             * @param {boolean} deleteModale - État de la modale
              * @param {React.MouseEvent<HTMLDivElement>} event - Événement clic
              * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
              * * Une div n'est pas un element clickable par défaut.

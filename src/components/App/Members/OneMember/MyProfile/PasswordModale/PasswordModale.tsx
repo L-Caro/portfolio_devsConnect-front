@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../../../../../hook/redux';
 
 // ? Fonctions externes
+import { toggleModalPassword } from '../../../../../../store/reducer/log';
 import updateMember from '../../../../../../store/actions/updateMember';
 import checkPassword from '../../../../../../store/actions/checkPassword';
 import {
@@ -24,21 +25,14 @@ import Input from '../../../../../Form/Input';
 import './style.scss';
 
 // ? Fonction principale
-function PasswordModale({
-  isOpenPasswordModale,
-  setIsOpenPasswordModale,
-  selectedTags,
-}: {
-  isOpenPasswordModale: boolean;
-  setIsOpenPasswordModale: (isOpen: boolean) => void;
-  selectedTags: string[];
-}) {
+function PasswordModale(selectedTags: string[]) {
   // ? States
   // Redux
   const id = useAppSelector((state) => state.user.login.id); // id du membre connecté
   const { passwordMessage, passwordStatus } = useAppSelector(
     (state) => state.ajax
   ); // Message de validation ou d'erreur
+  const { modalPassword } = useAppSelector((state) => state.log); // État des modales
 
   // Local
   const [formFields, setFormFields] = useState({
@@ -66,7 +60,7 @@ function PasswordModale({
         // On précise que modalRef.current éun element html (Element)
         // On précise que event.target représente un noeud du DOM (Node)
       ) {
-        setIsOpenPasswordModale(!isOpenPasswordModale);
+        dispatch(modalPassword());
       }
     };
 
@@ -75,15 +69,15 @@ function PasswordModale({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isOpenPasswordModale, setIsOpenPasswordModale]);
+  }, [modalPassword, dispatch]);
 
   // ? Fonctions
   /** //* Fonction pour fermer la modale avec la croix ou le bouton annuler
-   * @param {boolean} isOpenPasswordModale - État de la modale
+   * @param {boolean} modalPassword - État de la modale
    * Au clic, on inverse l'état de la modale
    */
   const handlePasswordModale = () => {
-    setIsOpenPasswordModale(!isOpenPasswordModale);
+    dispatch(toggleModalPassword());
     // Si on annule l'action, on repasse les champs en valides, ils ne seront pas pris en compte dans MyProfile
     isFormValid.oldPassword = true;
     isFormValid.newPassword = true;
@@ -92,7 +86,7 @@ function PasswordModale({
 
   /** //! Accessibilité
    * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
-   * @param {boolean} isOpenPasswordModale - État de la modale
+   * @param {boolean} modalPassword - État de la modale
    * * Une div n'est pas un element clickable par défaut.
    * On ajoute un fonction d’accessibilité pour le clavier.
    * Si la touche enter ou espace est pressée, on appelle la fonction handlePasswordModale() juste au dessus.
@@ -282,7 +276,7 @@ function PasswordModale({
           formData: { ...objData }, // Dans formData, on ajoute les données du formulaire (objData)
         })
       );
-      setIsOpenPasswordModale(false); // On ferme la modale
+      dispatch(toggleModalPassword()); // On ferme la modale
     }
   };
 
@@ -295,7 +289,7 @@ function PasswordModale({
           <h2 className="PasswordModale--title">Changement de mot de passe</h2>
           <div
             /** //? Bouton fermer la modale
-             * @param {boolean} isOpenPasswordModale - État de la modale
+             * @param {boolean} modalPassword - État de la modale
              * @param {React.MouseEvent<HTMLDivElement>} event - Événement clic
              * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
              * * Une div n'est pas un element clickable par défaut.
