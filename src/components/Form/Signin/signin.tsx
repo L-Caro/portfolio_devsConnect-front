@@ -144,6 +144,19 @@ function Signin() {
     }
   };
 
+  /** //* Fonction pour la photo de profil
+   * @param {currentPicture} currentPicture - Image de profil actuelle
+   * @param {setCurrentPicture} setCurrentPicture - State pour l'image de profil actuelle
+   * @param {setFormFields} setFormFields - State pour la gestion du formulaire
+   * On met à jour le state pour l'image de profil actuelle
+   */
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      console.log(event.target.files[0]);
+      setCurrentPicture(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
   /** //* Fonction pour le switch open to work
    * @param {setChecked} setChecked - State pour le check de open to work
    * Au clic, on inverse la valeur du state
@@ -346,6 +359,7 @@ function Signin() {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const objData = Object.fromEntries(formData.entries());
 
     const firstname = formData.get('firstname');
     const lastname = formData.get('lastname');
@@ -412,10 +426,15 @@ function Signin() {
       // Convertir le tableau en chaîne JSON
       const tagsJSON = JSON.stringify(selectedTagsData);
       // Ajouter le tableau selectedTagsData à formData
-      formData.delete('cgu');
-      formData.append('tags', tagsJSON);
-      formData.append('availability', String(checked));
-      dispatch(signinUser(formData)); // On envoie les données du formulaire à l'API
+      objData.tags = selectedTagsData;
+      objData.availability = !!checked;
+      delete objData.cgu;
+      // formData.delete('cgu');
+      // formData.delete('tags');
+      // formData.append('tags', tagsJSON);
+      // formData.append('availability', String(checked));
+
+      dispatch(signinUser(objData)); // On envoie les données du formulaire à l'API
       dispatch(toggleModalSignin()); // On ferme la modale
       dispatch(toggleModalLogin()); // On ouvre la modale de connexion
     }
@@ -451,10 +470,22 @@ function Signin() {
           </div>
         </div>
         <form
+          encType="multipart/form-data"
           onSubmit={handleSubmit} // On appelle la fonction handleSubmit() au submit
           className="Signin--form"
         >
           <fieldset className="Signin--field">
+            <legend className="Signin--legend">
+              Informations personnelles
+            </legend>
+            <input
+              type="file"
+              name="picture"
+              accept="image/png, image/jpeg, image/jpg"
+              id="picture"
+              onChange={handleFileChange}
+              className="Signin--input"
+            />
             {/* Input maison, importé */}
             <Input
               id="firstname"
@@ -609,7 +640,6 @@ function Signin() {
               aria-label="A propos de moi"
               multiline
               rows={5}
-              rowsMax={5}
               value={formFields.description.value}
               className={`Signin--input ${formFields.description.className}`}
               onChange={(event) => handleChange(event, 'description')}

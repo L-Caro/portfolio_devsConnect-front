@@ -52,7 +52,6 @@ function Input({ name, placeholder, slot, ...props }: InputProps) {
         id={inputId}
         slot={slot}
         label={slot}
-        focused={slot}
         name={name}
         value={value}
         onChange={handleChange}

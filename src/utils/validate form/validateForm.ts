@@ -21,6 +21,7 @@ export const formRules = {
   },
   pseudo: {
     maxLength: 30,
+    pattern: /^[a-zA-Z0-9#@_$'&%éèàùµç¤]+$/,
   },
   password: {
     minLength: 8,
@@ -190,17 +191,18 @@ export const validateField = (value, fieldName, options = {}) => {
     isFormValid.lastname = true;
   }
   if (fieldName === 'pseudo') {
-    const { minLength, maxLength } = fieldRules;
+    const { minLength, maxLength, pattern } = fieldRules;
 
     if (pseudoStatus === 'error') {
       errorMessages.pseudo = 'Ce pseudo est déjà utilisé';
     } else {
       errorMessages.pseudo =
-        'Veuillez renseigner un pseudo de moins de 30 caractères';
+        'Veuillez renseigner un pseudo valide de moins de 30 caractères';
     }
     if (
       value.length < minLength ||
       value.length > maxLength ||
+      !pattern.test(value) ||
       pseudoStatus === 'error'
     ) {
       isFormValid.pseudo = false;

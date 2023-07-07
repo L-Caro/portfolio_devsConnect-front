@@ -75,8 +75,6 @@ function Members() {
           radius="9"
           color="grey"
           ariaLabel="three-dots-loading"
-          wrapperStyle
-          wrapperClass
         />
         <p>loading</p>
       </div>
