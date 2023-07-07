@@ -46,7 +46,8 @@ function Signin() {
   const [cgu, setCgu] = useState(false); // State pour la case à cocher CGU
 
   const [oldPseudo, setOldPseudo] = useState(''); // Ancien mot de passe
-  const [oldEmail, setOldEmail] = useState(''); // Ancien mot de passe
+  const [oldEmail, setOldEmail] = useState(''); // Ancien email
+  const [currentPicture, setCurrentPicture] = useState(''); // Image de profil actuelle
 
   // Etats pour la gestion du formulaire et des erreurs associées
   const [formFields, setFormFields] = useState({
@@ -696,7 +697,11 @@ function Signin() {
                 (voir les CGU)
               </Link>
             </div>
-            <button type="submit" className="Signin--form--submit">
+            <button
+              type="submit"
+              className="Signin--form--submit"
+              disabled={!cgu}
+            >
               S&apos;inscrire
             </button>
           </fieldset>

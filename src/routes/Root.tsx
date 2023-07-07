@@ -28,11 +28,6 @@ function Root() {
   // ? Dispatch
   const dispatch = useAppDispatch();
 
-  // ? Permet de bloquer le scroll du body quand une modale est ouverte
-  if (modalLogin || modalSignin || modalDelete || modalPassword) {
-    document.body.style.overflow = 'hidden';
-  }
-
   // ? useEffect
   /** //*Timer pour le message flash
    * @param {number} duration - Durée du timer
@@ -50,6 +45,13 @@ function Root() {
     }
     return undefined;
   }, [dispatch, flash]);
+
+  // ? Empêche le scroll sur le body quand une modale est ouverte
+  if (modalLogin || modalSignin || modalDelete || modalPassword) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'unset';
+  }
 
   return (
     <>
