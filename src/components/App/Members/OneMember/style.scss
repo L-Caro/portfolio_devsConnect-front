@@ -26,6 +26,9 @@
             overflow: auto;
             text-align: justify;
         }
+        &--projects {
+            position: relative; // Pour positionner les dots du carousel
+        }
     }
     @media screen and (min-width: v.$mq-large) {
         //? Bouton retour
@@ -376,7 +379,8 @@
 }
 
 .ProjectCard {
-    border: 1px solid black;
+    // border: 1px solid black;
+    // width: 90vw;
     &--firstField {
         &--title {
         }
@@ -514,5 +518,19 @@
                 max-height: 8rem;
             }
         }
+    }
+}
+
+.react-multi-carousel-item {
+    padding-bottom: 2rem; // Déplace les dots plus bas
+    opacity: 0.4; // Les cartes sont légèrement transparentes
+    &--active {
+        opacity: 1; // Sauf celle active
+    }
+}
+.react-multiple-carousel__arrow {
+    opacity: 0.4; // Les flèches sont légèrement transparentes
+    &:hover {
+        opacity: 0.8; // Sauf au survol
     }
 }
