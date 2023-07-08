@@ -10,6 +10,7 @@ export const isFormValid = {
   tags: true,
   description: true,
   cgu: true,
+  picture: true,
 };
 
 export const formRules = {
@@ -63,6 +64,8 @@ export const errorMessages = {
   tags: 'Veuillez sélectionner au moins un language',
   description: 'Veuillez renseigner une description',
   cgu: "Veuillez accepter les conditions générales d'utilisation",
+  picture:
+    'Veuillez sélectionner une image au format jpg, jpeg, webp, png, svg ou gif',
   multiple: 'Certains champs ne sont pas conformes',
 };
 
@@ -214,4 +217,35 @@ export const validateField = (value, fieldName, options = {}) => {
   }
 
   return { className: classMapping.good };
+};
+
+function getFileExtension(filename) {
+  const parts = filename.split('.');
+  if (parts.length > 1) {
+    return parts[parts.length - 1].toLowerCase();
+  }
+  return null;
+}
+
+export const validatePicture = (filename) => {
+  let extension = getFileExtension(filename);
+
+  if (
+    extension === 'jpg' ||
+    extension === 'jpeg' ||
+    extension === 'webp' ||
+    extension === 'png' ||
+    extension === 'svg' ||
+    extension === 'gif'
+  ) {
+    isFormValid.picture = true;
+    console.log('isFormValid.picture true', isFormValid.picture);
+    return { className: classMapping.good };
+  } else {
+    isFormValid.picture = false;
+    console.log('isFormValid.picture false', isFormValid.picture);
+    return {
+      className: classMapping.wrong,
+    };
+  }
 };

@@ -81,8 +81,8 @@
             &--image {
                 display: block; // Pour centrer l'image
                 margin: v.$font-small auto v.$font-xlarge; // Pour centrer l'image
-                width: v.$font-xxlarge + 6rem;
-                height: v.$font-xxlarge + rem;
+                width: v.$font-xxlarge + 16rem;
+                border-radius: 50%;
             }
             //? Bouton contact
             &--contact {

@@ -68,6 +68,8 @@ function Input({ name, placeholder, slot, ...props }: InputProps) {
               (slot === 'Ancien mot de passe' && !showPassword) ||
               (slot === 'Nouveau mot de passe' && !showPassword)
             ? 'password'
+            : slot === 'Photo de profil'
+            ? 'file'
             : 'text'
         }
         sx={{ m: 2, width: '250px' }}

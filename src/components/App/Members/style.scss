@@ -151,8 +151,10 @@
                     }
                 }
                 & img {
-                    width: v.$font-xlarge + 1rem;
-                    height: v.$font-xlarge + 1rem;
+                    aspect-ratio: auto;
+                    width: v.$font-xlarge + 2rem;
+                    max-height: 100%;
+                    border-radius: 50%;
                 }
             }
             &--body {

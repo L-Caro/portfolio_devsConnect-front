@@ -494,7 +494,7 @@ function MyProfile() {
             <fieldset className="MyProfile--content--firstField">
               <img
                 className="MyProfile--content--firstField--image"
-                src="/images/profil/profil.svg"
+                src={`http://localhost:3000${member.picture}`}
                 alt="profil"
               />
               {/* Pour chaque input, on désactive le champ si on est pas en mode édition */}
@@ -650,7 +650,6 @@ function MyProfile() {
                 name="description"
                 multiline
                 rows={5}
-                rowsMax={5}
                 slot={isEditMode ? 'A propos de moi' : null}
                 type="text"
                 placeholder={member?.description || ''}
@@ -687,7 +686,7 @@ function MyProfile() {
             </fieldset>
             <fieldset className="MyProfile--content--secondField">
               <img
-                src="/images/profil/profil.svg"
+                src={`http://localhost:3000${member.picture}`}
                 alt="profil"
                 className="MyProfile--content--secondField--image"
               />

@@ -20,6 +20,7 @@ import {
   validateField,
   isFormValid,
   errorMessages,
+  validatePicture,
 } from '../../../utils/validate form/validateForm';
 
 // ? Composants
@@ -58,6 +59,7 @@ function Signin() {
     password: { value: '', className: '' },
     description: { value: '', className: '' },
     tags: { value: '', className: '' },
+    picture: { value: '', className: '' },
   });
 
   // ? useRef
@@ -87,6 +89,7 @@ function Signin() {
         // On précise que event.target représente un noeud du DOM (Node)
       ) {
         // Clic en dehors de la modale
+        isFormValid.picture = true; // On réinitialise le message d'erreur de l'image
         dispatch(toggleModalSignin());
       }
     };
@@ -106,6 +109,7 @@ function Signin() {
    */
   const handleSignin = () => {
     // On dispatch l'action qui va gérer l'ouverture de la modale
+    isFormValid.picture = true; // On réinitialise le message d'erreur de l'image
     dispatch(toggleModalSignin());
   };
   /** //! Accessibilité
@@ -152,7 +156,7 @@ function Signin() {
    */
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      console.log(event.target.files[0]);
+      validatePicture(event.target.files[0].name);
       setCurrentPicture(URL.createObjectURL(event.target.files[0]));
     }
   };
@@ -197,12 +201,6 @@ function Signin() {
         // On met à jour le state des technos sélectionnées
         setSelectedTags(updatedTags);
       } else {
-        // Le tag n'est pas sélectionné, on l'ajoute
-        // Dans la limite de 5 technos
-        if (selectedTags.length === 5) {
-          // Si l'utilisateur a déjà sélectionné 5 tags, on ne fait rien
-          return;
-        }
         // On ajoute le tag à la variable updatedTags
         const updatedTags = [...selectedTags, selectedTag];
         // On met à jour le state des technos sélectionnées
@@ -480,12 +478,16 @@ function Signin() {
             </legend>
             <input
               type="file"
+              slot="Photo de profil"
               name="picture"
-              accept="image/png, image/jpeg, image/jpg"
+              accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
               id="picture"
-              onChange={handleFileChange}
+              onChange={(event) => {
+                handleFileChange(event);
+              }}
               className="Signin--input"
             />
+            {!isFormValid.picture && <span>Mauvais format de photo</span>}
             {/* Input maison, importé */}
             <Input
               id="firstname"

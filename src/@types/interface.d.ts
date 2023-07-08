@@ -17,6 +17,7 @@ export interface MemberI {
   pseudo: string;
   description: string;
   availability: boolean;
+  picture: string;
   projects: ProjectI[];
   tags: TagI[];
   createdAt: Date;

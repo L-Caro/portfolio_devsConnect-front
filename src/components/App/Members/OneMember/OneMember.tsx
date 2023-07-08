@@ -87,21 +87,19 @@ function OneMember() {
         <div className="OneMember--content">
           <div className="OneMember--firstField">
             <img
-              src="/images/profil/profil.svg"
+              src={`http://localhost:3000${member.picture}`}
               alt="profil"
               className="OneMember--firstField--image"
             />
             <h2 className="OneMember--firstField--title">
               {member.firstname} {member.lastname}
             </h2>
-
             <a
               href={`mailto:${member.email}`}
               className="OneMember--firstField--contact"
             >
               Me contacter
             </a>
-
             <div className="OneMember--firstField--availability">
               <p className={member.availability ? 'open' : 'close'}>
                 {/* On ajoute une classe pour css en fonction de availability */}{' '}

@@ -15,7 +15,15 @@ interface CardMemberI {
 // ? Fonction principale
 function CardMember({ member }: CardMemberI) {
   // On récupère les données de member depuis Members.tsx
-  const { id, firstname, name, availability, description } = member;
+  const {
+    id,
+    firstname,
+    lastname,
+    pseudo,
+    availability,
+    description,
+    picture,
+  } = member;
 
   // ? Rendu JSX
   return (
@@ -30,7 +38,7 @@ function CardMember({ member }: CardMemberI) {
           <div className="CardMember--card--header">
             <div className="CardMember--card--header--text">
               <h3>
-                {firstname} {name}
+                {firstname} {lastname}
               </h3>
               <p className={availability ? 'open' : 'close'}>
                 {/* On ajoute une classe pour css en fonction de availability */}{' '}
@@ -39,9 +47,9 @@ function CardMember({ member }: CardMemberI) {
               </p>
             </div>
             <img
-              src="/images/profil/profil.svg"
+              src={`http://localhost:3000${picture}`}
               alt="profil"
-              title={member.pseudo}
+              title={pseudo}
             />
           </div>
         </Link>
