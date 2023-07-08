@@ -156,7 +156,7 @@ function Signin() {
    */
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      validatePicture(event.target.files[0].name);
+      validatePicture(event.target.files[0]);
       setCurrentPicture(URL.createObjectURL(event.target.files[0]));
     }
   };
@@ -487,7 +487,7 @@ function Signin() {
               }}
               className="Signin--input"
             />
-            {!isFormValid.picture && <span>Mauvais format de photo</span>}
+            {!isFormValid.picture && <span>{errorMessages.picture}</span>}
             {/* Input maison, importé */}
             <Input
               id="firstname"

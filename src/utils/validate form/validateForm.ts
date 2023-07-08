@@ -64,8 +64,7 @@ export const errorMessages = {
   tags: 'Veuillez sélectionner au moins un language',
   description: 'Veuillez renseigner une description',
   cgu: "Veuillez accepter les conditions générales d'utilisation",
-  picture:
-    'Veuillez sélectionner une image au format jpg, jpeg, webp, png, svg ou gif',
+  picture: '',
   multiple: 'Certains champs ne sont pas conformes',
 };
 
@@ -228,22 +227,27 @@ function getFileExtension(filename) {
 }
 
 export const validatePicture = (filename) => {
-  let extension = getFileExtension(filename);
-
+  let extension = getFileExtension(filename.name);
   if (
-    extension === 'jpg' ||
-    extension === 'jpeg' ||
-    extension === 'webp' ||
-    extension === 'png' ||
-    extension === 'svg' ||
-    extension === 'gif'
+    filename.size < 5 * 1024 * 1024 &&
+    (extension === 'jpg' ||
+      extension === 'jpeg' ||
+      extension === 'webp' ||
+      extension === 'png' ||
+      extension === 'svg' ||
+      extension === 'gif')
   ) {
     isFormValid.picture = true;
-    console.log('isFormValid.picture true', isFormValid.picture);
     return { className: classMapping.good };
-  } else {
+  } else if (filename.size > 5 * 1024 * 1024) {
+    errorMessages.picture = "La taille de l'image ne doit pas dépasser 5Mo";
     isFormValid.picture = false;
-    console.log('isFormValid.picture false', isFormValid.picture);
+    return {
+      className: classMapping.wrong,
+    };
+  } else {
+    errorMessages.picture = 'Mauvais format de photo';
+    isFormValid.picture = false;
     return {
       className: classMapping.wrong,
     };
