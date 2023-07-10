@@ -54,28 +54,28 @@ function ProjectCard({ projectID }: { projectID: ProjectI }) {
       <div className="ProjectCard" key={project.id}>
         <div className="ProjectCard--firstField">
           <h4 className="ProjectCard--firstField--title">{project.title}</h4>
-          <div className="ProjectCard--firstField--technos">
-            {/** //! Affichage des technos
-             * @param {Array} project.tags - On récupère la liste des tags du projet
-             * On map sur la liste des tags du projet
-             * On limite à 4 l'affichage
-             * On affiche l'image de la techno avec le nom en alt et title
-             */}
-            {project.tags &&
-              project.tags
-                .slice(0, 4)
-                .map((tag) => (
-                  <img
-                    key={`${project.id}-${tag.id}`}
-                    src={`/images/technos/${tag.name.toLowerCase()}.svg`}
-                    alt={tag.name}
-                    title={tag.name}
-                  />
-                ))}
-          </div>
         </div>
-        <div className="ProjectCard--secondField">
-          <div className="ProjectCard--secondField--description">
+        <div className="ProjectCard--secondField--technos">
+          {/** //! Affichage des technos
+           * @param {Array} project.tags - On récupère la liste des tags du projet
+           * On map sur la liste des tags du projet
+           * On limite à 4 l'affichage
+           * On affiche l'image de la techno avec le nom en alt et title
+           */}
+          {project.tags &&
+            project.tags
+              .slice(0, 9)
+              .map((tag) => (
+                <img
+                  key={`${project.id}-${tag.id}`}
+                  src={`/images/technos/${tag.name.toLowerCase()}.svg`}
+                  alt={tag.name}
+                  title={tag.name}
+                />
+              ))}
+        </div>
+        <div className="ProjectCard--thirdField">
+          <div className="ProjectCard--thirdField--description">
             {project.description}
           </div>
         </div>

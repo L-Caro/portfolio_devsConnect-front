@@ -16,7 +16,7 @@
         margin: 0 auto;
         width: 90%;
         height: 2px;
-        border-radius: 1rem;
+        border-radius: v.$border-radius;
         background: v.$color-link-active;
     }
 }
@@ -24,7 +24,7 @@
 .Header--connect {
     & button {
         border: none;
-        border-radius: 1rem;
+        border-radius: v.$border-radius;
         font-weight: 500;
         cursor: pointer;
     }

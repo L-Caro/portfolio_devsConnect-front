@@ -7,7 +7,7 @@
     &--firstField {
         //? Bouton contact
         &--contact {
-            border-radius: 2rem;
+            border-radius: v.$border-radius;
             background: v.$color-button;
             font-weight: 700;
             text-align: center;
@@ -39,7 +39,7 @@
             & button {
                 padding: v.$font-xxsmall v.$font-large;
                 background: v.$color;
-                border-radius: v.$font-medium;
+                border-radius: v.$border-radius;
                 color: v.$color-darkest;
                 font-weight: 700;
                 cursor: pointer;
@@ -82,7 +82,7 @@
                 display: block; // Pour centrer l'image
                 margin: v.$font-small auto v.$font-xlarge; // Pour centrer l'image
                 width: v.$font-xxlarge + 16rem;
-                border-radius: 50%;
+                border-radius: v.$border-radius;
             }
             //? Bouton contact
             &--contact {
@@ -144,7 +144,7 @@
             & button {
                 padding: v.$font-xxsmall v.$font-medium;
                 background: v.$color;
-                border-radius: v.$font-medium;
+                border-radius: v.$border-radius;
                 color: v.$color-darkest;
                 font-weight: 700;
                 cursor: pointer;
@@ -379,158 +379,98 @@
 }
 
 .ProjectCard {
-    // border: 1px solid black;
-    // width: 90vw;
+    display: flex;
+    flex-direction: column;
+    margin: v.$font-xsmall auto;
+    padding: 2rem 5.5rem;
+    width: 95%;
+    height: 300px; // Hauteur du carousel
+    background: v.$color-darkest;
+    border-radius: v.$border-radius;
+    color: v.$color;
+    opacity: 0.9;
     &--firstField {
         &--title {
-        }
-        &--technos {
-            display: flex;
-            justify-content: space-around;
+            text-align: center;
+            letter-spacing: 0.2rem;
+            color: v.$color-button;
         }
     }
     &--secondField {
+        &--technos {
+            display: flex;
+            justify-content: space-evenly;
+            gap: v.$font-small;
+            margin: v.$font-small;
+            & img {
+                width: v.$font-large;
+                max-width: 15%;
+                height: v.$font-large;
+            }
+        }
+    }
+    &--thirdField {
         &--description {
-            overflow: auto;
+            overflow: hidden;
             text-align: justify;
+            max-height: 16rem;
         }
     }
 
     @media screen and (min-width: v.$mq-large) {
-        display: flex;
-        flex-direction: row;
-        margin: v.$font-xsmall auto;
-        padding: v.$font-xsmall v.$font-xsmall v.$font-xsmall 0;
-        width: 95%;
-        &--firstField {
-            width: 30%;
-            &--title {
-                padding: 0 v.$font-xsmall;
-                font-size: v.$font-medium;
-            }
-            &--technos {
-                display: grid;
-                justify-items: center;
-                grid-template-columns: repeat(2, 1fr);
-                margin: v.$font-xsmall auto;
-                gap: v.$font-small;
-                & img {
-                    width: v.$font-large;
-                    height: v.$font-large;
-                }
-            }
-        }
-        &--secondField {
-            width: 70%;
-            &--description {
-                max-height: 17rem;
-            }
-        }
     }
     @media screen and (max-width: v.$mq-large) {
-        display: flex;
-        flex-direction: row;
-        margin: v.$font-xsmall auto;
-        padding: v.$font-xsmall v.$font-xsmall v.$font-xsmall 0;
-        &--firstField {
-            width: 30%;
-            &--title {
-                padding: 0 v.$font-xsmall;
-                font-size: v.$font-medium;
-            }
-            &--technos {
-                display: grid;
-                justify-items: center;
-                grid-template-columns: repeat(2, 1fr);
-                margin: v.$font-xsmall auto;
-                gap: v.$font-small;
-                & img {
-                    width: v.$font-large;
-                    height: v.$font-large;
-                }
-            }
-        }
-        &--secondField {
-            width: 70%;
-            &--description {
-                max-height: 17rem;
-            }
-        }
     }
     @media screen and (max-width: v.$mq-medium) {
-        display: flex;
-        flex-direction: column;
-        padding: v.$font-xsmall;
-        font-size: v.$font-small;
-        & h4 {
-            font-size: v.$font-small;
-        }
-        &--firstField {
-            width: 100%;
-            &--technos {
-                display: flex;
-                padding: v.$font-xsmall;
-                & img {
-                    width: v.$font-medium;
-                    height: v.$font-medium;
-                }
-            }
-        }
-        &--secondField {
-            width: 100%;
-            &--description {
-                max-height: 13rem;
-            }
-        }
     }
     @media screen and (max-width: v.$mq-small) {
-        margin: v.$font-xsmall auto;
-        padding: v.$font-xxsmall;
-        font-size: v.$font-xsmall;
-        & h4 {
-            font-size: v.$font-small;
-        }
-        &--firstField {
-            &--technos {
-                & img {
-                    width: v.$font-small;
-                    height: v.$font-small;
-                }
-            }
-        }
-        &--secondField {
-            &--description {
-                max-height: 10rem;
-            }
-        }
     }
     @media screen and (max-width: v.$mq-xsmall) {
-        & h4 {
-            font-size: v.$font-xsmall;
-        }
-        &--firstField {
-            &--technos {
-                padding: v.$font-xxsmall;
-            }
-        }
-        &--secondField {
-            &--description {
-                max-height: 8rem;
-            }
-        }
     }
 }
 
+// ! Carousel
+//? Container
+.react-multi-carousel-list {
+    position: absolute;
+    width: 100%;
+    margin: v.$font-small auto;
+    height: 320px;
+}
+
+//? Un projet
 .react-multi-carousel-item {
-    padding-bottom: 2rem; // Déplace les dots plus bas
+    // padding-bottom: 2rem; // Déplace les dots plus bas
     opacity: 0.4; // Les cartes sont légèrement transparentes
     &--active {
         opacity: 1; // Sauf celle active
     }
 }
+//? Les flèches
 .react-multiple-carousel__arrow {
-    opacity: 0.4; // Les flèches sont légèrement transparentes
+    position: absolute;
+    background: v.$color-darkest;
+    height: 94%;
+    margin: 0 0.4rem;
+    opacity: 0.8; // Les flèches sont légèrement transparentes
+    // bottom: 10%;
+    &--left {
+        border-radius: v.$border-radius 0 0 v.$border-radius;
+        left: 2%;
+    }
+    &--right {
+        right: 2%;
+        border-radius: 0 v.$border-radius v.$border-radius 0;
+    }
+    &::before {
+        color: v.$color;
+        font-size: v.$font-xlarge;
+    }
     &:hover {
-        opacity: 0.8; // Sauf au survol
+        background: v.$color;
+        opacity: 0.5; // Sauf au survol
+        &::before {
+            color: v.$color-darkest;
+        }
     }
 }

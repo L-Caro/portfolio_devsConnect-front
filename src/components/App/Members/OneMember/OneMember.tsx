@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Audio } from 'react-loader-spinner';
 import Carousel from 'react-multi-carousel';
-import { responsive } from '../../../../utils/CustomCarousel';
+import responsive from '../../../../utils/CustomCarousel';
 import 'react-multi-carousel/lib/styles.css';
 
 import { useAppSelector, useAppDispatch } from '../../../../hook/redux';

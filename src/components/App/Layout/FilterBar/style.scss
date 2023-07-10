@@ -16,7 +16,7 @@
     }
     &--secondField {
         &--search {
-            border-radius: 10px;
+            border-radius: v.$border-radius;
             padding-left: v.$font-xsmall; // Écarte légèrement le placeholder
         }
     }

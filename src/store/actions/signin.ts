@@ -7,11 +7,8 @@ import axiosInstance from '../../utils/axios';
 const signinUser = createAsyncThunk(
   'user/signinUser',
   async (objData: FormData) => {
+    console.log('objData', objData);
     try {
-      // Object.fromEntries() transforme une liste de paires clé-valeur en un objet
-      // const objData = Object.fromEntries(formData);
-      // console.log('objData:', objData);
-
       const { data } = await axiosInstance.post('/signin', objData, {
         headers: {
           'Content-Type': 'multipart/form-data',

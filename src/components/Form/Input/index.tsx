@@ -7,7 +7,7 @@ import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ThemeProvider } from '@mui/material/styles';
-import customThemeMUI from '../../../utils/customOutlinedUI';
+import customThemeMUI from '../../../utils/customInputUI';
 
 // ? Styles
 import './style.scss';
@@ -48,6 +48,7 @@ function Input({ name, placeholder, slot, ...props }: InputProps) {
     <ThemeProvider theme={customThemeMUI}>
       <TextField
         key={inputId}
+        variant="outlined"
         color="perso"
         id={inputId}
         slot={slot}
@@ -72,7 +73,7 @@ function Input({ name, placeholder, slot, ...props }: InputProps) {
             ? 'file'
             : 'text'
         }
-        sx={{ m: 2, width: '250px' }}
+        sx={{ margin: '1rem auto' }}
         InputProps={
           slot === 'Mot de passe' ||
           slot === 'Confirmation du mot de passe' ||

@@ -13,9 +13,13 @@ type UpdateMemberI = {
 //* Update un membre
 const updateMember = createAsyncThunk(
   'user/updateMember',
-  async ({ id, formData }: UpdateMemberI) => {
+  async ({ id, objData }) => {
     try {
-      const { data } = await axiosInstance.put(`/api/users/${id}`, formData);
+      const { data } = await axiosInstance.put(`/api/users/${id}`, objData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       // ? On retourne le state
 
       return data;

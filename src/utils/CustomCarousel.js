@@ -1,4 +1,4 @@
-export const responsive = {
+const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 501 },
     items: 1,
@@ -12,6 +12,4 @@ export const responsive = {
   },
 };
 
-export const CustomCarousel = ({ children, deviceType }) => {
-  console.log(deviceType);
-};
+export default responsive;

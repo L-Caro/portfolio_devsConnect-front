@@ -4,19 +4,32 @@
 // ! Style pour les erreurs/succès de formulaire
 //? Container d'input
 .MuiInputBase-root {
-    width: 100%;
-    background-color: rgba(164, 164, 164, 0.4);
-    // background-color: pink;
+    background-color: rgba(164, 164, 164, 0.5);
     & input,
     & textarea {
-        color: rgb(32, 32, 32);
-        font-size: 1.3rem;
+        color: v.$color-darkest;
         font-weight: 700;
         &::placeholder {
-            color: rgb(32, 32, 32);
-            font-size: 1.3rem;
-            font-weight: 700;
+            opacity: 1;
         }
+    }
+    @media screen and (min-width: v.$mq-large) {
+        & input,
+        & textarea {
+            font-size: 1.3rem;
+
+            &::placeholder {
+                font-size: 1.5rem;
+            }
+        }
+    }
+    @media screen and (max-width: v.$mq-large) {
+    }
+    @media screen and (max-width: v.$mq-medium) {
+    }
+    @media screen and (max-width: v.$mq-small) {
+    }
+    @media screen and (max-width: v.$mq-xsmall) {
     }
 }
 

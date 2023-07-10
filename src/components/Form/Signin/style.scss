@@ -48,7 +48,7 @@
         //? Bouton submit
         &--submit {
             margin: 0 auto;
-            border-radius: 1rem;
+            border-radius: v.$border-radius;
             font-weight: 700;
             cursor: pointer;
         }
@@ -67,7 +67,7 @@
         & input {
             width: 45%;
             height: 2.5rem;
-            border-radius: 1rem;
+            border-radius: v.$border-radius;
             padding-left: 1rem;
         }
     }
@@ -84,7 +84,7 @@
         & textarea {
             resize: none; // Masquer les poignées de redimensionnement
 
-            border-radius: 1rem;
+            border-radius: v.$border-radius;
             padding-left: 1rem;
         }
     }

@@ -25,7 +25,7 @@ html {
 }
 
 body {
-    background: v.$color; // On choisit la couleur d'arrière plan
+    background: v.$color-light; // On choisit la couleur d'arrière plan
     font-family: v.$font-sans; // On choisit la police par défaut
     font-size: 1.6rem; // On règle la taille de police par défaut
     -webkit-text-size-adjust: none; // Réglage pour apple
@@ -43,6 +43,13 @@ body {
     display: flex; // On passe le conteneur en flexbox pour pouvoir utiliser les propriétés flex grow
     flex-direction: column; // On règle la direction du flexbox en colonne
     min-height: 100vh; // On règle la hauteur à 100vh pour que tout l'espace vertical soit pris
+}
+
+.visible {
+    display: block;
+}
+.hidden {
+    display: none;
 }
 
 .Loader {

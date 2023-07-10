@@ -51,7 +51,7 @@
             margin: 0 auto;
             margin-top: v.$font-large;
             padding: v.$font-xsmall v.$font-large;
-            border-radius: 1rem;
+            border-radius: v.$border-radius;
             font-weight: 700;
             cursor: pointer;
         }
@@ -62,7 +62,7 @@
         margin-top: v.$font-large;
         justify-content: space-between; // A chaque extrémité
         & input {
-            border-radius: 1rem;
+            border-radius: v.$border-radius;
             padding-left: 1rem;
         }
     }

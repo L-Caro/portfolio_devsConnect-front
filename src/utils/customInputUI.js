@@ -22,6 +22,15 @@ const customThemeMUI = createTheme({
       contrastText: '#fff',
     },
   },
+  components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: '1.3rem',
+        },
+      },
+    },
+  },
 });
 
 export default customThemeMUI;

@@ -227,7 +227,7 @@ function getFileExtension(filename) {
 }
 
 export const validatePicture = (filename) => {
-  let extension = getFileExtension(filename.name);
+  const extension = getFileExtension(filename.name);
   if (
     filename.size < 5 * 1024 * 1024 &&
     (extension === 'jpg' ||
@@ -238,18 +238,11 @@ export const validatePicture = (filename) => {
       extension === 'gif')
   ) {
     isFormValid.picture = true;
-    return { className: classMapping.good };
   } else if (filename.size > 5 * 1024 * 1024) {
     errorMessages.picture = "La taille de l'image ne doit pas dépasser 5Mo";
     isFormValid.picture = false;
-    return {
-      className: classMapping.wrong,
-    };
   } else {
     errorMessages.picture = 'Mauvais format de photo';
     isFormValid.picture = false;
-    return {
-      className: classMapping.wrong,
-    };
   }
 };

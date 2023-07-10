@@ -36,7 +36,7 @@ import { TagSelectedI } from '../../../@types/interface';
 // ? Fonction principale
 function Signin() {
   // ? State
-  const allTagsFromApi: TagSelectedI[] = useAppSelector(
+  const allTags: TagSelectedI[] = useAppSelector(
     (state) => state.tag.list.data
   ); // Tableau des tags récupérés depuis l'API
   const { pseudoMessage, emailMessage, pseudoStatus, emailStatus } =
@@ -59,7 +59,6 @@ function Signin() {
     password: { value: '', className: '' },
     description: { value: '', className: '' },
     tags: { value: '', className: '' },
-    picture: { value: '', className: '' },
   });
 
   // ? useRef
@@ -179,7 +178,7 @@ function Signin() {
 
   /** //* Fonction pour la selection des technos (au clic sur une techno)
    * @param {number} id - Id de la techno
-   * @param {allTagsFromApi} allTagsFromApi - Tableau des tags récupérés depuis l'API
+   * @param {allTags} allTags - Tableau des tags récupérés depuis l'API
    * @param {selectedTags} selectedTags - Tableau des tags sélectionnés par l'utilisateur
    * @param {setSelectedTags} setSelectedTags - State pour le tableau des tags sélectionnés par l'utilisateur
    * Au clic sur une techno, on vérifie si elle est déjà sélectionnée ou non
@@ -189,7 +188,7 @@ function Signin() {
    */
   const handleImageClick = (id: number) => {
     // On vérifie que le tag sélectionné existe bien dans le tableau des tags récupérés depuis l'API
-    const selectedTag = allTagsFromApi.find((tag) => tag.id === id);
+    const selectedTag = allTags.find((tag) => tag.id === id);
     if (selectedTag) {
       // Si le tag existe
       // On vérifie si le tag est déjà sélectionné ou non
@@ -354,7 +353,7 @@ function Signin() {
    */
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // On empêche le comportement par défaut du formulaire
-
+    // ! Déclaration des variables
     const form = event.currentTarget;
     const formData = new FormData(form);
     const objData = Object.fromEntries(formData.entries());
@@ -366,6 +365,7 @@ function Signin() {
     const email = formData.get('email').toString();
     const password = formData.get('password');
 
+    // ! Gestion des erreurs
     dispatch(resetMessage()); // On reset le message flash
 
     // Gestion des erreurs tags
@@ -431,7 +431,6 @@ function Signin() {
       // formData.delete('tags');
       // formData.append('tags', tagsJSON);
       // formData.append('availability', String(checked));
-
       dispatch(signinUser(objData)); // On envoie les données du formulaire à l'API
       dispatch(toggleModalSignin()); // On ferme la modale
       dispatch(toggleModalLogin()); // On ouvre la modale de connexion
@@ -487,7 +486,9 @@ function Signin() {
               }}
               className="Signin--input"
             />
-            {!isFormValid.picture && <span>{errorMessages.picture}</span>}
+            {!isFormValid.picture && (
+              <span className="wrong">{errorMessages.picture}</span>
+            )}
             {/* Input maison, importé */}
             <Input
               id="firstname"
@@ -678,7 +679,7 @@ function Signin() {
               <p>(Choisissez 1 language minimum)</p>
               <div className="Signin--techno">
                 {/* //? On map sur le tableau des technos récupérées depuis l'API */}
-                {allTagsFromApi.map((techno: TagSelectedI) => (
+                {allTags.map((techno: TagSelectedI) => (
                   <div className="Signin--inputCheckbox" key={techno.id}>
                     {/* //? Pour chaque techno, on lui donne un id, un name et une value provenant de la table tag */}
                     <input

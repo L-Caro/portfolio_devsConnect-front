@@ -1,10 +1,10 @@
 @use 'sass:color';
 
 //? Colors
-$color: #e6e6e6;
+$color: #d5d5d5;
 // $color: #e177d7;
-$color-dark: color.scale($color, $lightness: -70%);
-$color-light: color.scale($color, $lightness: 70%);
+$color-dark: color.scale($color, $lightness: -75%);
+$color-light: color.scale($color, $lightness: 40%);
 
 $color-button: #6558f7;
 // $color-button: #8f2491;
@@ -46,3 +46,6 @@ $mq-xsmall: 324px;
 $height-header-medium: 7rem;
 $height-header-small: 6rem;
 $height-header-xsmall: 5rem;
+
+//? border-radius
+$border-radius: 1.3rem;

@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 // ? Librairies
 import { useState, useEffect, useRef } from 'react';
+import Carousel from 'react-multi-carousel';
 import { useAppDispatch, useAppSelector } from '../../../../../hook/redux';
 
 // ? Fonctions externes
@@ -21,6 +22,7 @@ import {
   validateField,
   isFormValid,
   errorMessages,
+  validatePicture,
 } from '../../../../../utils/validate form/validateForm';
 
 // ? Composants
@@ -31,6 +33,8 @@ import DeleteModale from './DeleteModale/DeleteModale';
 import PasswordModale from './PasswordModale/PasswordModale';
 
 // ? Styles
+import responsive from '../../../../../utils/CustomCarousel';
+import 'react-multi-carousel/lib/styles.css';
 import './style.scss';
 
 // ? Typage global
@@ -43,8 +47,8 @@ function MyProfile() {
   const member: MemberI | null = useAppSelector(
     (state) => state.members.member.data
   ); // On récupère les données du membre
-  const userId = useAppSelector((state) => state.user.login.id); // On récupère l'id de l'utilisateur connecté
   const allTags: TagI[] = useAppSelector((state) => state.tag.list.data); // On récupère les tags
+  const userId = useAppSelector((state) => state.user.login.id); // On récupère l'id de l'utilisateur connecté
   const isEditMode = useAppSelector((state) => state.log.isEditMode); // On récupère le state isEditMode
   const { pseudoMessage, emailMessage, pseudoStatus, emailStatus } =
     useAppSelector((state) => state.ajax);
@@ -56,6 +60,7 @@ function MyProfile() {
   ); // On récupère les tags du membre qu'on stocke (pour la gestion de l'update)
   const [oldPseudo, setOldPseudo] = useState(''); // Ancien mot de passe
   const [oldEmail, setOldEmail] = useState(''); // Ancien mot de passe
+  const [currentPicture, setCurrentPicture] = useState({}); // Image de profil actuelle
 
   const { modalDelete, modalPassword } = useAppSelector((state) => state.log); // On récupère le state modale
   const [isOpenPasswordModale, setIsOpenPasswordModale] = useState(false); // State pour la modale de modification du mot de passe
@@ -66,8 +71,8 @@ function MyProfile() {
     lastname: { value: '', className: '' },
     pseudo: { value: '', className: '' },
     email: { value: '', className: '' },
-    tags: { value: '', className: '' },
     description: { value: '', className: '' },
+    tags: { value: '', className: '' },
   });
   // ? useRef
   const formRef = useRef<HTMLFormElement>(null); // Utiliser pour récupérer les données du formulaire (référence au <form>)
@@ -91,6 +96,25 @@ function MyProfile() {
   }, [dispatch, member?.tags, isEditMode]); // On rappelle le useEffect à chaque modification du state isEditMode et/ou member?.tags
 
   // ? Fonctions
+
+  const handleUploadClick = () => {
+    // Simuler un clic sur l'élément input lorsque l'utilisateur clique sur l'image
+    document.getElementById('picture')?.click();
+  };
+
+  /** //* Fonction pour la photo de profil
+   * @param {currentPicture} currentPicture - Image de profil actuelle
+   * @param {setCurrentPicture} setCurrentPicture - State pour l'image de profil actuelle
+   * @param {setFormFields} setFormFields - State pour la gestion du formulaire
+   * On met à jour le state pour l'image de profil actuelle
+   */
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      validatePicture(event.target.files[0]);
+      setCurrentPicture(event.target.files[0]);
+    }
+  };
+
   /** //* Switch open to work
    * @param {boolean} checked - valeur du switch
    * Au clic, on inverse la valeur du switch
@@ -115,6 +139,7 @@ function MyProfile() {
     isFormValid.pseudo = true;
     isFormValid.email = true;
     isFormValid.description = true;
+    isFormValid.picture = true;
     dispatch(toggleEditMode());
   };
 
@@ -162,7 +187,9 @@ function MyProfile() {
 
         // On retire la classe `selected` du tag
         const tagElement = document.getElementById(`tag-${selectedTag.id}`); // On cible l'element par son id spécifique
-        if (tagElement) tagElement.classList.remove('selected'); // Si on trouve l'element avec l'id de selectedTag, on retire la classe `selected`
+        if (tagElement)
+          tagElement.className =
+            'MyProfile--content--secondField--container--technos--group'; // Si on trouve l'element avec l'id de selectedTag, on retire la classe `selected`
       } else {
         // ? Le tag n'est pas sélectionné
         // On l'ajoute en concaténant selectedTags et selectedTag dans updatedTags (spread operator)
@@ -178,7 +205,11 @@ function MyProfile() {
 
         // On ajoute la classe `selected` au tag
         const tagElement = document.getElementById(`tag-${selectedTag.id}`); // On cible l'element par son id spécifique
-        if (tagElement) tagElement.classList.add('selected'); // Si on trouve l'element avec l'id de selectedTag, on ajoute la classe `selected`
+        if (tagElement)
+          tagElement.className =
+            'MyProfile--content--secondField--container--technos--group--selected'; // Si on trouve l'element avec l'id de selectedTag, on retire la classe `selected`
+
+        // if (tagElement) tagElement.classList.add('--selected'); // Si on trouve l'element avec l'id de selectedTag, on ajoute la classe `selected`
       }
     }
   };
@@ -444,6 +475,14 @@ function MyProfile() {
       ) {
         // Si la valeur du state est différente de la valeur du membre, on l'ajoute à formData
         formData.append('availability', checked.toString());
+        objData.availability = checked; // On ajoute checked à objData
+      }
+
+      // ? Gestion de l'image
+      if (currentPicture) {
+        // Si une picture a été sélectionnée
+        formData.append('picture', currentPicture); // On ajoute l'image à formData
+        objData.picture = currentPicture; // On ajoute l'image à objData
       }
 
       // ? Gestion des tags
@@ -460,7 +499,7 @@ function MyProfile() {
         // On dispatch l'action updateMember avec l'id du membre et les données du formulaire
         updateMember({
           id: userId,
-          formData: { availability: checked, ...objData }, // Dans formData, on ajoute la valeur de checked et on ajoute les données du formulaire (objData)
+          objData: { availability: checked, ...objData }, // Dans formData, on ajoute la valeur de checked et on ajoute les données du formulaire (objData)
         })
       );
     }
@@ -486,159 +525,209 @@ function MyProfile() {
   return (
     <>
       <div className="MyProfile">
-        <h2 className="MyProfile--title">
-          {member?.firstname} {member?.lastname}
-        </h2>
-        <form ref={formRef} onSubmit={handleSubmit}>
+        <div className="MyProfile--header">
+          <div className="MyProfile--header--container">
+            <div className="MyProfile--header--container--image">
+              <img
+                className="MyProfile--header--container--image--profil"
+                src={`http://localhost:3000${member?.picture}`}
+                alt="profil"
+                onClick={handleUploadClick}
+                onKeyDown={handleUploadClick}
+                role="button"
+                tabIndex={0}
+              />
+              <img
+                src="/images/profil/upload.svg"
+                className={`MyProfile--header--container--image--upload ${
+                  isEditMode ? 'visible' : 'hidden'
+                }`}
+                alt="limité à 5Mo"
+                onClick={handleUploadClick}
+                onKeyDown={handleUploadClick}
+                role="button"
+                tabIndex={0}
+              />
+            </div>
+            <h2 className="MyProfile--header--container--title">
+              {member?.firstname} {member?.lastname}
+            </h2>
+          </div>
+          {!isFormValid.picture && (
+            <span className="MyProfile--header--errorMessage wrong">
+              {errorMessages.picture}
+            </span>
+          )}
+        </div>
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
           <div className="MyProfile--content">
             <fieldset className="MyProfile--content--firstField">
-              <img
-                className="MyProfile--content--firstField--image"
-                src={`http://localhost:3000${member.picture}`}
-                alt="profil"
-              />
               {/* Pour chaque input, on désactive le champ si on est pas en mode édition */}
-              <Input
-                id="firstname"
-                name="firstname"
-                slot={isEditMode ? 'Prénom' : null}
-                type="text"
-                placeholder={member?.firstname || ''}
-                aria-label="Prénom"
-                value={formFields.firstname.value}
-                className={`MuiInputBase-input ${formFields.firstname.className}`}
-                disabled={!isEditMode}
-                onChange={(event) => handleChange(event, 'firstname')}
-                helperText={
-                  formFields.firstname.value !== '' &&
-                  isFormValid.firstname === false ? (
-                    <span className="wrong">{errorMessages.firstname}</span>
-                  ) : (
-                    ''
-                  )
-                }
-                color={
-                  formFields.firstname.value === ''
-                    ? 'perso'
-                    : isFormValid.firstname === false
-                    ? 'error'
-                    : 'success'
-                }
-              />
-              <Input
-                id="lastname"
-                name="lastname"
-                slot={isEditMode ? 'Nom' : null}
-                type="text"
-                placeholder={member?.lastname || ''}
-                aria-label="Nom"
-                value={formFields.lastname.value}
-                className={`MyProfile--input ${formFields.lastname.className}`}
-                disabled={!isEditMode}
-                onChange={(event) => handleChange(event, 'lastname')}
-                helperText={
-                  formFields.lastname.value !== '' &&
-                  isFormValid.lastname === false ? (
-                    <span className="wrong">{errorMessages.lastname}</span>
-                  ) : (
-                    ''
-                  )
-                }
-                color={
-                  formFields.lastname.value === ''
-                    ? 'perso'
-                    : isFormValid.lastname === false
-                    ? 'error'
-                    : 'success'
-                }
-              />
-              <Input
-                id="pseudo"
-                name="pseudo"
-                slot={isEditMode ? 'Pseudo' : null}
-                type="text"
-                placeholder={member?.pseudo || ''}
-                aria-label="Pseudo"
-                value={formFields.pseudo.value}
-                className={`MyProfile--input ${formFields.pseudo.className}`}
-                disabled={!isEditMode}
+              <legend className="MyProfile--legend">
+                Informations personnelles
+              </legend>
+              <input
+                id="picture"
+                type="file"
+                slot="Photo de profil"
+                name="picture"
+                accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
                 onChange={(event) => {
-                  setOldPseudo(event.target.value);
-                  handleChange(event, 'pseudo');
-                  verifyPseudo(event);
-                  checkPseudoStatus();
+                  handleFileChange(event);
                 }}
-                helperText={
-                  formFields.pseudo.value !== '' && pseudoStatus === 'error' ? (
-                    <span className="wrong">{pseudoMessage}</span>
-                  ) : formFields.pseudo.value !== '' &&
-                    isFormValid.pseudo === false ? (
-                    <span className="wrong">{errorMessages.pseudo}</span>
-                  ) : formFields.pseudo.value !== '' &&
-                    isFormValid.pseudo === true ? (
-                    <span className="good">{pseudoMessage}</span>
-                  ) : (
-                    ''
-                  )
-                }
-                color={
-                  formFields.pseudo.value === ''
-                    ? 'perso'
-                    : isFormValid.pseudo === false
-                    ? 'error'
-                    : 'success'
-                }
+                className="MyProfile--content--firstField--input hidden"
+                disabled={!isEditMode} // On désactive le switch si on est pas en mode édition
               />
-              <Input
-                id="email"
-                name="email"
-                slot={isEditMode ? 'Email' : null}
-                type="email"
-                placeholder={member?.email || ''}
-                aria-label="Email"
-                value={formFields.email.value}
-                className={`MyProfile--input ${formFields.email.className}`}
-                disabled={!isEditMode}
-                onChange={(event) => {
-                  setOldEmail(event.target.value);
-                  handleChange(event, 'email');
-                  verifyEmail(event);
-                  checkEmailStatus();
-                }}
-                helperText={
-                  formFields.email.value !== '' && emailStatus === 'error' ? (
-                    <span className="wrong">{emailMessage}</span>
-                  ) : formFields.email.value !== '' &&
-                    isFormValid.email === false ? (
-                    <span className="wrong">{errorMessages.email}</span>
-                  ) : formFields.email.value !== '' &&
-                    isFormValid.email === true ? (
-                    <span className="good">{emailMessage}</span>
-                  ) : (
-                    ''
-                  )
-                }
-                color={
-                  formFields.email.value === ''
-                    ? 'perso'
-                    : isFormValid.email === false
-                    ? 'error'
-                    : 'success'
-                }
-              />
+
+              {/* Input maison, importé */}
+              <div className="MyProfile--content--firstField--inputText">
+                <Input
+                  className={`MyProfile--content--firstField--inputText--firstname MuiInputBase-input ${formFields.firstname.className}`}
+                  id="firstname"
+                  name="firstname"
+                  slot={isEditMode ? 'Prénom' : null}
+                  type="text"
+                  placeholder={member?.firstname || ''}
+                  aria-label="Prénom"
+                  value={formFields.firstname.value}
+                  disabled={!isEditMode}
+                  onChange={(event) => handleChange(event, 'firstname')}
+                  helperText={
+                    formFields.firstname.value !== '' &&
+                    isFormValid.firstname === false ? (
+                      <span className="wrong">{errorMessages.firstname}</span>
+                    ) : (
+                      ''
+                    )
+                  }
+                  color={
+                    formFields.firstname.value === ''
+                      ? 'perso'
+                      : isFormValid.firstname === false
+                      ? 'error'
+                      : 'success'
+                  }
+                />
+                <Input
+                  className={`MyProfile--content--firstField--inputText--lastname ${formFields.lastname.className}`}
+                  id="lastname"
+                  name="lastname"
+                  slot={isEditMode ? 'Nom' : null}
+                  type="text"
+                  placeholder={member?.lastname || ''}
+                  aria-label="Nom"
+                  value={formFields.lastname.value}
+                  disabled={!isEditMode}
+                  onChange={(event) => handleChange(event, 'lastname')}
+                  helperText={
+                    formFields.lastname.value !== '' &&
+                    isFormValid.lastname === false ? (
+                      <span className="wrong">{errorMessages.lastname}</span>
+                    ) : (
+                      ''
+                    )
+                  }
+                  color={
+                    formFields.lastname.value === ''
+                      ? 'perso'
+                      : isFormValid.lastname === false
+                      ? 'error'
+                      : 'success'
+                  }
+                />
+                <Input
+                  className={`MyProfile--content--firstField--inputText--pseudo ${formFields.pseudo.className}`}
+                  id="pseudo"
+                  name="pseudo"
+                  slot={isEditMode ? 'Pseudo' : null}
+                  type="text"
+                  placeholder={member?.pseudo || ''}
+                  aria-label="Pseudo"
+                  value={formFields.pseudo.value}
+                  disabled={!isEditMode}
+                  onChange={(event) => {
+                    setOldPseudo(event.target.value);
+                    handleChange(event, 'pseudo');
+                    verifyPseudo(event);
+                    checkPseudoStatus();
+                  }}
+                  helperText={
+                    formFields.pseudo.value !== '' &&
+                    pseudoStatus === 'error' ? (
+                      <span className="wrong">{pseudoMessage}</span>
+                    ) : formFields.pseudo.value !== '' &&
+                      isFormValid.pseudo === false ? (
+                      <span className="wrong">{errorMessages.pseudo}</span>
+                    ) : formFields.pseudo.value !== '' &&
+                      isFormValid.pseudo === true ? (
+                      <span className="good">{pseudoMessage}</span>
+                    ) : (
+                      ''
+                    )
+                  }
+                  color={
+                    formFields.pseudo.value === ''
+                      ? 'perso'
+                      : isFormValid.pseudo === false
+                      ? 'error'
+                      : 'success'
+                  }
+                />
+                <Input
+                  className={`MyProfile--content--firstField--inputText--email ${formFields.email.className}`}
+                  id="email"
+                  name="email"
+                  slot={isEditMode ? 'Email' : null}
+                  type="email"
+                  placeholder={member?.email || ''}
+                  aria-label="Email"
+                  value={formFields.email.value}
+                  disabled={!isEditMode}
+                  onChange={(event) => {
+                    setOldEmail(event.target.value);
+                    handleChange(event, 'email');
+                    verifyEmail(event);
+                    checkEmailStatus();
+                  }}
+                  helperText={
+                    formFields.email.value !== '' && emailStatus === 'error' ? (
+                      <span className="wrong">{emailMessage}</span>
+                    ) : formFields.email.value !== '' &&
+                      isFormValid.email === false ? (
+                      <span className="wrong">{errorMessages.email}</span>
+                    ) : formFields.email.value !== '' &&
+                      isFormValid.email === true ? (
+                      <span className="good">{emailMessage}</span>
+                    ) : (
+                      ''
+                    )
+                  }
+                  color={
+                    formFields.email.value === ''
+                      ? 'perso'
+                      : isFormValid.email === false
+                      ? 'error'
+                      : 'success'
+                  }
+                />
+              </div>
               {!isEditMode ? (
                 <Input
+                  className="MyProfile--content--firstField--password"
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Editez pour modifier"
-                  className="MyProfile--input"
+                  placeholder="Editez pour modifier le mot de passe"
                   disabled
                 />
               ) : (
                 <button
+                  className="MyProfile--content--firstField--password--button"
                   type="button"
-                  className="MyProfile--fourthField--button--delete" // TODO: A modifier (mauvaise classe)
                   onClick={handlePasswordModale}
                   disabled={!isEditMode}
                 >
@@ -646,6 +735,7 @@ function MyProfile() {
                 </button>
               )}
               <Input
+                className={`MyProfile--content--firstField--description ${formFields.description.className}`}
                 id="description"
                 name="description"
                 multiline
@@ -655,7 +745,6 @@ function MyProfile() {
                 placeholder={member?.description || ''}
                 aria-label="A propos de moi"
                 value={formFields.description.value}
-                className={`MyProfile--input ${formFields.description.className}`}
                 disabled={!isEditMode}
                 onChange={(event) => handleChange(event, 'description')}
                 helperText={
@@ -675,8 +764,11 @@ function MyProfile() {
                 }
               />
               <div className="MyProfile--content--firstField--openToWork">
-                <p>Ouvert aux projets</p>
+                <p className="MyProfile--content--firstField--openToWork--text">
+                  Disponibilité
+                </p>
                 <CustomSwitch
+                  className="MyProfile--content--firstField--openToWork--switch"
                   name="availability"
                   checked={isEditMode ? checked : member?.availability} // Si on est en mode édition, on affiche la valeur du state checked, sinon on affiche la valeur du membre
                   onChange={handleSwitch} // On appelle la fonction handleSwitch au changement de valeur du switch
@@ -685,17 +777,14 @@ function MyProfile() {
               </div>
             </fieldset>
             <fieldset className="MyProfile--content--secondField">
-              <img
-                src={`http://localhost:3000${member.picture}`}
-                alt="profil"
-                className="MyProfile--content--secondField--image"
-              />
-              <div className="MyProfile--content--secondField--technos">
-                <h4 className="MyProfile--content--secondField--technos--title">
-                  Mes technos
-                </h4>
-                <p>(1 techno minimum)</p>
-                <div className="MyProfile--content--secondField--technos--technos">
+              <div className="MyProfile--content--secondField--container">
+                <legend className="MyProfile--legend">Languages favoris</legend>
+                {isEditMode ? (
+                  <p className="MyProfile--content--secondField--container--text">
+                    (Selectionner 1 language minimum)
+                  </p>
+                ) : null}
+                <div className="MyProfile--content--secondField--container--technos">
                   {/** //! Rendu conditionnel des tags
                    * @param {boolean} isEditMode - Si on est en mode édition ou lecture
                    * @param {array} member.tags - Les tags du membre
@@ -712,7 +801,7 @@ function MyProfile() {
                       member?.tags &&
                       member.tags.map((tag) => (
                         <div
-                          className="MyProfile--content--secondField--technos--technos--group"
+                          className="MyProfile--content--secondField--container--technos--group"
                           key={tag.id}
                         >
                           <img
@@ -736,10 +825,13 @@ function MyProfile() {
                           member?.tags?.find(
                             (memberTag) => memberTag.id === tag.id // On vérifie si le tag est présent dans les tags du membre
                           ) !== undefined;
-                        const className = isMatchingTag ? 'selected' : ''; // Si le tag est présent dans les tags du membre, on ajoute la classe selected
+                        const className = isMatchingTag ? '--selected' : ''; // Si le tag est présent dans les tags du membre, on ajoute la classe selected
                         return (
                           <div
-                            className={`MyProfile--content--secondField--technos--technos--group ${className}`}
+                            className={
+                              'MyProfile--content--secondField--container--technos--group' +
+                              `${className}`
+                            }
                             role="button"
                             key={tag.id}
                             id={`tag-${tag.id}`} // Sert de référence pour la fonction handleImageClick ( permet d'ajouter ou de retirer la classe selected quand on ajoute/supprime le tag)
@@ -763,19 +855,46 @@ function MyProfile() {
             </fieldset>
             <fieldset className="MyProfile--content--thirdField">
               <div className="MyProfile--thirdField--projects">
-                <h4 className="MyProfile--thirdField--projects--title">
-                  Projets
-                </h4>
+                <legend className="MyProfile--legend">Projets</legend>
                 {/** //! Projets du membre
                  * @param {array} member.projects - Les projets du membre
                  * Si on a au moins un projet, on les affiche avec un map() sur les projets du membre
                  * Pour chaque projet, on envoie au composant <ProjectCard /> une key et le projet
                  */}
-                {member?.projects &&
-                  member.projects.length > 0 &&
-                  member.projects.map((project) => (
-                    <ProjectCard key={project.id} projectID={project} />
-                  ))}
+                {member?.projects && member.projects.length > 0 && (
+                  <Carousel
+                    // ? Paramètres du carousel
+                    responsive={responsive} // Gère des paramètres spécifiques en fonction de la taille de l'écran
+                    swipeable // Swipe sur mobile (false === interdit)
+                    draggable={false} // Drag sur mobile (false === interdit)
+                    // ? Affichage/Position des éléments
+                    // centerMode // Affiche partiellement les cartes gauches et droites
+                    showDots // Affiche les points de navigation
+                    renderDotsOutside // Affiche les points de navigation en dehors du carousel
+                    removeArrowOnDeviceType="mobile" // Supprime les flèches de navigation sur mobile
+                    renderButtonGroupOutside={false} // Affiche les boutons de navigation en dehors du carousel
+                    // ? Animations
+                    // rewind // Permet de revenir au début de la liste après la dernière carte
+                    // rewindWithAnimation // Revenir au début de la liste avec une animation
+                    infinite // Permet de revenir au début de la liste
+                    autoPlay // Défilement automatique
+                    autoPlaySpeed={7000} // Vitesse de défilement (temps entre chaque slide)
+                    customTransition="transform 2000ms ease-in-out" // Transition entre chaque slide
+                    shouldResetAutoplay // Reset l'autoplay à chaque interaction
+                    transitionDuration={2000}
+                  >
+                    {/** //! ProjectCard.tsx
+                     * @param {Object} projectID - Données du projet
+                     * @param {Number} key - Clé unique pour chaque projet
+                     * On envoie au composant ProjectCard les données de chaque projet
+                     * et une clé unique
+                     */}
+
+                    {member.projects.map((project) => (
+                      <ProjectCard key={project.id} projectID={project} />
+                    ))}
+                  </Carousel>
+                )}
               </div>
             </fieldset>
           </div>
