@@ -534,7 +534,10 @@ function MyProfile() {
       <div className="MyProfile">
         <div className="MyProfile--header">
           <div className="MyProfile--header--container">
-            <div className="MyProfile--header--container--image">
+            <div
+              className="MyProfile--header--container--image"
+              style={{ cursor: isEditMode ? 'pointer' : 'default' }} // Si isEditMode est true, on affiche le curseur pointer pour le changement d'image
+            >
               <img
                 className="MyProfile--header--container--image--profil"
                 src={`http://localhost:3000${member?.picture}`}
