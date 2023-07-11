@@ -381,14 +381,10 @@
 .ProjectCard {
     display: flex;
     flex-direction: column;
-    margin: v.$font-xsmall auto;
-    padding: 2rem 5.5rem;
-    width: 95%;
-    height: 300px; // Hauteur du carousel
-    background: v.$color-darkest;
+    background: v.$color-input;
     border-radius: v.$border-radius;
-    color: v.$color;
-    opacity: 0.9;
+    color: v.$color-darkest;
+    opacity: 1;
     &--firstField {
         &--title {
             text-align: center;
@@ -400,32 +396,135 @@
         &--technos {
             display: flex;
             justify-content: space-evenly;
-            gap: v.$font-small;
-            margin: v.$font-small;
-            & img {
-                width: v.$font-large;
-                max-width: 15%;
-                height: v.$font-large;
-            }
         }
     }
     &--thirdField {
         &--description {
             overflow: hidden;
             text-align: justify;
-            max-height: 16rem;
         }
     }
 
     @media screen and (min-width: v.$mq-large) {
+        margin: v.$font-xsmall auto;
+        padding: 2rem 5.5rem;
+        width: 95%;
+        height: 300px; // Hauteur du carousel
+        &--secondField {
+            &--technos {
+                gap: v.$font-small;
+                margin: v.$font-small;
+                & img {
+                    width: v.$font-large;
+                    max-width: 15%;
+                    height: v.$font-large;
+                }
+            }
+        }
+        &--thirdField {
+            &--description {
+                max-height: 16rem;
+            }
+        }
     }
     @media screen and (max-width: v.$mq-large) {
+        margin: v.$font-xsmall auto;
+        padding: 2rem 5.5rem;
+        width: 95%;
+        height: 250px; // Hauteur du carousel
+        &--secondField {
+            &--technos {
+                gap: v.$font-small;
+                margin: v.$font-small;
+                & img {
+                    width: v.$font-large;
+                    max-width: 15%;
+                    height: v.$font-large;
+                }
+            }
+        }
+        &--thirdField {
+            &--description {
+                max-height: 16rem;
+            }
+        }
     }
     @media screen and (max-width: v.$mq-medium) {
+        margin: v.$font-xsmall auto;
+        padding: 2rem 5rem;
+        width: 94%;
+        height: 250px; // Hauteur du carousel
+        &--secondField {
+            &--technos {
+                gap: v.$font-small;
+                margin: v.$font-small;
+                & img {
+                    width: v.$font-medium;
+                    max-width: 7%;
+                    height: v.$font-medium;
+                }
+            }
+        }
+        &--thirdField {
+            &--description {
+                max-height: 13rem;
+            }
+        }
     }
     @media screen and (max-width: v.$mq-small) {
+        &--firstField {
+            &--title {
+                font-size: v.$font-small;
+            }
+        }
+        margin: v.$font-xsmall auto;
+        padding: 2rem;
+        width: 100%;
+        height: 200px; // Hauteur du carousel
+        &--secondField {
+            &--technos {
+                gap: v.$font-medium;
+                margin: v.$font-small;
+                & img {
+                    width: v.$font-large;
+                    max-width: 6%;
+                    height: v.$font-large;
+                }
+            }
+        }
+        &--thirdField {
+            &--description {
+                max-height: 9rem;
+            }
+        }
     }
     @media screen and (max-width: v.$mq-xsmall) {
+        &--firstField {
+            &--title {
+                font-size: v.$font-xsmall;
+            }
+        }
+        margin: v.$font-xxsmall auto;
+        padding: 1rem;
+        width: 100%;
+        height: 150px; // Hauteur du carousel
+        &--secondField {
+            &--technos {
+                gap: v.$font-small;
+                margin: v.$font-xsmall;
+                & img {
+                    width: v.$font-large;
+                    max-width: 5%;
+                    height: v.$font-large;
+                }
+            }
+        }
+        &--thirdField {
+            &--description {
+                max-height: 6rem;
+                font-size: 0.7rem;
+            }
+        }
     }
 }
 
@@ -434,8 +533,26 @@
 .react-multi-carousel-list {
     position: absolute;
     width: 100%;
-    margin: v.$font-small auto;
-    height: 320px;
+    @media screen and (min-width: v.$mq-large) {
+        margin: v.$font-small auto;
+        height: 320px;
+    }
+    @media screen and (max-width: v.$mq-large) {
+        margin: v.$font-xsmall auto;
+        height: 265px;
+    }
+    @media screen and (max-width: v.$mq-medium) {
+        margin: v.$font-xsmall auto;
+        height: 265px;
+    }
+    @media screen and (max-width: v.$mq-small) {
+        margin: v.$font-xxsmall auto;
+        height: 215px;
+    }
+    @media screen and (max-width: v.$mq-xsmall) {
+        margin: v.$font-xxsmall auto;
+        height: 150px;
+    }
 }
 
 //? Un projet
@@ -446,14 +563,14 @@
         opacity: 1; // Sauf celle active
     }
 }
+
 //? Les flèches
 .react-multiple-carousel__arrow {
     position: absolute;
-    background: v.$color-darkest;
-    height: 94%;
     margin: 0 0.4rem;
-    opacity: 0.8; // Les flèches sont légèrement transparentes
-    // bottom: 10%;
+    height: 94%;
+    background: v.$color-darkest;
+    opacity: 0.7; // Les flèches sont légèrement transparentes
     &--left {
         border-radius: v.$border-radius 0 0 v.$border-radius;
         left: 2%;
@@ -464,13 +581,31 @@
     }
     &::before {
         color: v.$color;
-        font-size: v.$font-xlarge;
     }
     &:hover {
-        background: v.$color;
-        opacity: 0.5; // Sauf au survol
+        background: v.$color-dark;
+        opacity: 1; // Sauf au survol
         &::before {
-            color: v.$color-darkest;
+            color: v.$color;
         }
+    }
+    @media screen and (min-width: v.$mq-large) {
+        &::before {
+            font-size: v.$font-xlarge;
+        }
+    }
+    @media screen and (max-width: v.$mq-large) {
+        &::before {
+            font-size: v.$font-large;
+        }
+    }
+    @media screen and (max-width: v.$mq-medium) {
+        &::before {
+            font-size: v.$font-medium;
+        }
+    }
+    @media screen and (max-width: v.$mq-small) {
+    }
+    @media screen and (max-width: v.$mq-xsmall) {
     }
 }

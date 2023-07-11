@@ -87,7 +87,14 @@ function MyProfile() {
       dispatch(fetchOneMember(userIdString));
       setChecked(member?.availability); // On stocke la valeur de l'availability du membre dans le state checked
     }
-  }, [dispatch, isEditMode, userId, member?.availability, modalPassword]); // On rappelle le useEffect à chaque modification du state isEditMode et/ou userId
+  }, [
+    dispatch,
+    isEditMode,
+    userId,
+    member?.availability,
+    modalPassword,
+    member?.picture,
+  ]); // On rappelle le useEffect à chaque modification du state isEditMode et/ou userId
 
   useEffect(() => {
     // On récupère tous les tags
@@ -898,42 +905,48 @@ function MyProfile() {
               </div>
             </fieldset>
           </div>
-          <fieldset className="MyProfile--fourthField--button">
-            <div className="MyProfile--fourthField--button--group">
-              <button // ? Bouton annuler
-                onClick={handleCancelClick} // On appelle la fonction handleCancelClick au clic sur le bouton
+          <fieldset className="MyProfile--fourthField">
+            <div className="MyProfile--fourthField--container">
+              <button // ? Bouton supprimer le profil
                 type="button"
-                className={`MyProfile--fourthField--button--cancel ${
-                  // On contrôle l'affichage du bouton si on est en mode édition grâce à la classe CSS visible ou hidden
+                className={
                   isEditMode
-                    ? 'MyProfile--fourthField--button--group--visible'
-                    : 'MyProfile--fourthField--button--group--hidden'
-                }`}
-                disabled={!isEditMode}
+                    ? 'MyProfile--fourthField--container--delete'
+                    : 'hidden'
+                }
+                onClick={handleDeleteModale} // On appelle la fonction handleDeleteModale au clic sur le bouton
               >
-                Annuler
+                Supprimer le profil
               </button>
-              <button // ? Bouton modifier ou valider
-                onClick={handleEditClick}
-                type="button"
-                className={`MyProfile--fourthField--button--submit ${
-                  // On contrôle l'affichage du bouton si on est en mode édition grâce à la classe CSS updatedMode ou submittedMode
-                  isEditMode
-                    ? 'MyProfile--fourthField--button--updatedMode'
-                    : 'MyProfile--fourthField--button--submittedMode'
-                }`}
-              >
-                {isEditMode ? 'Valider' : 'Modifier mon profil'}{' '}
-                {/* On affiche le texte en fonction du mode isEditMode */}
-              </button>
+              <div className="MyProfile--fourthField--container--group">
+                <button // ? Bouton annuler
+                  onClick={handleCancelClick} // On appelle la fonction handleCancelClick au clic sur le bouton
+                  type="button"
+                  className={`MyProfile--fourthField--container--cancel ${
+                    // On contrôle l'affichage du bouton si on est en mode édition grâce à la classe CSS visible ou hidden
+                    isEditMode
+                      ? 'MyProfile--fourthField--container visible'
+                      : 'MyProfile--fourthField--container hidden'
+                  }`}
+                  disabled={!isEditMode}
+                >
+                  Annuler
+                </button>
+                <button // ? Bouton modifier ou valider
+                  onClick={handleEditClick}
+                  type="button"
+                  className={`MyProfile--fourthField--container--submit ${
+                    // On contrôle l'affichage du bouton si on est en mode édition grâce à la classe CSS updatedMode ou submittedMode
+                    isEditMode
+                      ? 'MyProfile--fourthField--container--updatedMode'
+                      : 'MyProfile--fourthField--container--submittedMode'
+                  }`}
+                >
+                  {isEditMode ? 'Valider' : 'Modifier mon profil'}{' '}
+                  {/* On affiche le texte en fonction du mode isEditMode */}
+                </button>
+              </div>
             </div>
-            <button // ? Bouton supprimer le profil
-              type="button"
-              className="MyProfile--fourthField--button--delete"
-              onClick={handleDeleteModale} // On appelle la fonction handleDeleteModale au clic sur le bouton
-            >
-              Supprimer le profil
-            </button>
           </fieldset>
         </form>
       </div>
