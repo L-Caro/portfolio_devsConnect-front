@@ -35,7 +35,7 @@ import PasswordModale from './PasswordModale/PasswordModale';
 // ? Styles
 import responsive from '../../../../../utils/CustomCarousel';
 import 'react-multi-carousel/lib/styles.css';
-import './style.scss';
+import '../style.scss';
 
 // ? Typage global
 import { TagI, MemberI } from '../../../../../@types/interface';
@@ -60,7 +60,7 @@ function MyProfile() {
   ); // On récupère les tags du membre qu'on stocke (pour la gestion de l'update)
   const [oldPseudo, setOldPseudo] = useState(''); // Ancien mot de passe
   const [oldEmail, setOldEmail] = useState(''); // Ancien mot de passe
-  const [currentPicture, setCurrentPicture] = useState({}); // Image de profil actuelle
+  const [currentPicture, setCurrentPicture] = useState({}); // Image de profil à envoyer au back
 
   const { modalDelete, modalPassword } = useAppSelector((state) => state.log); // On récupère le state modale
   const [isOpenPasswordModale, setIsOpenPasswordModale] = useState(false); // State pour la modale de modification du mot de passe
@@ -73,13 +73,24 @@ function MyProfile() {
     email: { value: '', className: '' },
     description: { value: '', className: '' },
     tags: { value: '', className: '' },
+    picture: { value: '', className: '' },
   });
   // ? useRef
   const formRef = useRef<HTMLFormElement>(null); // Utiliser pour récupérer les données du formulaire (référence au <form>)
 
   // ? useDispatch
   const dispatch = useAppDispatch();
+
   // ? useEffect
+
+  // Au chargement de la page, on reset les messages d'erreur de picture et on revient en mode lecture systématiquement
+  useEffect(() => {
+    errorMessages.picture = '';
+    if (isEditMode === true) {
+      dispatch(toggleEditMode());
+    }
+  }, []);
+
   useEffect(() => {
     // On récupère les données du membre en fonction de l'id
     if (userId) {
@@ -94,7 +105,7 @@ function MyProfile() {
     member?.availability,
     modalPassword,
     member?.picture,
-  ]); // On rappelle le useEffect à chaque modification du state isEditMode et/ou userId
+  ]); // On rappelle le useEffect à chaque modification du state
 
   useEffect(() => {
     // On récupère tous les tags
@@ -116,9 +127,19 @@ function MyProfile() {
    * On met à jour le state pour l'image de profil actuelle
    */
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    formFields.picture.value = '';
     if (event.target.files) {
       validatePicture(event.target.files[0]);
       setCurrentPicture(event.target.files[0]);
+      if (isFormValid.picture) {
+        setFormFields({
+          ...formFields,
+          picture: {
+            value: URL.createObjectURL(event.target.files[0]),
+            className: '',
+          },
+        });
+      }
     }
   };
 
@@ -141,6 +162,10 @@ function MyProfile() {
     formFields.pseudo.value = '';
     formFields.email.value = '';
     formFields.description.value = '';
+    setFormFields({
+      ...formFields,
+      picture: { value: '', className: '' },
+    });
     isFormValid.firstname = true;
     isFormValid.lastname = true;
     isFormValid.pseudo = true;
@@ -528,19 +553,24 @@ function MyProfile() {
       handleSubmit(event);
     }
   };
+  console.log('formFields', formFields.picture.value);
   // ? Rendu JSX
   return (
     <>
-      <div className="MyProfile">
-        <div className="MyProfile--header">
-          <div className="MyProfile--header--container">
+      <div className="Member">
+        <div className="Member--header">
+          <div className="Member--header--container">
             <div
-              className="MyProfile--header--container--image"
+              className="Member--header--container--image"
               style={{ cursor: isEditMode ? 'pointer' : 'default' }} // Si isEditMode est true, on affiche le curseur pointer pour le changement d'image
             >
               <img
-                className="MyProfile--header--container--image--profil"
-                src={`http://localhost:3000${member?.picture}`}
+                className="Member--header--container--image--profil"
+                src={
+                  formFields.picture.value.includes('blob')
+                    ? formFields.picture.value
+                    : `http://localhost:3000${member?.picture}`
+                }
                 alt="profil"
                 onClick={handleUploadClick}
                 onKeyDown={handleUploadClick}
@@ -549,7 +579,7 @@ function MyProfile() {
               />
               <img
                 src="/images/profil/upload.svg"
-                className={`MyProfile--header--container--image--upload ${
+                className={`Member--header--container--image--upload ${
                   isEditMode ? 'visible' : 'hidden'
                 }`}
                 alt="limité à 5Mo"
@@ -559,12 +589,12 @@ function MyProfile() {
                 tabIndex={0}
               />
             </div>
-            <h2 className="MyProfile--header--container--title">
+            <h2 className="Member--header--container--title">
               {member?.firstname} {member?.lastname}
             </h2>
           </div>
           {!isFormValid.picture && (
-            <span className="MyProfile--header--errorMessage wrong">
+            <span className="Member--header--errorMessage wrong">
               {errorMessages.picture}
             </span>
           )}
@@ -574,10 +604,10 @@ function MyProfile() {
           onSubmit={handleSubmit}
           encType="multipart/form-data"
         >
-          <div className="MyProfile--content">
-            <fieldset className="MyProfile--content--firstField">
+          <div className="Member--content">
+            <fieldset className="Member--content--firstField">
               {/* Pour chaque input, on désactive le champ si on est pas en mode édition */}
-              <legend className="MyProfile--legend">
+              <legend className="Member--legend">
                 Informations personnelles
               </legend>
               <input
@@ -589,20 +619,20 @@ function MyProfile() {
                 onChange={(event) => {
                   handleFileChange(event);
                 }}
-                className="MyProfile--content--firstField--input hidden"
+                className="Member--content--firstField--input hidden"
                 disabled={!isEditMode} // On désactive le switch si on est pas en mode édition
               />
 
               {/* Input maison, importé */}
-              <div className="MyProfile--content--firstField--inputText">
+              <div className="Member--content--firstField--inputText">
                 <Input
-                  className={`MyProfile--content--firstField--inputText--firstname MuiInputBase-input ${formFields.firstname.className}`}
                   id="firstname"
                   name="firstname"
                   slot={isEditMode ? 'Prénom' : null}
                   type="text"
                   placeholder={member?.firstname || ''}
                   aria-label="Prénom"
+                  className={`Member--content--firstField--inputText--firstname Input Input-dark ${formFields.firstname.className}`}
                   value={formFields.firstname.value}
                   disabled={!isEditMode}
                   onChange={(event) => handleChange(event, 'firstname')}
@@ -623,13 +653,13 @@ function MyProfile() {
                   }
                 />
                 <Input
-                  className={`MyProfile--content--firstField--inputText--lastname ${formFields.lastname.className}`}
                   id="lastname"
                   name="lastname"
                   slot={isEditMode ? 'Nom' : null}
                   type="text"
                   placeholder={member?.lastname || ''}
                   aria-label="Nom"
+                  className={`Member--content--firstField--inputText--lastname Input Input-dark ${formFields.lastname.className}`}
                   value={formFields.lastname.value}
                   disabled={!isEditMode}
                   onChange={(event) => handleChange(event, 'lastname')}
@@ -650,13 +680,13 @@ function MyProfile() {
                   }
                 />
                 <Input
-                  className={`MyProfile--content--firstField--inputText--pseudo ${formFields.pseudo.className}`}
                   id="pseudo"
                   name="pseudo"
                   slot={isEditMode ? 'Pseudo' : null}
                   type="text"
                   placeholder={member?.pseudo || ''}
                   aria-label="Pseudo"
+                  className={`Member--content--firstField--inputText--pseudo Input Input-dark ${formFields.pseudo.className}`}
                   value={formFields.pseudo.value}
                   disabled={!isEditMode}
                   onChange={(event) => {
@@ -688,13 +718,13 @@ function MyProfile() {
                   }
                 />
                 <Input
-                  className={`MyProfile--content--firstField--inputText--email ${formFields.email.className}`}
                   id="email"
                   name="email"
                   slot={isEditMode ? 'Email' : null}
                   type="email"
                   placeholder={member?.email || ''}
                   aria-label="Email"
+                  className={`Member--content--firstField--inputText--email Input Input-dark ${formFields.email.className}`}
                   value={formFields.email.value}
                   disabled={!isEditMode}
                   onChange={(event) => {
@@ -727,17 +757,18 @@ function MyProfile() {
               </div>
               {!isEditMode ? (
                 <Input
-                  className="MyProfile--content--firstField--password"
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Editez pour modifier le mot de passe"
+                  slot="Éditez pour modifier le mot de passe"
+                  placeholder="Éditez pour modifier le mot de passe"
+                  className="Member--content--firstField--password Input Input-dark"
                   disabled
                 />
               ) : (
                 <button
-                  className="MyProfile--content--firstField--password--button"
                   type="button"
+                  className="Member--content--firstField--password--button"
                   onClick={handlePasswordModale}
                   disabled={!isEditMode}
                 >
@@ -745,7 +776,6 @@ function MyProfile() {
                 </button>
               )}
               <Input
-                className={`MyProfile--content--firstField--description ${formFields.description.className}`}
                 id="description"
                 name="description"
                 multiline
@@ -754,6 +784,7 @@ function MyProfile() {
                 type="text"
                 placeholder={member?.description || ''}
                 aria-label="A propos de moi"
+                className={`Member--content--firstField--description Input Input-dark ${formFields.description.className}`}
                 value={formFields.description.value}
                 disabled={!isEditMode}
                 onChange={(event) => handleChange(event, 'description')}
@@ -773,12 +804,12 @@ function MyProfile() {
                     : 'success'
                 }
               />
-              <div className="MyProfile--content--firstField--openToWork">
-                <p className="MyProfile--content--firstField--openToWork--text">
+              <div className="Member--content--firstField--openToWork">
+                <p className="Member--content--firstField--openToWork--text">
                   Disponibilité
                 </p>
                 <CustomSwitch
-                  className="MyProfile--content--firstField--openToWork--switch"
+                  className="Member--content--firstField--openToWork--switch"
                   name="availability"
                   checked={isEditMode ? checked : member?.availability} // Si on est en mode édition, on affiche la valeur du state checked, sinon on affiche la valeur du membre
                   onChange={handleSwitch} // On appelle la fonction handleSwitch au changement de valeur du switch
@@ -786,15 +817,15 @@ function MyProfile() {
                 />
               </div>
             </fieldset>
-            <fieldset className="MyProfile--content--secondField">
-              <div className="MyProfile--content--secondField--container">
-                <legend className="MyProfile--legend">Languages favoris</legend>
+            <fieldset className="Member--content--secondField">
+              <div className="Member--content--secondField--container">
+                <legend className="Member--legend">Languages favoris</legend>
                 {isEditMode ? (
-                  <p className="MyProfile--content--secondField--container--text">
+                  <p className="Member--content--secondField--container--text">
                     (Selectionner 1 language minimum)
                   </p>
                 ) : null}
-                <div className="MyProfile--content--secondField--container--technos">
+                <div className="Member--content--secondField--container--technos">
                   {/** //! Rendu conditionnel des tags
                    * @param {boolean} isEditMode - Si on est en mode édition ou lecture
                    * @param {array} member.tags - Les tags du membre
@@ -811,7 +842,7 @@ function MyProfile() {
                       member?.tags &&
                       member.tags.map((tag) => (
                         <div
-                          className="MyProfile--content--secondField--container--technos--group"
+                          className="Member--content--secondField--container--technos--group"
                           key={tag.id}
                         >
                           <img
@@ -839,7 +870,7 @@ function MyProfile() {
                         return (
                           <div
                             className={
-                              'MyProfile--content--secondField--container--technos--group' +
+                              'Member--content--secondField--container--technos--group' +
                               `${className}`
                             }
                             role="button"
@@ -863,9 +894,9 @@ function MyProfile() {
                 </div>
               </div>
             </fieldset>
-            <fieldset className="MyProfile--content--thirdField">
-              <div className="MyProfile--thirdField--projects">
-                <legend className="MyProfile--legend">Projets</legend>
+            <fieldset className="Member--content--thirdField">
+              <div className="Member--thirdField--projects">
+                <legend className="Member--legend">Projets</legend>
                 {/** //! Projets du membre
                  * @param {array} member.projects - Les projets du membre
                  * Si on a au moins un projet, on les affiche avec un map() sur les projets du membre
@@ -908,28 +939,28 @@ function MyProfile() {
               </div>
             </fieldset>
           </div>
-          <fieldset className="MyProfile--fourthField">
-            <div className="MyProfile--fourthField--container">
+          <fieldset className="Member--fourthField">
+            <div className="Member--fourthField--container">
               <button // ? Bouton supprimer le profil
                 type="button"
                 className={
                   isEditMode
-                    ? 'MyProfile--fourthField--container--delete'
+                    ? 'Member--fourthField--container--delete'
                     : 'hidden'
                 }
                 onClick={handleDeleteModale} // On appelle la fonction handleDeleteModale au clic sur le bouton
               >
                 Supprimer le profil
               </button>
-              <div className="MyProfile--fourthField--container--group">
+              <div className="Member--fourthField--container--group">
                 <button // ? Bouton annuler
                   onClick={handleCancelClick} // On appelle la fonction handleCancelClick au clic sur le bouton
                   type="button"
-                  className={`MyProfile--fourthField--container--cancel ${
+                  className={`Member--fourthField--container--cancel ${
                     // On contrôle l'affichage du bouton si on est en mode édition grâce à la classe CSS visible ou hidden
                     isEditMode
-                      ? 'MyProfile--fourthField--container visible'
-                      : 'MyProfile--fourthField--container hidden'
+                      ? 'Member--fourthField--container visible'
+                      : 'Member--fourthField--container hidden'
                   }`}
                   disabled={!isEditMode}
                 >
@@ -938,11 +969,11 @@ function MyProfile() {
                 <button // ? Bouton modifier ou valider
                   onClick={handleEditClick}
                   type="button"
-                  className={`MyProfile--fourthField--container--submit ${
+                  className={`Member--fourthField--container--submit ${
                     // On contrôle l'affichage du bouton si on est en mode édition grâce à la classe CSS updatedMode ou submittedMode
                     isEditMode
-                      ? 'MyProfile--fourthField--container--updatedMode'
-                      : 'MyProfile--fourthField--container--submittedMode'
+                      ? 'Member--fourthField--container--updatedMode'
+                      : 'Member--fourthField--container--submittedMode'
                   }`}
                 >
                   {isEditMode ? 'Valider' : 'Modifier mon profil'}{' '}

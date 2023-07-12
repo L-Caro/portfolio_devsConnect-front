@@ -3,83 +3,150 @@
 
 // ! Style pour les erreurs/succès de formulaire
 //? Container d'input
-.MuiInputBase-root {
-    background-color: v.$color-input;
-    & input,
-    & textarea {
-        color: v.$color-darkest;
-        font-weight: 700;
-        &::placeholder {
-            opacity: 1;
-        }
-    }
-    @media screen and (min-width: v.$mq-large) {
-        & input,
-        & textarea {
-            font-size: 1.3rem;
 
-            &::placeholder {
-                font-size: v.$font-small;
-            }
-        }
-    }
-    @media screen and (max-width: v.$mq-large) {
-        & input,
-        & textarea {
-            font-size: 1.2rem;
-
-            &::placeholder {
-                font-size: v.$font-small;
-            }
-        }
-    }
-    @media screen and (max-width: v.$mq-medium) {
-        & input,
-        & textarea {
-            font-size: 1.1rem;
-
-            &::placeholder {
-                font-size: v.$font-xsmall;
-            }
-        }
-    }
-    @media screen and (max-width: v.$mq-small) {
-        & input,
-        & textarea {
-            font-size: 1rem;
-
-            &::placeholder {
-                font-size: v.$font-xsmall;
-            }
-        }
-    }
-}
-
-// Couleur plus clair dans le formulaire d'inscription
-.Signin--input {
+.Input {
     .MuiInputBase-root {
         & input,
         & textarea {
-            color: #d3d3d3;
+            font-weight: 700;
             &::placeholder {
-                color: #d3d3d3;
+                opacity: 1;
+            }
+        }
+        @media screen and (min-width: v.$mq-large) {
+            & input,
+            & textarea {
+                font-size: 1.3rem;
+
+                &::placeholder {
+                    font-size: 1.3rem;
+                }
+            }
+        }
+        @media screen and (max-width: v.$mq-large) {
+            & input,
+            & textarea {
+                font-size: 1.2rem;
+
+                &::placeholder {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+        @media screen and (max-width: v.$mq-medium) {
+            & input,
+            & textarea {
+                font-size: 1.1rem;
+
+                &::placeholder {
+                    font-size: 1.1rem;
+                }
+            }
+        }
+        @media screen and (max-width: v.$mq-small) {
+            & input,
+            & textarea {
+                font-size: 1rem;
+
+                &::placeholder {
+                    font-size: 1rem;
+                }
+            }
+        }
+        @media screen and (max-width: v.$mq-xsmall) {
+            & input,
+            & textarea {
+                font-size: 0.9rem;
+
+                &::placeholder {
+                    font-size: 0.9rem;
+                }
             }
         }
     }
-    .MuiInputBase-inputMultiline {
-        &::placeholder {
-            color: #d3d3d3;
+    //? Label
+    .MuiFormLabel-root {
+        @media screen and (min-width: v.$mq-large) {
+            font-size: 1.3rem;
+        }
+        @media screen and (max-width: v.$mq-large) {
+            font-size: 1.2rem;
+        }
+        @media screen and (max-width: v.$mq-medium) {
+            font-size: 1.1rem;
+        }
+        @media screen and (max-width: v.$mq-small) {
+            font-size: 1rem;
+        }
+        @media screen and (max-width: v.$mq-xsmall) {
+            font-size: 0.9rem;
         }
     }
-
     .MuiSvgIcon-root {
-        color: #d3d3d3;
+        cursor: pointer;
     }
 }
 
-//? Icône d'ceil pour afficher le mot de passe
-.MuiSvgIcon-root {
-    cursor: pointer;
+.Input-dark {
+    .MuiInputBase-root {
+        background-color: v.$color-input;
+        & input,
+        & textarea {
+            color: v.$color-darkest;
+            &::placeholder {
+                color: v.$color-darkest;
+            }
+        }
+    }
+
+    //? Textarea
+    .MuiInputBase-inputMultiline {
+        &::placeholder {
+            color: v.$color-darkest;
+        }
+    }
+
+    //? Label
+    .MuiFormLabel-root {
+        color: v.$color-darkest;
+    }
+
+    //? Icône d'ceil pour afficher le mot de passe
+    .MuiSvgIcon-root {
+        color: v.$color-darkest;
+    }
+}
+
+//! Couleur plus clair dans les modales
+.Input-light {
+    background-color: v.$color-input;
+    border-radius: v.$border-radius;
+    .MuiInputBase-root {
+        & input,
+        & textarea {
+            color: v.$color;
+            &::placeholder {
+                color: v.$color;
+            }
+        }
+    }
+
+    //? Textarea
+    .MuiInputBase-inputMultiline {
+        &::placeholder {
+            color: v.$color;
+        }
+    }
+
+    //? Label
+    .MuiFormLabel-root {
+        color: v.$color;
+    }
+
+    //? Icône d'ceil pour afficher le mot de passe
+    .MuiSvgIcon-root {
+        color: v.$color;
+    }
 }
 
 .wrong {

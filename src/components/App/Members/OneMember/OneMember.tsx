@@ -69,8 +69,8 @@ function OneMember() {
 
   // ? Rendu JSX
   return (
-    <div className="MyProfile">
-      <div className="MyProfile--return">
+    <div className="Member">
+      <div className="Member--return">
         {/** //! Retour
          * @param {Function} navigate - Permet de naviguer entre les pages
          * On envoie au composant la fonction navigate
@@ -80,30 +80,28 @@ function OneMember() {
           Retour
         </button>
       </div>
-      <div className="MyProfile--header">
-        <div className="MyProfile--header--container">
-          <div className="MyProfile--header--container--image">
+      <div className="Member--header">
+        <div className="Member--header--container">
+          <div className="Member--header--container--image">
             <img
-              className="MyProfile--header--container--image--profil"
+              className="Member--header--container--image--profil"
               src={`http://localhost:3000${member?.picture}`}
               alt="profil"
             />
-            <div className="MyProfile--header--container--image--contact">
+            <div className="Member--header--container--image--contact">
               <a href={`mailto:${member.email}`}>Me contacter</a>
             </div>
           </div>
-          <h2 className="MyProfile--header--container--title">
+          <h2 className="Member--header--container--title">
             {member?.firstname} {member?.lastname}
           </h2>
         </div>
       </div>
-      <div className="MyProfile--content">
-        <fieldset className="MyProfile--content--firstField">
+      <div className="Member--content">
+        <fieldset className="Member--content--firstField">
           {/* Pour chaque input, on désactive le champ si on est pas en mode édition */}
-          <legend className="MyProfile--legend">
-            Informations personnelles
-          </legend>
-          <div className="MyProfile--content--firstField--openToWork--reading">
+          <legend className="Member--legend">Informations personnelles</legend>
+          <div className="Member--content--firstField--openToWork--reading">
             <p className={member.availability ? 'open' : 'close'}>
               {/* On ajoute une classe pour css en fonction de availability */}{' '}
               {member.availability
@@ -112,19 +110,19 @@ function OneMember() {
               {/* On affiche un texte en fonction de availability */}
             </p>
           </div>
-          <div className="MyProfile--content--firstField--description--reading">
+          <div className="Member--content--firstField--description--reading">
             {member.description}
           </div>
         </fieldset>
-        <fieldset className="MyProfile--content--secondField">
-          <div className="MyProfile--content--secondField--container">
-            <legend className="MyProfile--legend">Languages favoris</legend>
+        <fieldset className="Member--content--secondField">
+          <div className="Member--content--secondField--container">
+            <legend className="Member--legend">Languages favoris</legend>
 
-            <div className="MyProfile--content--secondField--container--technos">
+            <div className="Member--content--secondField--container--technos">
               {member?.tags &&
                 member.tags.map((tag) => (
                   <div
-                    className="MyProfile--content--secondField--container--technos--group"
+                    className="Member--content--secondField--container--technos--group"
                     key={tag.id}
                   >
                     <img
@@ -138,9 +136,9 @@ function OneMember() {
             </div>
           </div>
         </fieldset>
-        <fieldset className="MyProfile--content--thirdField">
-          <div className="MyProfile--thirdField--projects">
-            <legend className="MyProfile--legend">Projets</legend>
+        <fieldset className="Member--content--thirdField">
+          <div className="Member--thirdField--projects">
+            <legend className="Member--legend">Projets</legend>
             {/** //! Projets du membre
              * @param {array} member.projects - Les projets du membre
              * Si on a au moins un projet, on les affiche avec un map() sur les projets du membre

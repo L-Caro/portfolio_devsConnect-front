@@ -239,7 +239,8 @@ export const validatePicture = (filename) => {
   ) {
     isFormValid.picture = true;
   } else if (filename.size > 5 * 1024 * 1024) {
-    errorMessages.picture = "La taille de l'image ne doit pas dépasser 5Mo";
+    errorMessages.picture =
+      'La taille de la photo de profil ne doit pas dépasser 5Mo';
     isFormValid.picture = false;
   } else {
     errorMessages.picture = 'Mauvais format de photo';

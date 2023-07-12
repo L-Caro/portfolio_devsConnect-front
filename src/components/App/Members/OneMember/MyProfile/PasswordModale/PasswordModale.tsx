@@ -60,7 +60,7 @@ function PasswordModale(selectedTags: string[]) {
         // On précise que modalRef.current éun element html (Element)
         // On précise que event.target représente un noeud du DOM (Node)
       ) {
-        dispatch(modalPassword());
+        dispatch(toggleModalPassword());
       }
     };
 
@@ -286,7 +286,9 @@ function PasswordModale(selectedTags: string[]) {
     <div className="PasswordModale">
       <div className="PasswordModale--container" ref={modalRef}>
         <div className="PasswordModale--container--head">
-          <h2 className="PasswordModale--title">Changement de mot de passe</h2>
+          <h2 className="PasswordModale--title">
+            Modification du mot de passe
+          </h2>
           <div
             /** //? Bouton fermer la modale
              * @param {boolean} modalPassword - État de la modale
@@ -308,101 +310,105 @@ function PasswordModale(selectedTags: string[]) {
 
         <form onSubmit={handleSubmit} className="PasswordModale--form">
           <div className="PasswordModale--form--submit">
-            <Input
-              id="oldPassword"
-              name="password"
-              slot="Ancien mot de passe"
-              type="password"
-              placeholder="*****"
-              aria-label="Ancien mot de passe"
-              value={formFields.oldPassword.value}
-              className={`MyProfile--input ${formFields.oldPassword.className}`}
-              onChange={(event) => {
-                checkPasswordStatus();
-                verifyPassword(event);
-                handleChange(event, 'oldPassword');
-              }}
-              helperText={
-                formFields.oldPassword.value !== '' &&
-                isFormValid.oldPassword === false ? (
-                  <span className="wrong">{errorMessages.oldPassword}</span>
-                ) : (
-                  ''
-                )
-              }
-              color={
-                formFields.oldPassword.value === ''
-                  ? 'perso'
-                  : isFormValid.oldPassword === false
-                  ? 'error'
-                  : 'success'
-              }
-            />
+            <div className="PasswordModale--form--submit--inputs">
+              <Input
+                id="oldPassword"
+                name="password"
+                slot="Ancien mot de passe"
+                type="password"
+                placeholder="*****"
+                aria-label="Ancien mot de passe"
+                value={formFields.oldPassword.value}
+                className={`PasswordModale--form--submit--inputs--input Input Input-light ${formFields.oldPassword.className}`}
+                onChange={(event) => {
+                  checkPasswordStatus();
+                  verifyPassword(event);
+                  handleChange(event, 'oldPassword');
+                }}
+                helperText={
+                  formFields.oldPassword.value !== '' &&
+                  isFormValid.oldPassword === false ? (
+                    <span className="wrong">{errorMessages.oldPassword}</span>
+                  ) : (
+                    ''
+                  )
+                }
+                color={
+                  formFields.oldPassword.value === ''
+                    ? 'lightestPerso'
+                    : isFormValid.oldPassword === false
+                    ? 'error'
+                    : 'success'
+                }
+              />
 
-            <Input
-              id="newPassword"
-              name="password"
-              slot="Nouveau mot de passe"
-              type="password"
-              placeholder="*****"
-              aria-label="Nouveau mot de passe"
-              value={formFields.newPassword.value}
-              className={`MyProfile--input ${formFields.newPassword.className}`}
-              onChange={(event) => handleChange(event, 'newPassword')}
-              helperText={
-                formFields.newPassword.value !== '' &&
-                isFormValid.newPassword === false ? (
-                  <span className="wrong">{errorMessages.newPassword}</span>
-                ) : (
-                  ''
-                )
-              }
-              color={
-                formFields.newPassword.value === ''
-                  ? 'perso'
-                  : isFormValid.newPassword === false
-                  ? 'error'
-                  : 'success'
-              }
-            />
-            <Input
-              id="confirmPassword"
-              name="password"
-              slot="Confirmation du mot de passe"
-              type="password"
-              placeholder="*****"
-              aria-label="Confirmation du mot de passe"
-              value={formFields.confirmPassword.value}
-              className={`MyProfile--input ${formFields.confirmPassword.className}`}
-              onChange={(event) => handleChange(event, 'confirmPassword')}
-              helperText={
-                formFields.confirmPassword.value !== '' &&
-                isFormValid.confirmPassword === false ? (
-                  <span className="wrong">{errorMessages.confirmPassword}</span>
-                ) : (
-                  ''
-                )
-              }
-              color={
-                formFields.confirmPassword.value === ''
-                  ? 'perso'
-                  : isFormValid.confirmPassword === false
-                  ? 'error'
-                  : 'success'
-              }
-            />
+              <Input
+                id="newPassword"
+                name="password"
+                slot="Nouveau mot de passe"
+                type="password"
+                placeholder="*****"
+                aria-label="Nouveau mot de passe"
+                value={formFields.newPassword.value}
+                className={`PasswordModale--form--submit--inputs--input Input Input-light ${formFields.newPassword.className}`}
+                onChange={(event) => handleChange(event, 'newPassword')}
+                helperText={
+                  formFields.newPassword.value !== '' &&
+                  isFormValid.newPassword === false ? (
+                    <span className="wrong">{errorMessages.newPassword}</span>
+                  ) : (
+                    ''
+                  )
+                }
+                color={
+                  formFields.newPassword.value === ''
+                    ? 'lightestPerso'
+                    : isFormValid.newPassword === false
+                    ? 'error'
+                    : 'success'
+                }
+              />
+              <Input
+                id="confirmPassword"
+                name="password"
+                slot="Confirmation du mot de passe"
+                type="password"
+                placeholder="*****"
+                aria-label="Confirmation du mot de passe"
+                value={formFields.confirmPassword.value}
+                className={`PasswordModale--form--submit--inputs--input Input Input-light ${formFields.confirmPassword.className}`}
+                onChange={(event) => handleChange(event, 'confirmPassword')}
+                helperText={
+                  formFields.confirmPassword.value !== '' &&
+                  isFormValid.confirmPassword === false ? (
+                    <span className="wrong">
+                      {errorMessages.confirmPassword}
+                    </span>
+                  ) : (
+                    ''
+                  )
+                }
+                color={
+                  formFields.confirmPassword.value === ''
+                    ? 'lightestPerso'
+                    : isFormValid.confirmPassword === false
+                    ? 'error'
+                    : 'success'
+                }
+              />
+            </div>
+            <button
+              type="submit"
+              className="PasswordModale--form--submit--confirm"
+            >
+              Modifier le mot de passe
+            </button>
             <button
               type="button"
               onClick={handlePasswordModale}
               className="PasswordModale--form--submit--cancel"
             >
               Annuler
-            </button>
-            <button
-              type="submit"
-              className="PasswordModale--form--submit--confirm"
-            >
-              Modifier le mot de passe
             </button>
           </div>
         </form>

@@ -17,10 +17,6 @@ const customThemeMUI = createTheme({
       main: '#D3D3D3',
       contrastText: '#454545',
     },
-    neutral: {
-      main: '#64748B',
-      contrastText: '#fff',
-    },
   },
   components: {
     MuiOutlinedInput: {

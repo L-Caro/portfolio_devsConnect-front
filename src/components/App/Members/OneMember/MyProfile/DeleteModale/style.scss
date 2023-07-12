@@ -3,16 +3,7 @@
 
 .DeleteModale {
     //? Modale
-    @include m.flex-center; // mixin pour flex center auto
-    position: fixed; // position fixed pour que le formulaire reste prenne tout l'écran
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); // Pour centrer le formulaire
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(0.3rem);
-    background-color: rgba(0, 0, 0, 0.6); // Effet de transparence
-    z-index: 9999; // Au dessus de tout
+    @include m.modale; // mixin pour centrer le formulaire
 
     //? Entête et formulaire
     &--container {
@@ -27,15 +18,7 @@
     }
     //? Croix de fermeture
     &--close {
-        position: absolute; // Position absolute pour sortir du flux
-        top: v.$font-small;
-        right: v.$font-small;
-        padding: 0 v.$font-xsmall;
-        border: 0.3rem solid v.$color;
-        border-radius: 50%;
-        color: v.$color;
-        cursor: pointer;
-        font-size: 1.5em;
+        @include m.close-modale; // mixin pour positionner la croix
     }
     //? Formulaire
     &--form {
