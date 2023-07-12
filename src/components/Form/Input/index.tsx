@@ -60,14 +60,14 @@ function Input({ name, placeholder, slot, ...props }: InputProps) {
         {...props}
         type={
           (slot === 'Mot de passe' && showPassword) ||
-          (slot === 'Confirmation du mot de passe' && showPassword) ||
-          (slot === 'Ancien mot de passe' && showPassword) ||
-          (slot === 'Nouveau mot de passe' && showPassword)
+          (slot === 'Confirmation' && showPassword) ||
+          (slot === 'Anciene' && showPassword) ||
+          (slot === 'Nouveau' && showPassword)
             ? 'text'
             : (slot === 'Mot de passe' && !showPassword) ||
-              (slot === 'Confirmation du mot de passe' && !showPassword) ||
-              (slot === 'Ancien mot de passe' && !showPassword) ||
-              (slot === 'Nouveau mot de passe' && !showPassword)
+              (slot === 'Confirmation' && !showPassword) ||
+              (slot === 'Ancien' && !showPassword) ||
+              (slot === 'Nouveau' && !showPassword)
             ? 'password'
             : slot === 'Photo de profil'
             ? 'file'
@@ -76,9 +76,9 @@ function Input({ name, placeholder, slot, ...props }: InputProps) {
         sx={{ margin: '1rem auto' }}
         InputProps={
           slot === 'Mot de passe' ||
-          slot === 'Confirmation du mot de passe' ||
-          slot === 'Ancien mot de passe' ||
-          slot === 'Nouveau mot de passe'
+          slot === 'Confirmation' ||
+          slot === 'Ancien' ||
+          slot === 'Nouveau'
             ? {
                 endAdornment: (
                   <InputAdornment

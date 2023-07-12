@@ -92,10 +92,10 @@ function DeleteModale() {
 
   // ? Rendu JSX
   return (
-    <div className="DeleteModale">
-      <div className="DeleteModale--container" ref={modalRef}>
-        <div className="DeleteModale--container--head">
-          <h2 className="DeleteModale--title">Suppression</h2>
+    <div className="Modale">
+      <div className="Modale--container" ref={modalRef}>
+        <div className="Modale--container--head">
+          <h2 className="Modale--title">Suppression du compte</h2>
           <div
             /** //? Bouton fermer la modale
              * @param {boolean} deleteModale - État de la modale
@@ -105,7 +105,7 @@ function DeleteModale() {
              * On ajoute tabindex={0} pour le rendre focusable.
              * et une fonction de déclenchement au clic ou au clavier
              */
-            className="DeleteModale--close"
+            className="Modale--close"
             role="button" // On précise que c'est un bouton
             tabIndex={0} // On précise que c'est un élément focusable
             onClick={handleDeleteModale}
@@ -115,22 +115,23 @@ function DeleteModale() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="DeleteModale--form">
-          <h3>Voulez-vous vraiment supprimer votre compte ?</h3>
-          <p>(Attention, cette action est irréversible.)</p>
-          <div className="DeleteModale--form--submit">
+        <form onSubmit={handleSubmit} className="Modale--form">
+          <h3 className="Modale--form--subtitle">
+            Voulez-vous vraiment supprimer votre compte ?
+          </h3>
+          <p className="Modale--form--text">
+            (Attention, cette action est irréversible.)
+          </p>
+          <div className="Modale--form--submit">
+            <button type="submit" className="Modale--form--submit--delete">
+              Supprimer mon compte
+            </button>
             <button
               type="button"
               onClick={handleDeleteModale}
-              className="DeleteModale--form--submit--cancel"
+              className="Modale--form--submit--cancel"
             >
               Annuler
-            </button>
-            <button
-              type="submit"
-              className="DeleteModale--form--submit--confirm"
-            >
-              Supprimer mon compte
             </button>
           </div>
         </form>

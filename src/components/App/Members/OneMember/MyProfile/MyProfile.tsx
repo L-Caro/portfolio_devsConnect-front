@@ -221,7 +221,7 @@ function MyProfile() {
         const tagElement = document.getElementById(`tag-${selectedTag.id}`); // On cible l'element par son id spécifique
         if (tagElement)
           tagElement.className =
-            'MyProfile--content--secondField--container--technos--group'; // Si on trouve l'element avec l'id de selectedTag, on retire la classe `selected`
+            'Member--content--secondField--container--technos--group'; // Si on trouve l'element avec l'id de selectedTag, on retire la classe `selected`
       } else {
         // ? Le tag n'est pas sélectionné
         // On l'ajoute en concaténant selectedTags et selectedTag dans updatedTags (spread operator)
@@ -239,7 +239,7 @@ function MyProfile() {
         const tagElement = document.getElementById(`tag-${selectedTag.id}`); // On cible l'element par son id spécifique
         if (tagElement)
           tagElement.className =
-            'MyProfile--content--secondField--container--technos--group--selected'; // Si on trouve l'element avec l'id de selectedTag, on retire la classe `selected`
+            'Member--content--secondField--container--technos--group--selected'; // Si on trouve l'element avec l'id de selectedTag, on retire la classe `selected`
 
         // if (tagElement) tagElement.classList.add('--selected'); // Si on trouve l'element avec l'id de selectedTag, on ajoute la classe `selected`
       }
@@ -396,7 +396,7 @@ function MyProfile() {
 
     // inputs
     const inputs = formRef.current
-      ? formRef.current.querySelectorAll('.MyProfile--input') // On cible tous les inputs du formulaire
+      ? formRef.current.querySelectorAll('input') // On cible tous les inputs du formulaire
       : null;
 
     const firstname = document.querySelector('#firstname') as HTMLInputElement;
@@ -432,8 +432,17 @@ function MyProfile() {
       }
     });
 
+    const validProfile = [
+      isFormValid.firstname,
+      isFormValid.lastname,
+      isFormValid.pseudo,
+      isFormValid.email,
+      isFormValid.description,
+      isFormValid.tags,
+      isFormValid.picture,
+    ];
     // On compte le nombre de false dans isFormValid
-    const falseFieldCount = Object.values(isFormValid).filter(
+    const falseFieldCount = Object.values(validProfile).filter(
       (value) => value === false
     ).length;
 
@@ -479,7 +488,6 @@ function MyProfile() {
         // Vérifiez si `name` est une clé valide de `MemberI`
         if (member && name in member) {
           const memberValue = member[name as keyof MemberI]; // Obtenez la valeur actuelle de `name` dans `objData`
-
           // Si la valeur est différente d'une string vide et de la valeur initiale, on l'ajoute à formData et à objData
           if (value !== '' && value !== memberValue) {
             formData.append(name, value);
@@ -531,7 +539,7 @@ function MyProfile() {
         // On dispatch l'action updateMember avec l'id du membre et les données du formulaire
         updateMember({
           id: userId,
-          objData: { availability: checked, ...objData }, // Dans formData, on ajoute la valeur de checked et on ajoute les données du formulaire (objData)
+          objData: { ...objData }, // Dans formData, on ajoute la valeur de checked et on ajoute les données du formulaire (objData)
         })
       );
     }
@@ -553,7 +561,6 @@ function MyProfile() {
       handleSubmit(event);
     }
   };
-  console.log('formFields', formFields.picture.value);
   // ? Rendu JSX
   return (
     <>
@@ -632,7 +639,9 @@ function MyProfile() {
                   type="text"
                   placeholder={member?.firstname || ''}
                   aria-label="Prénom"
-                  className={`Member--content--firstField--inputText--firstname Input Input-dark ${formFields.firstname.className}`}
+                  className={`Member--content--firstField--inputText--firstname Input ${
+                    formFields.firstname.className
+                  } ${isEditMode ? 'Input-dark' : ''}`}
                   value={formFields.firstname.value}
                   disabled={!isEditMode}
                   onChange={(event) => handleChange(event, 'firstname')}
@@ -659,7 +668,9 @@ function MyProfile() {
                   type="text"
                   placeholder={member?.lastname || ''}
                   aria-label="Nom"
-                  className={`Member--content--firstField--inputText--lastname Input Input-dark ${formFields.lastname.className}`}
+                  className={`Member--content--firstField--inputText--lastname Input ${
+                    formFields.lastname.className
+                  } ${isEditMode ? 'Input-dark' : ''}`}
                   value={formFields.lastname.value}
                   disabled={!isEditMode}
                   onChange={(event) => handleChange(event, 'lastname')}
@@ -686,7 +697,9 @@ function MyProfile() {
                   type="text"
                   placeholder={member?.pseudo || ''}
                   aria-label="Pseudo"
-                  className={`Member--content--firstField--inputText--pseudo Input Input-dark ${formFields.pseudo.className}`}
+                  className={`Member--content--firstField--inputText--pseudo Input ${
+                    formFields.pseudo.className
+                  } ${isEditMode ? 'Input-dark' : ''}`}
                   value={formFields.pseudo.value}
                   disabled={!isEditMode}
                   onChange={(event) => {
@@ -724,7 +737,9 @@ function MyProfile() {
                   type="email"
                   placeholder={member?.email || ''}
                   aria-label="Email"
-                  className={`Member--content--firstField--inputText--email Input Input-dark ${formFields.email.className}`}
+                  className={`Member--content--firstField--inputText--email Input ${
+                    formFields.email.className
+                  } ${isEditMode ? 'Input-dark' : ''}`}
                   value={formFields.email.value}
                   disabled={!isEditMode}
                   onChange={(event) => {
@@ -762,7 +777,7 @@ function MyProfile() {
                   type="password"
                   slot="Éditez pour modifier le mot de passe"
                   placeholder="Éditez pour modifier le mot de passe"
-                  className="Member--content--firstField--password Input Input-dark"
+                  className="Member--content--firstField--password Input"
                   disabled
                 />
               ) : (
@@ -780,11 +795,13 @@ function MyProfile() {
                 name="description"
                 multiline
                 rows={5}
-                slot={isEditMode ? 'A propos de moi' : null}
+                slot={isEditMode ? 'Description' : null}
                 type="text"
                 placeholder={member?.description || ''}
                 aria-label="A propos de moi"
-                className={`Member--content--firstField--description Input Input-dark ${formFields.description.className}`}
+                className={`Member--content--firstField--description Input ${
+                  formFields.description.className
+                } ${isEditMode ? 'Input-dark' : ''}`}
                 value={formFields.description.value}
                 disabled={!isEditMode}
                 onChange={(event) => handleChange(event, 'description')}
@@ -993,7 +1010,7 @@ function MyProfile() {
        */}
       {modalPassword && (
         <PasswordModale
-          selectedTags={selectedTags} // Obligé de renvoyer les tags, sinon ils disparaissent
+          props={selectedTags} // Obligé de renvoyer les tags, sinon ils disparaissent
         />
       )}
     </>

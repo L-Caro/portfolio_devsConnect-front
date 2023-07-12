@@ -1,7 +1,7 @@
 @use '../../../../../../styles/variables' as v;
 @use '../../../../../../styles/mixins' as m; // @include pour utiliser
 
-.PasswordModale {
+.Modale {
     //? Modale
     @include m.modale; // mixin pour centrer le formulaire
     color: v.$color;
@@ -9,17 +9,13 @@
     //? Entête et formulaire
     &--container {
         position: relative; // Pour positionner le bouton close en absolute
-        padding: v.$font-xlarge;
-        max-width: 70rem; // Largeur max de la modale
         background: rgba(v.$color-darkest, 0.9); // Effet de transparence
         text-align: center;
     }
     //? Titre
     & h2 {
-        margin: v.$font-medium auto;
         text-decoration: underline;
         color: v.$color;
-        font-size: v.$font-large;
     }
     //? Croix de fermeture
     &--close {
@@ -31,23 +27,15 @@
         &--submit {
             display: flex;
             flex-direction: column;
-            margin-top: v.$font-small;
             &--inputs {
                 display: flex;
                 flex-direction: column;
                 margin: 0 auto;
-                width: 90%;
-                &--input {
-                    width: 80%;
-                }
             }
             &--cancel,
-            &--confirm {
+            &--confirm,
+            &--delete {
                 display: block;
-                margin: 0 auto;
-                margin-top: v.$font-small; // Pour espacer les boutons verticalement
-                padding: v.$font-xsmall v.$font-medium;
-                width: 55%;
                 border-radius: v.$border-radius;
                 font-weight: 700;
                 cursor: pointer;
@@ -62,16 +50,227 @@
                 color: v.$color;
                 border: 0.2rem solid v.$color;
             }
+            &--delete {
+                background-color: rgb(125, 26, 26);
+                color: v.$color;
+                border: 0.2rem solid v.$color;
+            }
         }
     }
     @media screen and (min-width: v.$mq-large) {
+        //? Entête et formulaire
+        &--container {
+            padding: v.$font-xlarge;
+            width: 70rem; // Largeur max de la modale
+        }
+        //? Titre
+        & h2 {
+            margin: v.$font-medium auto;
+            font-size: v.$font-large;
+        }
+        //? Formulaire
+        &--form {
+            //? Sosu-titres
+            &--subtitle {
+                font-size: v.$font-medium;
+            }
+            &--text {
+                font-size: v.$font-small;
+            }
+            //? Bouton submit
+            &--submit {
+                margin-top: v.$font-small;
+                &--inputs {
+                    width: 90%;
+                    &--input {
+                        width: 90%;
+                    }
+                }
+                &--cancel,
+                &--confirm,
+                &--delete {
+                    margin: 0 auto;
+                    margin-top: v.$font-small; // Pour espacer les boutons verticalement
+                    padding: v.$font-small v.$font-medium;
+                    width: 55%;
+                }
+            }
+        }
     }
     @media screen and (max-width: v.$mq-large) {
+        //? Entête et formulaire
+        &--container {
+            padding: v.$font-xlarge;
+            width: 65rem; // Largeur max de la modale
+        }
+        //? Titre
+        & h2 {
+            margin: v.$font-large auto;
+            font-size: v.$font-large;
+        }
+        //? Formulaire
+        &--form {
+            //? Sosu-titres
+            &--subtitle {
+                font-size: v.$font-medium;
+            }
+            &--text {
+                font-size: v.$font-small;
+            }
+            //? Bouton submit
+            &--submit {
+                margin-top: v.$font-small;
+                &--inputs {
+                    width: 100%;
+                    &--input {
+                        width: 90%;
+                    }
+                }
+                &--cancel,
+                &--confirm,
+                &--delete {
+                    margin: 0 auto;
+                    margin-top: v.$font-small; // Pour espacer les boutons verticalement
+                    padding: v.$font-small v.$font-medium;
+                    width: 85%;
+                    font-size: v.$font-small;
+                }
+                &--confirm {
+                    margin-top: v.$font-large;
+                }
+            }
+        }
     }
     @media screen and (max-width: v.$mq-medium) {
+        //? Entête et formulaire
+        &--container {
+            padding: v.$font-xlarge;
+            width: 50rem; // Largeur max de la modale
+        }
+        //? Titre
+        & h2 {
+            margin: v.$font-large auto;
+            font-size: v.$font-medium;
+        }
+        //? Formulaire
+        &--form {
+            //? Sosu-titres
+            &--subtitle {
+                font-size: v.$font-small;
+            }
+            &--text {
+                font-size: v.$font-xsmall;
+            }
+            //? Bouton submit
+            &--submit {
+                margin-top: v.$font-small;
+                &--inputs {
+                    width: 100%;
+                    &--input {
+                        width: 90%;
+                    }
+                }
+                &--cancel,
+                &--confirm,
+                &--delete {
+                    margin: 0 auto;
+                    margin-top: v.$font-small; // Pour espacer les boutons verticalement
+                    padding: v.$font-small v.$font-medium;
+                    width: 85%;
+                    font-size: v.$font-small;
+                }
+                &--confirm {
+                    margin-top: v.$font-large;
+                }
+            }
+        }
     }
     @media screen and (max-width: v.$mq-small) {
+        //? Entête et formulaire
+        &--container {
+            padding: v.$font-medium;
+            width: 100%; // Largeur max de la modale
+        }
+        //? Titre
+        & h2 {
+            margin: v.$font-xlarge auto;
+            font-size: v.$font-small + 0.3;
+        }
+        //? Formulaire
+        &--form {
+            //? Sosu-titres
+            &--subtitle {
+                font-size: v.$font-xsmall + 0.2;
+            }
+            &--text {
+                font-size: v.$font-xxsmall + 0.3;
+            }
+            //? Bouton submit
+            &--submit {
+                margin-top: v.$font-small;
+                &--inputs {
+                    width: 100%;
+                    &--input {
+                        width: 90%;
+                    }
+                }
+                &--cancel,
+                &--confirm,
+                &--delete {
+                    margin: 0 auto;
+                    margin-top: v.$font-small; // Pour espacer les boutons verticalement
+                    padding: v.$font-small v.$font-small;
+                    width: 70%;
+                    font-size: v.$font-xsmall;
+                }
+                &--confirm {
+                    margin-top: v.$font-large;
+                }
+            }
+        }
     }
     @media screen and (max-width: v.$mq-xsmall) {
+        //? Entête et formulaire
+        &--container {
+            padding: v.$font-small;
+            width: 100%; // Largeur max de la modale
+        }
+        //? Titre
+        & h2 {
+            margin: v.$font-xxlarge auto;
+            font-size: v.$font-small;
+        }
+        //? Formulaire
+        &--form {
+            //? Sosu-titres
+            &--subtitle {
+                font-size: v.$font-xxsmall + 0.3rem;
+            }
+            &--text {
+                font-size: v.$font-xxsmall + 0.1rem;
+            }
+            //? Bouton submit
+            &--submit {
+                margin-top: v.$font-small;
+                &--inputs {
+                    width: 100%;
+                    &--input {
+                        width: 90%;
+                    }
+                }
+                &--cancel,
+                &--confirm,
+                &--delete {
+                    margin: 0 auto;
+                    margin-top: v.$font-xsmall; // Pour espacer les boutons verticalement
+                    padding: v.$font-xsmall v.$font-small;
+                    width: 70%;
+                    font-size: v.$font-xsmall;
+                }
+                &--confirm {
+                    margin-top: v.$font-medium;
+                }
+            }
+        }
     }
 }

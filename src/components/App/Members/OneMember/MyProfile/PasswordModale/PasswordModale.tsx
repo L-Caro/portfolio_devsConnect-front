@@ -25,7 +25,8 @@ import Input from '../../../../../Form/Input';
 import './style.scss';
 
 // ? Fonction principale
-function PasswordModale(selectedTags: string[]) {
+function PasswordModale(props: string[]) {
+  const { selectedTags } = props;
   // ? States
   // Redux
   const id = useAppSelector((state) => state.user.login.id); // id du membre connecté
@@ -256,7 +257,7 @@ function PasswordModale(selectedTags: string[]) {
     if (falseFieldCount === 0) {
       // Obligé de renvoyer les tags, sinon ils disparaissent
       // ? Gestion des tags
-      if (selectedTags && selectedTags.length > 0) {
+      if (selectedTags) {
         // On vérifie que selectedTags existe et qu'il contient au moins un tag
         const selectedTagsData = selectedTags.map((tag) => tag.id); // On crée un tableau avec les id des tags sélectionnés
         // const tagsJSON = JSON.stringify(selectedTagsData); // On convertie le tableau en chaîne JSON
@@ -264,7 +265,6 @@ function PasswordModale(selectedTags: string[]) {
         formData.append('tags', selectedTagsData); // On ajoute le tableau selectedTagsData à formData
         objData.tags = selectedTagsData; // On ajoute le tableau selectedTagsData à objData
       }
-
       // ? Gestion du password
       formData.append('password', confirmPassword.value);
       objData.password = confirmPassword.value;
@@ -273,7 +273,7 @@ function PasswordModale(selectedTags: string[]) {
         // On dispatch l'action updateMember avec l'id du membre et les données du formulaire
         updateMember({
           id,
-          formData: { ...objData }, // Dans formData, on ajoute les données du formulaire (objData)
+          objData: { ...objData }, // Dans formData, on ajoute les données du formulaire (objData)
         })
       );
       dispatch(toggleModalPassword()); // On ferme la modale
@@ -283,12 +283,10 @@ function PasswordModale(selectedTags: string[]) {
   // ? Rendu JSX
 
   return (
-    <div className="PasswordModale">
-      <div className="PasswordModale--container" ref={modalRef}>
-        <div className="PasswordModale--container--head">
-          <h2 className="PasswordModale--title">
-            Modification du mot de passe
-          </h2>
+    <div className="Modale">
+      <div className="Modale--container" ref={modalRef}>
+        <div className="Modale--container--head">
+          <h2 className="Modale--title">Modification du mot de passe</h2>
           <div
             /** //? Bouton fermer la modale
              * @param {boolean} modalPassword - État de la modale
@@ -298,7 +296,7 @@ function PasswordModale(selectedTags: string[]) {
              * On ajoute tabindex={0} pour le rendre focusable.
              * et une fonction de déclenchement au clic ou au clavier
              */
-            className="PasswordModale--close"
+            className="Modale--close"
             role="button" // On précise que c'est un bouton
             tabIndex={0} // On précise que c'est un élément focusable
             onClick={handlePasswordModale}
@@ -308,18 +306,18 @@ function PasswordModale(selectedTags: string[]) {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="PasswordModale--form">
-          <div className="PasswordModale--form--submit">
-            <div className="PasswordModale--form--submit--inputs">
+        <form onSubmit={handleSubmit} className="Modale--form">
+          <div className="Modale--form--submit">
+            <div className="Modale--form--submit--inputs">
               <Input
                 id="oldPassword"
                 name="password"
-                slot="Ancien mot de passe"
+                slot="Ancien"
                 type="password"
                 placeholder="*****"
                 aria-label="Ancien mot de passe"
                 value={formFields.oldPassword.value}
-                className={`PasswordModale--form--submit--inputs--input Input Input-light ${formFields.oldPassword.className}`}
+                className={`Modale--form--submit--inputs--input Input Input-light ${formFields.oldPassword.className}`}
                 onChange={(event) => {
                   checkPasswordStatus();
                   verifyPassword(event);
@@ -345,12 +343,12 @@ function PasswordModale(selectedTags: string[]) {
               <Input
                 id="newPassword"
                 name="password"
-                slot="Nouveau mot de passe"
+                slot="Nouveau"
                 type="password"
                 placeholder="*****"
                 aria-label="Nouveau mot de passe"
                 value={formFields.newPassword.value}
-                className={`PasswordModale--form--submit--inputs--input Input Input-light ${formFields.newPassword.className}`}
+                className={`Modale--form--submit--inputs--input Input Input-light ${formFields.newPassword.className}`}
                 onChange={(event) => handleChange(event, 'newPassword')}
                 helperText={
                   formFields.newPassword.value !== '' &&
@@ -371,12 +369,12 @@ function PasswordModale(selectedTags: string[]) {
               <Input
                 id="confirmPassword"
                 name="password"
-                slot="Confirmation du mot de passe"
+                slot="Confirmation"
                 type="password"
                 placeholder="*****"
                 aria-label="Confirmation du mot de passe"
                 value={formFields.confirmPassword.value}
-                className={`PasswordModale--form--submit--inputs--input Input Input-light ${formFields.confirmPassword.className}`}
+                className={`Modale--form--submit--inputs--input Input Input-light ${formFields.confirmPassword.className}`}
                 onChange={(event) => handleChange(event, 'confirmPassword')}
                 helperText={
                   formFields.confirmPassword.value !== '' &&
@@ -397,16 +395,13 @@ function PasswordModale(selectedTags: string[]) {
                 }
               />
             </div>
-            <button
-              type="submit"
-              className="PasswordModale--form--submit--confirm"
-            >
+            <button type="submit" className="Modale--form--submit--confirm">
               Modifier le mot de passe
             </button>
             <button
               type="button"
               onClick={handlePasswordModale}
-              className="PasswordModale--form--submit--cancel"
+              className="Modale--form--submit--cancel"
             >
               Annuler
             </button>

@@ -82,6 +82,23 @@
             font-size: 0.9rem;
         }
     }
+    .MuiFormHelperText-root {
+        @media screen and (min-width: v.$mq-large) {
+            font-size: 1.5rem;
+        }
+        @media screen and (max-width: v.$mq-large) {
+            font-size: 1.3rem;
+        }
+        @media screen and (max-width: v.$mq-medium) {
+            font-size: 1.2rem;
+        }
+        @media screen and (max-width: v.$mq-small) {
+            font-size: 0.8rem;
+        }
+        @media screen and (max-width: v.$mq-xsmall) {
+            font-size: 0.6rem;
+        }
+    }
     .MuiSvgIcon-root {
         cursor: pointer;
     }
@@ -119,9 +136,9 @@
 
 //! Couleur plus clair dans les modales
 .Input-light {
-    background-color: v.$color-input;
-    border-radius: v.$border-radius;
+    // border-radius: v.$border-radius;
     .MuiInputBase-root {
+        background-color: v.$color-input;
         & input,
         & textarea {
             color: v.$color;

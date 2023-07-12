@@ -27,7 +27,7 @@
         //? Bouton submit
         &--submit {
             &--cancel,
-            &--confirm {
+            &--delete {
                 display: block;
                 margin: 0 auto;
                 border-radius: v.$border-radius;
@@ -39,7 +39,7 @@
                 color: v.$color-darkest;
                 border: 0.2rem solid v.$color-darkest;
             }
-            &--confirm {
+            &--delete {
                 background-color: rgb(125, 26, 26);
                 color: v.$color;
                 border: 0.2rem solid v.$color;
