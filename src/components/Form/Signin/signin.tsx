@@ -2,6 +2,8 @@
 // ? Librairies
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Checkbox from '@mui/material/Checkbox';
+
 import { useAppSelector, useAppDispatch } from '../../../hook/redux';
 
 // ? Fonctions externes
@@ -28,7 +30,7 @@ import CustomSwitch from '../../../utils/customSwitchUI';
 import Input from '../Input';
 
 // ? Styles
-import './style.scss';
+import '../../../styles/modale.scss';
 
 // ? Typage global
 import { TagSelectedI } from '../../../@types/interface';
@@ -58,6 +60,7 @@ function Signin() {
     email: { value: '', className: '' },
     password: { value: '', className: '' },
     description: { value: '', className: '' },
+    picture: { value: '', className: '' },
     tags: { value: '', className: '' },
   });
 
@@ -147,6 +150,15 @@ function Signin() {
     }
   };
 
+  /** //* Fonction pour ouvrir la fenêtre d'upload
+   * Permet d'ouvrir la fenêtre d'upload de l'image de profil
+   * en cliquant sur l'image de photo de profil
+   */
+  const handleUploadClick = () => {
+    // Simuler un clic sur l'élément input lorsque l'utilisateur clique sur l'image
+    document.getElementById('picture')?.click();
+  };
+
   /** //* Fonction pour la photo de profil
    * @param {currentPicture} currentPicture - Image de profil actuelle
    * @param {setCurrentPicture} setCurrentPicture - State pour l'image de profil actuelle
@@ -154,9 +166,19 @@ function Signin() {
    * On met à jour le state pour l'image de profil actuelle
    */
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    formFields.picture.value = '';
     if (event.target.files) {
       validatePicture(event.target.files[0]);
       setCurrentPicture(URL.createObjectURL(event.target.files[0]));
+      if (isFormValid.picture) {
+        setFormFields({
+          ...formFields,
+          picture: {
+            value: URL.createObjectURL(event.target.files[0]),
+            className: '',
+          },
+        });
+      }
     }
   };
 
@@ -172,7 +194,7 @@ function Signin() {
    * @param {setCgu} setCgu - State pour la case à cocher CGU
    * Au clic, on inverse la valeur du state
    */
-  const handleCguChange = (event) => {
+  const handleCguChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCgu(event.target.checked);
   };
 
@@ -436,18 +458,16 @@ function Signin() {
       dispatch(toggleModalLogin()); // On ouvre la modale de connexion
     }
   };
-
   // ? Rendu JSX
   return (
-    <div className="Signin">
+    <div className="Modale Signin">
       <div
-        className="Signin--container"
+        className="Modale--container"
         ref={modalRef} // On ajoute la référence pour la modale
       >
-        <div className="Signin--container--head">
-          <h2 className="Signin--title">Inscription</h2>
+        <div className="Modale--container--head">
           <div
-            className="Signin--close"
+            className="Modale--close"
             role="button"
             onClick={handleSignin} // On appelle la fonction handleSignin() au clic
             tabIndex={0} // On ajoute la propriété tabIndex pour rendre la div focusable
@@ -455,40 +475,72 @@ function Signin() {
           >
             X
           </div>
-          <p className="Signin--text">Déjà membre ?</p>
-          <div
-            className="Signin--Link-to-Login"
-            onClick={handleLogin}
-            tabIndex={0} // On précise que la div est focusable
-            role="button"
-            onKeyDown={handleLoginKeyDown}
-          >
-            Connectez vous !
+          {/* <div className="Modale--signin-box"> */}
+          <h1 className="Modale--title">Inscription</h1>
+          <div className="Modale--other Signin--login-box">
+            <p className="Modale--text">Déjà membre ?</p>
+            <div
+              className="Modale--other--link"
+              onClick={handleLogin}
+              tabIndex={0} // On précise que la div est focusable
+              role="button"
+              onKeyDown={handleLoginKeyDown}
+            >
+              Connectez vous !
+            </div>
           </div>
+
+          {/* </div> */}
         </div>
         <form
           encType="multipart/form-data"
           onSubmit={handleSubmit} // On appelle la fonction handleSubmit() au submit
-          className="Signin--form"
+          className="Modale--form--container"
         >
-          <fieldset className="Signin--field">
-            <legend className="Signin--legend">
-              Informations personnelles
-            </legend>
+          <legend className="Modale--legend">Informations personnelles</legend>
+
+          <div className="Signin--container--image">
+            <img
+              className="Signin--container--image--profil"
+              src={
+                formFields.picture.value.includes('blob')
+                  ? formFields.picture.value
+                  : '/images/profil/profil3.svg'
+              }
+              alt="profil"
+              onClick={handleUploadClick}
+              onKeyDown={handleUploadClick}
+              role="button"
+              tabIndex={0}
+            />
+            <img
+              src="/images/profil/upload.svg"
+              className="Signin--container--image--upload"
+              alt="upload"
+              onClick={handleUploadClick}
+              onKeyDown={handleUploadClick}
+              role="button"
+              tabIndex={0}
+            />
             <input
+              id="picture"
               type="file"
               slot="Photo de profil"
               name="picture"
               accept="image/png, image/jpeg, image/jpg, image/gif, image/svg, image/webp"
-              id="picture"
               onChange={(event) => {
                 handleFileChange(event);
               }}
-              className="Signin--input"
+              className="hidden"
             />
             {!isFormValid.picture && (
-              <span className="wrong">{errorMessages.picture}</span>
+              <span className="Member--header--errorMessage wrong">
+                {errorMessages.picture}
+              </span>
             )}
+          </div>
+
+          <fieldset className=">Modale--form--container--inputs">
             {/* Input maison, importé */}
             <Input
               id="firstname"
@@ -498,7 +550,7 @@ function Signin() {
               placeholder="Prénom"
               aria-label="Prénom"
               value={formFields.firstname.value}
-              className={`Signin--input ${formFields.firstname.className}`}
+              className={`Member--content--firstField--description Input Input-light ${formFields.firstname.className}`}
               onChange={(event) => handleChange(event, 'firstname')}
               helperText={
                 formFields.firstname.value !== '' &&
@@ -524,7 +576,7 @@ function Signin() {
               placeholder="Nom"
               aria-label="Nom"
               value={formFields.lastname.value}
-              className={`Signin--input ${formFields.lastname.className}`}
+              className={`Member--content--firstField--description Input Input-light ${formFields.lastname.className}`}
               onChange={(event) => handleChange(event, 'lastname')}
               helperText={
                 formFields.lastname.value !== '' &&
@@ -550,7 +602,7 @@ function Signin() {
               placeholder="Pseudo"
               aria-label="Pseudo"
               value={formFields.pseudo.value}
-              className={`Signin--input ${formFields.pseudo.className}`}
+              className={`Member--content--firstField--description Input Input-light ${formFields.pseudo.className}`}
               onChange={(event) => {
                 setOldPseudo(event.target.value);
                 handleChange(event, 'pseudo');
@@ -583,7 +635,7 @@ function Signin() {
               placeholder="Adresse Email"
               aria-label="Adresse Email"
               value={formFields.email.value}
-              className={`Signin--input ${formFields.email.className}`}
+              className={`Member--content--firstField--description Input Input-light ${formFields.email.className}`}
               onChange={(event) => {
                 setOldEmail(event.target.value);
                 handleChange(event, 'email');
@@ -616,7 +668,7 @@ function Signin() {
               placeholder="Mot de passe"
               aria-label="Mot de passe"
               value={formFields.password.value}
-              className={`Signin--input ${formFields.password.className}`}
+              className={`Member--content--firstField--description Input Input-light ${formFields.password.className}`}
               onChange={(event) => handleChange(event, 'password')}
               helperText={
                 formFields.password.value !== '' &&
@@ -644,7 +696,7 @@ function Signin() {
               multiline
               rows={5}
               value={formFields.description.value}
-              className={`Signin--input ${formFields.description.className}`}
+              className={`Member--content--firstField--description Input Input-light ${formFields.description.className}`}
               onChange={(event) => handleChange(event, 'description')}
               helperText={
                 formFields.description.value !== '' &&
@@ -663,7 +715,7 @@ function Signin() {
               }
             />
 
-            <div className="Signin--openToWork">
+            <div className="Member--content--firstField--openToWork">
               <p>Ouvert aux projets</p>
               <CustomSwitch
                 name="availability"
@@ -673,72 +725,75 @@ function Signin() {
             </div>
           </fieldset>
 
-          <fieldset className="Signin--field">
-            <div className="Signin--technos">
-              <h3>Mes technos</h3>
-              <p>(Choisissez 1 language minimum)</p>
-              <div className="Signin--techno">
+          <fieldset className="Member--content--secondField">
+            <div className="Member--content--secondField--container">
+              <legend className="Modale--legend">Languages favoris</legend>
+              <p className="Member--content--secondField--container--text">
+                (Sélectionnez 1 language minimum)
+              </p>
+              <div className="Member--content--secondField--container--technos">
                 {/* //? On map sur le tableau des technos récupérées depuis l'API */}
                 {allTags.map((techno: TagSelectedI) => (
-                  <div className="Signin--inputCheckbox" key={techno.id}>
-                    {/* //? Pour chaque techno, on lui donne un id, un name et une value provenant de la table tag */}
-                    <input
-                      type="checkbox"
-                      id={String(techno.id)} // On lui donne un id, converti en string
-                      name={techno.name}
-                      value={techno.name}
-                    />
-                    {/* // On lui donne un label et htmlFor */}
-                    <label htmlFor={techno.name}>{techno.name}</label>
-                    <div
-                      role="button"
-                      onClick={() => handleImageClick(Number(techno.id))} // Au clic, on appelle la fonction handleImageClick() et on lui passe l'id de la techno, converti en number
-                      onKeyDown={
-                        (event) => handleImageKeyDown(event, String(techno.id)) // Au clavier, on lui passe l'id de la techno, converti en string
-                      }
-                      tabIndex={0} // On ajoute la propriété tabIndex pour rendre la div focusable
-                      className={`Signin--inputCheckbox--img ${
+                  <div
+                    key={techno.id}
+                    role="button"
+                    onClick={() => handleImageClick(Number(techno.id))} // Au clic, on appelle la fonction handleImageClick() et on lui passe l'id de la techno, converti en number
+                    onKeyDown={
+                      (event) => handleImageKeyDown(event, String(techno.id)) // Au clavier, on lui passe l'id de la techno, converti en string
+                    }
+                    tabIndex={0} // On ajoute la propriété tabIndex pour rendre la div focusable
+                    className={
+                      'Member--content--secondField--container--technos--group' +
+                      `${
                         // On ajoute la classe selected si la techno est sélectionnée
                         selectedTags.some((tag) => tag.id === techno.id)
-                          ? 'selected'
+                          ? '--selected'
                           : ''
-                      }`}
-                    >
-                      <img
-                        src={`/images/technos/${techno.name.toLocaleLowerCase()}.svg`}
-                        title={techno.name.toLocaleLowerCase()}
-                        alt={techno.name.toLocaleLowerCase()}
-                      />
-                    </div>
+                      }`
+                    }
+                  >
+                    <img
+                      src={`/images/technos/${techno.name.toLowerCase()}.svg`}
+                      title={techno.name.toLocaleLowerCase()}
+                      alt={techno.name.toLocaleLowerCase()}
+                    />
+                    <p>{techno.name}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="Signin--cgu">
-              <label>
-                J&apos;accepte les CGU
-                <input
-                  type="checkbox"
+            <div className="Modale--other--cgu">
+              <div className="Modale--other--cgu--container">
+                <label htmlFor="cgu">J&apos;accepte les CGU</label>
+                <Checkbox
+                  id="cgu"
                   onChange={handleCguChange}
                   checked={cgu}
-                  id="cgu"
+                  // inputProps={{ 'aria-label': 'controlled' }}
+                  color="success"
+                  size="large"
                   name="cgu"
-                  className="Signin--inputCheckbox--cgu"
+                  className="Modale--other--cgu--checkbox"
                 />
-              </label>
-              <Link to="/cgu" target="_blank" className="Signin--cgu--link">
+              </div>
+              <Link
+                to="/cgu"
+                target="_blank"
+                className="Modale--other--link-cgu"
+              >
                 (voir les CGU)
               </Link>
             </div>
             <button
               type="submit"
-              className="Signin--form--submit"
+              className="Modale--form--container--confirm"
               disabled={!cgu}
             >
               S&apos;inscrire
             </button>
           </fieldset>
         </form>
+        <h1 className="Modale--other--subtitle">DevsConnect</h1>
       </div>
     </div>
   );

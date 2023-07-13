@@ -180,8 +180,8 @@ function Login() {
         <form className="Modale--form" onSubmit={handleSubmit}>
           {' '}
           {/* On appelle la fonction handleSubmit() au submit */}
-          <div className="Modale--form--submit">
-            <div className="Modale--form--submit--inputs">
+          <div className="Modale--form--container">
+            <div className="Modale--form--container--inputs">
               <Input
                 id="email"
                 name="email"
@@ -189,7 +189,7 @@ function Login() {
                 type="email"
                 placeholder="Adresse Email"
                 aria-label="Adresse Email"
-                className="Modale--form--submit--inputs--input Input Input-light"
+                className="Modale--form--container--inputs--input Input Input-light"
                 color="lightestPerso"
               />
               <Input
@@ -199,19 +199,19 @@ function Login() {
                 type="password"
                 placeholder="Mot de passe"
                 aria-label="Mot de passe"
-                className="Modale--form--submit--inputs--input Input Input-light"
+                className="Modale--form--container--inputs--input Input Input-light"
                 color="lightestPerso"
               />
             </div>
-            <button type="submit" className="Modale--form--submit--confirm">
+            <button type="submit" className="Modale--form--container--confirm">
               Se connecter
             </button>
           </div>
         </form>
-        <div className="Modale--footer">
-          <p className="Modale--footer--text">Pas encore inscrit ?</p>
+        <div className="Modale--other">
+          <p className="Modale--other--text">Pas encore inscrit ?</p>
           <div
-            className="Modale--footer--link"
+            className="Modale--other--link"
             onClick={handleSignin}
             tabIndex={0} // On précise que la div est focusable
             role="button"
@@ -220,7 +220,7 @@ function Login() {
             C&apos;est par içi
           </div>
         </div>
-        <p className="Modale--footer--subtitle">DevsConnect</p>
+        <p className="Modale--other--subtitle">DevsConnect</p>
       </div>
     </div>
   );

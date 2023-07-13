@@ -115,6 +115,10 @@ function MyProfile() {
 
   // ? Fonctions
 
+  /** //* Fonction pour ouvrir la fenêtre d'upload
+   * Permet d'ouvrir la fenêtre d'upload de l'image de profil
+   * en cliquant sur l'image de photo de profil
+   */
   const handleUploadClick = () => {
     // Simuler un clic sur l'élément input lorsque l'utilisateur clique sur l'image
     document.getElementById('picture')?.click();
@@ -511,7 +515,7 @@ function MyProfile() {
       // ? Gestion du switch openToWork
       if (checked !== undefined) {
         // Si la valeur du state est différente de la valeur du membre, on l'ajoute à formData
-        objData.availability = checked === false ? false : true; // On ajoute checked à objData
+        objData.availability = checked !== false; // On ajoute checked à objData
       }
 
       // ? Gestion de l'image
@@ -587,7 +591,7 @@ function MyProfile() {
                 className={`Member--header--container--image--upload ${
                   isEditMode ? 'visible' : 'hidden'
                 }`}
-                alt="limité à 5Mo"
+                alt="upload"
                 onClick={handleUploadClick}
                 onKeyDown={handleUploadClick}
                 role="button"
@@ -837,7 +841,7 @@ function MyProfile() {
                 <legend className="Member--legend">Languages favoris</legend>
                 {isEditMode ? (
                   <p className="Member--content--secondField--container--text">
-                    (Selectionner 1 language minimum)
+                    (Sélectionnez 1 language minimum)
                   </p>
                 ) : null}
                 <div className="Member--content--secondField--container--technos">
@@ -884,18 +888,18 @@ function MyProfile() {
                         const className = isMatchingTag ? '--selected' : ''; // Si le tag est présent dans les tags du membre, on ajoute la classe selected
                         return (
                           <div
-                            className={
-                              'Member--content--secondField--container--technos--group' +
-                              `${className}`
-                            }
-                            role="button"
                             key={tag.id}
-                            id={`tag-${tag.id}`} // Sert de référence pour la fonction handleImageClick ( permet d'ajouter ou de retirer la classe selected quand on ajoute/supprime le tag)
+                            role="button"
                             onClick={() => handleImageClick(tag.id)} // On appelle la fonction handleImageClick au clic sur l'image
                             onKeyDown={(
                               event // On appelle la fonction handleImageKeyDown au keydown sur l'image
                             ) => handleImageKeyDown(event, tag.id.toString())}
                             tabIndex={0} // On ajoute un tabIndex pour que l'élément soit focusable (accessibilité)
+                            className={
+                              'Member--content--secondField--container--technos--group' +
+                              `${className}`
+                            }
+                            id={`tag-${tag.id}`} // Sert de référence pour la fonction handleImageClick ( permet d'ajouter ou de retirer la classe selected quand on ajoute/supprime le tag)
                           >
                             <img
                               src={`/images/technos/${tag.name.toLowerCase()}.svg`}

@@ -307,8 +307,8 @@ function PasswordModale(props: string[]) {
         </div>
 
         <form onSubmit={handleSubmit} className="Modale--form">
-          <div className="Modale--form--submit">
-            <div className="Modale--form--submit--inputs">
+          <div className="Modale--form--container">
+            <div className="Modale--form--container--inputs">
               <Input
                 id="oldPassword"
                 name="password"
@@ -317,7 +317,7 @@ function PasswordModale(props: string[]) {
                 placeholder="*****"
                 aria-label="Ancien mot de passe"
                 value={formFields.oldPassword.value}
-                className={`Modale--form--submit--inputs--input Input Input-light ${formFields.oldPassword.className}`}
+                className={`Modale--form--container--inputs--input Input Input-light ${formFields.oldPassword.className}`}
                 onChange={(event) => {
                   checkPasswordStatus();
                   verifyPassword(event);
@@ -348,7 +348,7 @@ function PasswordModale(props: string[]) {
                 placeholder="*****"
                 aria-label="Nouveau mot de passe"
                 value={formFields.newPassword.value}
-                className={`Modale--form--submit--inputs--input Input Input-light ${formFields.newPassword.className}`}
+                className={`Modale--form--container--inputs--input Input Input-light ${formFields.newPassword.className}`}
                 onChange={(event) => handleChange(event, 'newPassword')}
                 helperText={
                   formFields.newPassword.value !== '' &&
@@ -374,7 +374,7 @@ function PasswordModale(props: string[]) {
                 placeholder="*****"
                 aria-label="Confirmation du mot de passe"
                 value={formFields.confirmPassword.value}
-                className={`Modale--form--submit--inputs--input Input Input-light ${formFields.confirmPassword.className}`}
+                className={`Modale--form--container--inputs--input Input Input-light ${formFields.confirmPassword.className}`}
                 onChange={(event) => handleChange(event, 'confirmPassword')}
                 helperText={
                   formFields.confirmPassword.value !== '' &&
@@ -395,13 +395,13 @@ function PasswordModale(props: string[]) {
                 }
               />
             </div>
-            <button type="submit" className="Modale--form--submit--confirm">
+            <button type="submit" className="Modale--form--container--confirm">
               Modifier le mot de passe
             </button>
             <button
               type="button"
               onClick={handlePasswordModale}
-              className="Modale--form--submit--cancel"
+              className="Modale--form--container--cancel"
             >
               Annuler
             </button>

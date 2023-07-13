@@ -122,14 +122,14 @@ function DeleteModale() {
           <p className="Modale--form--text">
             (Attention, cette action est irréversible.)
           </p>
-          <div className="Modale--form--submit">
-            <button type="submit" className="Modale--form--submit--delete">
+          <div className="Modale--form--container">
+            <button type="submit" className="Modale--form--container--delete">
               Supprimer mon compte
             </button>
             <button
               type="button"
               onClick={handleDeleteModale}
-              className="Modale--form--submit--cancel"
+              className="Modale--form--container--cancel"
             >
               Annuler
             </button>
