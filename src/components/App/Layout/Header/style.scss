@@ -43,10 +43,11 @@
 //! Header Desktop
 .Header {
     // A partir de 768px (desktop)
-    @media screen and (min-width: v.$mq-medium) {
+    @media screen and (min-width: #{v.$mq-medium + 1px}) {
+        // + 1px pour éviter les bugs, le tout entouré de #{} pour garder la variable de media queries
         @include m.flex-center;
         justify-content: space-between;
-        padding: 1rem 2rem;
+        padding: v.$font-xsmall v.$font-small;
         font-size: v.$font-small;
         //? Liste des liens
         & ul {

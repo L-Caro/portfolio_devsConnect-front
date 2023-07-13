@@ -9,12 +9,12 @@
     //? Bouton retour
     &--return {
         position: absolute;
-        top: 3%;
+        top: 2%;
         right: 0;
         & button {
-            color: v.$color-darkest;
             padding: v.$font-xxsmall v.$font-large;
             background: v.$color;
+            color: v.$color-darkest;
             border-radius: v.$border-radius;
             font-weight: 700;
             cursor: pointer;
@@ -216,7 +216,7 @@
             &--container {
                 //* Bloc complet sans le message d'erreur
                 position: relative; // Pour positionner le titre qui est en absolute
-
+                margin-top: 8rem;
                 //? Titre
                 &--title {
                     position: absolute; // Pour positionner le titre au centre peu importe si il y a un message d'erreur
@@ -402,6 +402,7 @@
             &--container {
                 //* Bloc complet sans le message d'erreur
                 position: relative; // Pour positionner le titre qui est en absolute
+                margin-top: 6rem;
                 //? Titre
                 &--title {
                     position: absolute; // Pour positionner le titre au centre peu importe si il y a un message d'erreur
