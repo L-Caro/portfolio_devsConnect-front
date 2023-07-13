@@ -16,7 +16,7 @@ import { resetMessage } from '../../../store/reducer/main';
 import Input from '../Input';
 
 // ? Styles
-import './style.scss';
+import '../../../styles/modale.scss';
 
 // ? Fonction principale
 function Login() {
@@ -161,14 +161,14 @@ function Login() {
 
   // ? Rendu JSX
   return (
-    <div className="Login">
-      <div className="Login--container" ref={modalRef}>
+    <div className="Modale">
+      <div className="Modale--container" ref={modalRef}>
         {' '}
         {/* On ajoute la référence pour la modale */}
-        <div className="Login--container--head">
-          <h2 className="Login--title">Connexion</h2>
+        <div className="Modale--container--head">
+          <h2 className="Modale--title">Connexion</h2>
           <div
-            className="Login--close"
+            className="Modale--close"
             role="button"
             tabIndex={0} // On précise que la div est focusable
             onClick={handleLogin} // On appelle la fonction handleLogin() au clic
@@ -177,35 +177,41 @@ function Login() {
             X
           </div>
         </div>
-        <form className="Login--form" onSubmit={handleSubmit}>
+        <form className="Modale--form" onSubmit={handleSubmit}>
           {' '}
           {/* On appelle la fonction handleSubmit() au submit */}
-          <Input
-            id="email"
-            name="email"
-            slot="Adresse email"
-            type="email"
-            placeholder="Adresse Email"
-            aria-label="Adresse Email"
-            className="Signin--input"
-            color="lightestPerso"
-          />
-          <Input
-            id="password"
-            name="password"
-            slot="Mot de passe"
-            type="password"
-            placeholder="Mot de passe"
-            aria-label="Mot de passe"
-            className="Signin--input"
-            color="lightestPerso"
-          />
-          <button type="submit" className="Login--form--submit">
-            Se connecter
-          </button>
-          <p className="Login--text">Pas encore inscrit ?</p>
+          <div className="Modale--form--submit">
+            <div className="Modale--form--submit--inputs">
+              <Input
+                id="email"
+                name="email"
+                slot="Adresse email"
+                type="email"
+                placeholder="Adresse Email"
+                aria-label="Adresse Email"
+                className="Modale--form--submit--inputs--input Input Input-light"
+                color="lightestPerso"
+              />
+              <Input
+                id="password"
+                name="password"
+                slot="Mot de passe"
+                type="password"
+                placeholder="Mot de passe"
+                aria-label="Mot de passe"
+                className="Modale--form--submit--inputs--input Input Input-light"
+                color="lightestPerso"
+              />
+            </div>
+            <button type="submit" className="Modale--form--submit--confirm">
+              Se connecter
+            </button>
+          </div>
+        </form>
+        <div className="Modale--footer">
+          <p className="Modale--footer--text">Pas encore inscrit ?</p>
           <div
-            className="Login--Link-to-Signin"
+            className="Modale--footer--link"
             onClick={handleSignin}
             tabIndex={0} // On précise que la div est focusable
             role="button"
@@ -213,8 +219,8 @@ function Login() {
           >
             C&apos;est par içi
           </div>
-        </form>
-        <p>DevsConnect</p>
+        </div>
+        <p className="Modale--footer--subtitle">DevsConnect</p>
       </div>
     </div>
   );

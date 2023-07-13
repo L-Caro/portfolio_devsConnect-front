@@ -4,318 +4,425 @@
 //? Container des cartes
 .Members {
     flex-grow: 1; // Permet de descendre le footer en bas de page
-    &--containerCard {
-        display: grid; // Permet de mettre les cartes en grille
-        justify-items: center;
-    }
+    //? Titre
     &--title {
         text-align: center;
+        padding: v.$font-xsmall;
+        font-size: v.$font-large;
     }
-    @media screen and (min-width: v.$mq-xlarge) {
+    //? Container des cartes
+    &--containerCard {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap; // Permet de mettre les cartes en ligne
+        gap: 2rem 1rem;
+        margin: 0 auto; // Permet de centrer les cartes
+        padding: v.$font-xsmall;
+    }
+    @media screen and (min-width: 1400px) {
         &--containerCard {
-            grid-template-columns: repeat(
-                4,
-                1fr
-            ); // Permet de mettre 3 cartes par ligne
-            margin: 0 auto; // Permet de centrer les cartes
             max-width: 140rem; // Permet de limiter la largeur du container
-            gap: v.$font-medium; // Permet de gérer un espace entre les cartes
-            padding: v.$font-xsmall;
-        }
-        //? Titre
-        & h2 {
-            padding: v.$font-xsmall;
-            font-size: v.$font-large;
         }
     }
-    @media screen and (max-width: v.$mq-xlarge) {
+    @media screen and (max-width: 1400px) {
         &--containerCard {
-            grid-template-columns: repeat(
-                3,
-                1fr
-            ); // Permet de mettre 2 cartes par ligne
-            margin: 0 auto; // Permet de centrer les cartes
-            max-width: 100rem; // Permet de limiter la largeur du container
-            gap: v.$font-medium; // Permet de gérer un espace entre les cartes
-            padding: v.$font-xsmall;
-        }
-        &--title {
-            padding: v.$font-xsmall;
-            font-size: v.$font-large;
-        }
-    }
-    @media screen and (max-width: v.$mq-large) {
-        &--containerCard {
-            grid-template-columns: repeat(
-                2,
-                1fr
-            ); // Permet de mettre 2 cartes par ligne
-            margin: 0 auto; // Permet de centrer les cartes
-            max-width: 75rem; // Permet de limiter la largeur du container
-            gap: v.$font-medium; // Permet de gérer un espace entre les cartes
-            padding: v.$font-xsmall;
-        }
-        &--title {
-            padding: v.$font-xsmall;
-            font-size: v.$font-large;
-        }
-    }
-    @media screen and (max-width: v.$mq-medium) {
-        &--containerCard {
-            grid-template-columns: repeat(
-                1,
-                1fr
-            ); // Permet de mettre 1 carte par ligne
-            gap: v.$font-small; // Permet de gérer un espace entre les cartes
-        }
-    }
-    @media screen and (max-width: v.$mq-small) {
-        &--containerCard {
-            gap: v.$font-xsmall; // Permet de gérer un espace entre les cartes
-        }
-        &--title {
-            font-size: v.$font-large;
-        }
-    }
-    @media screen and (max-width: v.$mq-xsmall) {
-        &--title {
-            font-size: v.$font-medium;
+            max-width: 140rem; // Permet de limiter la largeur du container
         }
     }
 }
 
 //? Carte d'un membre
 .CardMember {
-    &--card {
-        margin: 0 auto; // Permet de centrer la carte
-        border: 2px solid black;
-        &--header {
+    // Taille de la carte
+    height: 55rem;
+    border: 2px solid v.$color-darkest; // Permet de mettre une bordure à la carte
+    border-radius: v.$border-radius; // Permet d'arrondir les bords de la carte
+    //? Sous titres
+    & h4 {
+        color: v.$color-darkest;
+        text-decoration: underline;
+    }
+    &--header {
+        display: flex; // Permet de mettre les éléments en ligne
+        flex-direction: column;
+        &--link {
             display: flex; // Permet de mettre les éléments en ligne
+            flex-direction: row;
             justify-content: space-between;
-            border-bottom: 1px solid black; // Permet de mettre une bordure en bas de la carte
-
+            background-color: v.$color-dark;
+            border-radius: 1.1rem 1.1rem 0 0;
             &--text {
-                width: 74+5%;
-                & h3 {
+                //? Nom/Prénom du membre
+                &--title {
                     white-space: nowrap; //* Empêche le retour à la ligne
                     overflow: hidden; //* Cache le contenu dépassant du cadre
                     text-overflow: ellipsis; //* Ajoute des points de suspension
+                    color: v.$color;
+                }
+                &--availability {
+                    font-weight: 700;
+                }
+            }
+            //? Image du membre
+            &--img {
+                aspect-ratio: auto;
+            }
+        }
+        &--technos--title {
+            font-weight: 700;
+        }
+        &--technos--list {
+            display: grid; // Permet de mettre les cartes en grille
+            justify-items: center;
+            grid-template-columns: repeat(8, 1fr);
+        }
+    }
+    &--body {
+        //? Description du membre
+        &--description {
+            background-color: v.$color-input;
+            border-radius: v.$border-radius;
+            overflow: hidden; // Permet de gérer le scroll si le texte dépasse
+            text-align: justify; // Permet de justifier le texte
+        }
+    }
+    &--footer {
+        //? Description des projets
+        &--list {
+            //? Liste des projets
+            &--item {
+                white-space: nowrap; //* Empêche le retour à la ligne
+                overflow: hidden; //* Cache le contenu dépassant du cadre
+                text-overflow: ellipsis; //* Ajoute des points de suspension
+                color: v.$color-button;
+                width: fit-content;
+                cursor: pointer;
+                list-style: none;
+                &:hover {
+                    cursor: pointer;
+                    background-color: v.$color;
+                    opacity: 0.8;
+                    border-radius: v.$border-radius;
+                }
+            }
+            //? Pas de projet
+            &--noitem {
+                font-style: italic;
+                list-style: none;
+                text-align: center;
+                color: red;
+                border-radius: v.$border-radius;
+                font-weight: 700;
+            }
+        }
+    }
+    @media screen and (min-width: v.$mq-large) {
+        //* Large
+        width: 33rem;
+        //? Sous titres
+        & h4 {
+            font-size: v.$font-small;
+        }
+        &--header {
+            &--link {
+                height: 12rem;
+                padding: v.$font-xsmall;
+                &--text {
+                    width: 74%;
+                    //? Nom/Prénom du membre
+                    &--title {
+                        font-size: v.$font-medium;
+                        margin-bottom: v.$font-small;
+                    }
+                }
+                //? Image du membre
+                &--img {
+                    width: v.$font-xlarge + 3rem;
+                    max-height: 10rem;
+                }
+            }
+            &--technos--title {
+                padding: v.$font-xsmall v.$font-small 0;
+            }
+            //? Liste des technos
+            &--technos--list {
+                gap: v.$font-xsmall; // Permet de gérer un espace entre les cartes
+                margin-top: v.$font-xsmall;
+                padding: 0 v.$font-small;
+                height: 11rem;
+                &--img {
+                    width: v.$font-large;
+                    height: v.$font-large;
                 }
             }
         }
         &--body {
-            padding: v.$font-small;
-            &--text {
-                overflow: auto; // Permet de gérer le scroll si le texte dépasse
-                text-align: justify; // Permet de justifier le texte
-                & p {
-                    font-size: v.$font-xsmall;
-                }
-            }
-            &--technos {
-                display: flex; // Permet de mettre les éléments en ligne
-                justify-content: left;
-                align-items: center;
+            padding: 0 v.$font-small;
+            margin: v.$font-xsmall 0 v.$font-xxsmall;
+            //? Description du membre
+            &--description {
+                margin-top: v.$font-xxsmall;
+                padding: v.$font-xxsmall v.$font-small;
+                height: 12rem;
+                font-size: v.$font-small;
             }
         }
         &--footer {
-            padding: v.$font-small;
+            padding: 0 v.$font-small;
             //? Description des projets
-            & li {
-                white-space: nowrap; //* Empêche le retour à la ligne
-                overflow: hidden; //* Cache le contenu dépassant du cadre
-                text-overflow: ellipsis; //* Ajoute des points de suspension
+            &--list {
+                margin-top: v.$font-xsmall;
+                //? Liste des projets
+                &--item {
+                    margin: 0 auto;
+                    &:hover {
+                        padding: 0 v.$font-xsmall;
+                    }
+                }
+                //? Aucun projet
+                &--noitem {
+                    height: 6.5rem;
+                    line-height: 6.5rem;
+                }
             }
         }
-        @media screen and (min-width: v.$mq-large) {
-            // Taille de la carte
-            width: 30rem;
-            height: 43rem;
-
-            // Taille de police
-            & p,
-            & li {
-                font-size: v.$font-small;
-            }
-            & h4 {
-                font-size: v.$font-medium;
-            }
-            &--header {
-                padding: v.$font-medium;
-                &--text {
-                    & h3 {
-                        font-size: v.$font-medium;
-                    }
-                    & p {
-                        font-weight: 700;
-                    }
-                }
-                & img {
-                    aspect-ratio: auto;
-                    width: v.$font-xlarge + 2rem;
-                    max-height: 100%;
-                    border-radius: 50%;
-                }
-            }
-            &--body {
-                padding: v.$font-medium;
-                &--text {
-                    max-height: 14rem;
-                }
-                &--technos {
-                    padding-top: v.$font-medium;
-                    & img {
-                        margin-right: v.$font-large;
-                        width: v.$font-large;
-                        height: v.$font-large;
-                    }
-                }
-            }
-            &--footer {
-                padding: 0 v.$font-medium v.$font-medium;
-            }
+    }
+    @media screen and (max-width: 1080px) {
+        width: 46rem;
+    }
+    @media screen and (max-width: 1000px) {
+        width: 45rem;
+    }
+    @media screen and (max-width: 950px) {
+        width: 42rem;
+    }
+    @media screen and (max-width: 900px) {
+        width: 40rem;
+    }
+    @media screen and (max-width: 850px) {
+        width: 38rem;
+    }
+    @media screen and (max-width: 800px) {
+        width: 36rem;
+    }
+    @media screen and (max-width: v.$mq-large) {
+        //* Large
+        //? Sous titres
+        & h4 {
+            font-size: v.$font-small;
         }
-        @media screen and (max-width: v.$mq-large) {
-            // Taille de la carte
-            width: 30rem;
-            height: 43rem;
-            // Taille de police
-            & p,
-            & li {
-                font-size: v.$font-small;
-            }
-            & h4 {
-                font-size: v.$font-medium;
-            }
-
-            &--header {
-                padding: v.$font-medium;
-                &--text {
-                    & h3 {
-                        font-size: v.$font-medium;
-                    }
-                    & p {
-                        font-weight: 700;
-                    }
-                }
-                & img {
-                    width: v.$font-xlarge + 1rem;
-                    height: v.$font-xlarge + 1rem;
-                }
-            }
-            &--body {
-                padding: v.$font-medium;
-                &--text {
-                    max-height: 14rem;
-                }
-                &--technos {
-                    padding-top: v.$font-medium;
-                    & img {
-                        margin-right: v.$font-medium;
-                        width: v.$font-medium;
-                        height: v.$font-medium;
-                    }
-                }
-            }
-            &--footer {
-                padding: 0 v.$font-medium v.$font-medium;
-            }
-        }
-        @media screen and (max-width: v.$mq-medium) {
-            // Taille de la carte
-            width: 46rem;
-            height: 41rem;
-            &--header {
-                & img {
-                    width: v.$font-xlarge + 2rem;
-                    height: v.$font-xlarge + 2rem;
-                }
-            }
-            &--body {
-                padding: v.$font-small v.$font-medium 0;
-                &--text {
-                    max-height: 12rem;
-                }
-                &--technos {
-                    padding-top: v.$font-small;
-                    & img {
-                        width: v.$font-large;
-                        height: v.$font-large;
-                    }
-                }
-            }
-            &--footer {
-                padding: v.$font-medium;
-            }
-        }
-        @media screen and (max-width: v.$mq-small) {
-            // Taille de la carte
-            width: 30rem;
-            height: 39rem;
-            // Taille de police
-            & p,
-            & li {
-                font-size: v.$font-small;
-            }
-
-            &--header {
-                padding: v.$font-small;
-                &--text {
-                    & h3 {
-                        font-size: v.$font-medium;
-                    }
-                }
-                & img {
-                    width: v.$font-xlarge + 2rem;
-                    height: v.$font-xlarge + 2rem;
-                }
-            }
-            &--body {
-                padding: v.$font-xsmall v.$font-xsmall 0;
-                &--technos {
-                    & img {
-                        width: 3rem;
-                        height: 3rem;
-                    }
-                }
-            }
-            &--footer {
+        &--header {
+            &--link {
+                height: 12rem;
                 padding: v.$font-xsmall;
-            }
-        }
-        @media screen and (max-width: v.$mq-xsmall) {
-            // Taille de la carte
-            width: 22rem;
-            height: 28rem;
-            // Taille de police
-            & p,
-            & li {
-                font-size: v.$font-xsmall;
-            }
-            &--header {
                 &--text {
-                    & h3 {
-                        font-size: v.$font-small;
+                    width: 74%;
+                    //? Nom/Prénom du membre
+                    &--title {
+                        font-size: v.$font-medium;
+                        margin-bottom: v.$font-small;
                     }
                 }
-            }
-            &--body {
-                padding: v.$font-small;
-
-                &--text {
+                //? Image du membre
+                &--img {
+                    width: v.$font-xlarge + 3rem;
                     max-height: 10rem;
                 }
-                &--technos {
-                    & img {
-                        width: 2rem;
-                        height: 2rem;
-                    }
+            }
+            &--technos--title {
+                padding: v.$font-xsmall v.$font-small 0;
+            }
+            //? Liste des technos
+            &--technos--list {
+                gap: v.$font-xsmall; // Permet de gérer un espace entre les cartes
+                margin-top: v.$font-xsmall;
+                padding: 0 v.$font-small;
+                height: 11rem;
+                &--img {
+                    width: v.$font-large;
+                    height: v.$font-large;
                 }
             }
-            //* On masque le footer
-            &--footer {
-                display: none;
+        }
+        &--body {
+            padding: 0 v.$font-small;
+            margin: v.$font-xsmall 0 v.$font-xxsmall;
+            //? Description du membre
+            &--description {
+                margin-top: v.$font-xxsmall;
+                padding: v.$font-xxsmall v.$font-small;
+                height: 12rem;
+                font-size: v.$font-small;
             }
         }
+        &--footer {
+            padding: 0 v.$font-small;
+            //? Description des projets
+            &--list {
+                margin-top: v.$font-xsmall;
+                //? Liste des projets
+                &--item {
+                    margin: 0 auto;
+                    &:hover {
+                        padding: 0 v.$font-xsmall;
+                    }
+                }
+                //? Aucun projet
+                &--noitem {
+                    height: 6.5rem;
+                    line-height: 6.5rem;
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 768px) {
+        width: 67rem;
+    }
+    @media screen and (max-width: 700px) {
+        width: 63rem;
+    }
+    @media screen and (max-width: 650px) {
+        width: 58rem;
+    }
+    @media screen and (max-width: 600px) {
+        width: 53rem;
+    }
+    @media screen and (max-width: 550px) {
+        width: 48rem;
+    }
+    @media screen and (max-width: 500px) {
+        width: 43rem;
+    }
+    @media screen and (max-width: v.$mq-medium) {
+        //* Medium
+        height: 35rem;
+        & h4 {
+            font-size: v.$font-xsmall;
+        }
+        &--header {
+            &--link {
+                height: 8rem;
+                &--text {
+                    width: 80%;
+                    &--title {
+                        margin-bottom: v.$font-xxsmall;
+                        font-size: v.$font-small + 0.3rem;
+                    }
+                    &--availability {
+                        font-size: v.$font-xsmall + 0.3rem;
+                    }
+                }
+                &--img {
+                    width: v.$font-xlarge + 3rem;
+                    max-height: 7rem;
+                }
+            }
+            &--technos--list {
+                grid-template-columns: repeat(11, 1fr);
+                margin-top: v.$font-xxsmall;
+                height: 6rem;
+                &--img {
+                    width: v.$font-medium;
+                    height: v.$font-medium;
+                }
+            }
+        }
+        &--body {
+            margin: v.$font-xxsmall 0;
+            &--description {
+                margin-top: v.$font-xxsmall;
+                height: 6rem;
+                font-size: v.$font-xxsmall + 0.3rem;
+            }
+        }
+        &--footer {
+            //? Liste des projets
+            &--list {
+                &--item {
+                    font-size: v.$font-xsmall;
+                }
+                &--noitem {
+                    height: 4.5rem;
+                    line-height: 4.5rem;
+                    font-size: v.$font-xsmall;
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 450px) {
+        width: 38rem;
+    }
+    @media screen and (max-width: 400px) {
+        width: 33rem;
+    }
+    @media screen and (max-width: 350px) {
+        width: 30rem;
+    }
+    @media screen and (max-width: v.$mq-xsmall) {
+        //* Xsmall
+        width: 26rem;
+        height: 31rem;
+        & h4 {
+            font-size: v.$font-xsmall;
+        }
+        &--header {
+            &--link {
+                height: 8rem;
+                &--text {
+                    width: 60%;
+                    &--title {
+                        margin-bottom: v.$font-small;
+                        font-size: v.$font-small + 0.1rem;
+                    }
+                    &--availability {
+                        font-size: v.$font-xsmall;
+                    }
+                }
+                &--img {
+                    width: v.$font-xlarge;
+                    max-height: 6rem;
+                }
+            }
+            &--technos--list {
+                grid-template-columns: repeat(11, 1fr);
+                margin-top: v.$font-xxsmall;
+                height: 5rem;
+                &--img {
+                    width: v.$font-small;
+                    height: v.$font-small;
+                }
+            }
+        }
+        &--body {
+            margin: v.$font-xxsmall 0;
+            &--description {
+                margin-top: v.$font-xxsmall;
+                height: 6rem;
+                font-size: v.$font-xxsmall;
+            }
+        }
+        &--footer {
+            //? Liste des projets
+            &--list {
+                margin-top: 0.2rem;
+                &--item {
+                    font-size: v.$font-xxsmall;
+                }
+                &--noitem {
+                    height: 3rem;
+                    line-height: 3rem;
+                    font-size: v.$font-xxsmall;
+                }
+            }
+        }
+    }
+    @media screen and (max-width: 280px) {
+        width: 23rem;
+    }
+    @media screen and (max-width: 250px) {
+        width: 17rem;
+    }
+    @media screen and (max-width: 200px) {
+        max-width: 13rem;
     }
 }

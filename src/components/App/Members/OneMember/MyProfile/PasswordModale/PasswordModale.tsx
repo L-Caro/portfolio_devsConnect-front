@@ -22,7 +22,7 @@ import {
 import Input from '../../../../../Form/Input';
 
 // ? Styles
-import './style.scss';
+import '../../../../../../styles/modale.scss';
 
 // ? Fonction principale
 function PasswordModale(props: string[]) {

@@ -155,15 +155,15 @@ function MyProfile() {
    * @param {boolean} isEditMode - valeur du state isEditMode
    * Au clic, on inverse la valeur du state isEditMode
    */
-  const handleCancelClick = () => {
+  const handleResetForm = () => {
     // On réinitialise les messages d'erreur et isFormValid pour ne rien garder en mémoire
-    formFields.firstname.value = '';
-    formFields.lastname.value = '';
-    formFields.pseudo.value = '';
-    formFields.email.value = '';
-    formFields.description.value = '';
     setFormFields({
       ...formFields,
+      firstname: { value: '', className: '' },
+      lastname: { value: '', className: '' },
+      pseudo: { value: '', className: '' },
+      email: { value: '', className: '' },
+      description: { value: '', className: '' },
       picture: { value: '', className: '' },
     });
     isFormValid.firstname = true;
@@ -172,7 +172,7 @@ function MyProfile() {
     isFormValid.email = true;
     isFormValid.description = true;
     isFormValid.picture = true;
-    dispatch(toggleEditMode());
+    // dispatch(toggleEditMode());
   };
 
   /** //* Fonction pour le bouton delete
@@ -509,13 +509,9 @@ function MyProfile() {
       }
 
       // ? Gestion du switch openToWork
-      if (
-        checked !== undefined && // On vérifie que checked existe
-        checked !== member?.availability
-      ) {
+      if (checked !== undefined) {
         // Si la valeur du state est différente de la valeur du membre, on l'ajoute à formData
-        formData.append('availability', checked.toString());
-        objData.availability = checked; // On ajoute checked à objData
+        objData.availability = checked === false ? false : true; // On ajoute checked à objData
       }
 
       // ? Gestion de l'image
@@ -535,13 +531,15 @@ function MyProfile() {
         objData.tags = selectedTagsData; // On ajoute le tableau selectedTagsData à objData
       }
 
+      console.log(objData);
       dispatch(
         // On dispatch l'action updateMember avec l'id du membre et les données du formulaire
         updateMember({
           id: userId,
-          objData: { ...objData }, // Dans formData, on ajoute la valeur de checked et on ajoute les données du formulaire (objData)
+          objData, // Dans formData, on ajoute la valeur de checked et on ajoute les données du formulaire (objData)
         })
       );
+      handleResetForm(); // On réinitialise le formulaire
     }
   };
 
@@ -971,7 +969,7 @@ function MyProfile() {
               </button>
               <div className="Member--fourthField--container--group">
                 <button // ? Bouton annuler
-                  onClick={handleCancelClick} // On appelle la fonction handleCancelClick au clic sur le bouton
+                  onClick={handleResetForm} // On appelle la fonction handleResetForm au clic sur le bouton
                   type="button"
                   className={`Member--fourthField--container--cancel ${
                     // On contrôle l'affichage du bouton si on est en mode édition grâce à la classe CSS visible ou hidden

@@ -11,7 +11,7 @@ import { toggleModalDelete } from '../../../../../../store/reducer/log';
 // ? Composants
 
 // ? Styles
-import './style.scss';
+import '../../../../../../styles/modale.scss';
 
 // ? Fonction principale
 function DeleteModale() {

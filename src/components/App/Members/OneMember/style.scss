@@ -578,7 +578,7 @@
         }
         // ? En-tête
         &--header {
-            margin: v.$font-xsmall 0;
+            margin: v.$font-xxlarge 0 0;
 
             &--container {
                 flex-direction: column-reverse;
@@ -767,7 +767,7 @@
         }
         // ? En-tête
         &--header {
-            margin: 0 0 v.$font-small 0;
+            margin: v.$font-xlarge 0 v.$font-small 0;
 
             &--container {
                 flex-direction: column-reverse;
@@ -954,7 +954,7 @@
         }
         // ? En-tête
         &--header {
-            margin: 0 0 v.$font-xsmall 0;
+            margin: v.$font-xxlarge 0 v.$font-xsmall 0;
 
             &--container {
                 flex-direction: column-reverse;
