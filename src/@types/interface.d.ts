@@ -36,6 +36,7 @@ export interface ProjectI {
   user: MemberI[];
   user_id: number;
   user_pseudo: string;
+  users: MemberI[];
   tags: TagI[];
   createdAt: Date;
   updatedAt: Date;

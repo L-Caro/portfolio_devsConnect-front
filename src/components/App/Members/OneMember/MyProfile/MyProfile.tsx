@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../hook/redux';
 // ? Fonctions externes
 import { fetchAllTags } from '../../../../../store/reducer/tag';
 import { fetchOneMember } from '../../../../../store/reducer/members';
-import updateMember from '../../../../../store/actions/updateMember';
+import updateMember from '../../../../../store/actions/memberUpdate';
 import checkPseudo from '../../../../../store/actions/checkPseudo';
 import checkEmail from '../../../../../store/actions/checkEmail';
 

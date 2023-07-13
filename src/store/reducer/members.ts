@@ -2,8 +2,8 @@
 import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
 
 // ? Fonctions externes
-import updateMember from '../actions/updateMember';
-import deleteMember from '../actions/deleteMember';
+import updateMember from '../actions/memberUpdate';
+import deleteMember from '../actions/memberDelete';
 
 // ? Instance Axios
 import axiosInstance from '../../utils/axios';
@@ -14,7 +14,7 @@ import { MemberI } from '../../@types/interface';
 interface MemberState {
   status?: string;
   list: {
-    data: [];
+    data: MemberI[];
     loading: boolean;
   };
   member: {

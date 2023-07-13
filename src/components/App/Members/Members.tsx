@@ -43,7 +43,7 @@ function Members() {
 
   // ? Fonctions
   /** //* Fonction pour changer de page
-   * @param {Object} event - Evénement
+   * @param {Object} event - Événement
    * @param {Number} newPage - Nouvelle page
    * Au clic sur un bouton de pagination, on met à jour la page
    */
@@ -55,7 +55,7 @@ function Members() {
   };
 
   /** //* Fonction pour changer le nombre de membres par page
-   * @param {Object} event - Evénement
+   * @param {Object} event - Événement
    * Au changement du nombre de membres par page, on met à jour le nombre de membres par page
    * On remet la page à 0
    */
@@ -65,7 +65,8 @@ function Members() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  // En cas de chargement des membres, on affiche un indicateur de chargement
+
+  //* En cas de chargement des membres, on affiche un indicateur de chargement
   if (loading) {
     return (
       <div className="Loader">

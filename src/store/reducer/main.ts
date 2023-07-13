@@ -3,10 +3,10 @@ import { createAction, createReducer } from '@reduxjs/toolkit';
 
 // ? Fonctions externe
 import loginUser from '../actions/login';
-import signinUser from '../actions/signin';
+import signinUser from '../actions/memberCreate';
 import logout from '../actions/logout';
-import updateMember from '../actions/updateMember';
-import deleteMember from '../actions/deleteMember';
+import updateMember from '../actions/memberUpdate';
+import deleteMember from '../actions/memberDelete';
 
 // ? Typage global
 import { FlashI } from '../../@types/interface';

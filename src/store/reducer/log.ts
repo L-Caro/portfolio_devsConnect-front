@@ -2,8 +2,8 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 
 // ? Fonctions externes
-import signinUser from '../actions/signin';
-import updateMember from '../actions/updateMember';
+import signinUser from '../actions/memberCreate';
+import updateMember from '../actions/memberUpdate';
 
 // ? Typage local
 interface LogState {

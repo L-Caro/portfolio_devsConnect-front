@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from '../../../../../../hook/redux';
 
 // ? Fonctions externes
 import { toggleModalPassword } from '../../../../../../store/reducer/log';
-import updateMember from '../../../../../../store/actions/updateMember';
+import updateMember from '../../../../../../store/actions/memberUpdate';
 import checkPassword from '../../../../../../store/actions/checkPassword';
 import {
   resetMessage,

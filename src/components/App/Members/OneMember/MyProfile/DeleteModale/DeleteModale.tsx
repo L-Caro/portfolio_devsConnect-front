@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../../../../../hook/redux';
 
 // ? Fonctions externes
-import deleteMember from '../../../../../../store/actions/deleteMember';
+import deleteMember from '../../../../../../store/actions/memberDelete';
 import logout from '../../../../../../store/actions/logout';
 import { toggleModalDelete } from '../../../../../../store/reducer/log';
 

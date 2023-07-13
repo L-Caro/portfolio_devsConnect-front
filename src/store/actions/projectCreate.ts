@@ -4,24 +4,17 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 // ? Instance Axios
 import axiosInstance from '../../utils/axios';
 
-// ? Typage local
-type UpdateMemberI = {
-  id: number | null;
-  formData: FormData & { availability: boolean | undefined };
-};
-
-//* Update un membre
-const updateMember = createAsyncThunk(
-  'user/updateMember',
-  async ({ id, objData }) => {
+//* Créer un projet
+const createProject = createAsyncThunk(
+  'project/createProject',
+  async (objData: FormData) => {
     try {
-      const { data } = await axiosInstance.put(`/api/users/${id}`, objData, {
+      const { data } = await axiosInstance.post('/api/projects', objData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       // ? On retourne le state
-
       return data;
     } catch (error) {
       console.error('Error:', error);
@@ -30,4 +23,4 @@ const updateMember = createAsyncThunk(
   }
 );
 
-export default updateMember;
+export default createProject;

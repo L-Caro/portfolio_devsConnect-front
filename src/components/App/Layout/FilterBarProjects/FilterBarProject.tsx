@@ -10,16 +10,16 @@ import './style.scss';
 import SelectComponent from './Select/Select';
 
 // ? Typage global
-import { MemberI, TagSelectedI } from '../../../../@types/interface';
+import { ProjectI, TagSelectedI } from '../../../../@types/interface';
 
 // ? Fonction principale
 function FilterBar({
-  members,
-  setFilteredMembers,
+  projects,
+  setFilteredProjects,
 }: {
   // Props du composant
-  members: MemberI[];
-  setFilteredMembers: React.Dispatch<React.SetStateAction<MemberI[]>>;
+  projects: ProjectI[];
+  setFilteredProjects: React.Dispatch<React.SetStateAction<ProjectI[]>>;
 }) {
   // ? State
   // local
@@ -32,33 +32,26 @@ function FilterBar({
 
   // ? UseEffect
   /** //! UseEffect pour filtrer les membres
-   * @param {array} members - Tableau des membres
-   * @param {function} setFilteredMembers - State pour gérer les membres filtrés
+   * @param {array} project - Tableau des projets
+   * @param {function} setFilteredProjects - State pour gérer les projets filtrés
    * @param {string} searchText - Valeur du paramètre `search` de l'url
    * @param {array} selectedTags - Tableau des technos sélectionnées
    * @param {boolean} checked - State pour gérer le switch open to work
-   * A chaque fois que `members`, `searchText`, `checked`, `setFilteredMembers` ou `selectedTags` change, on fait une mise à jour des membres filtrés
-   * On met à jour les membres filtrés du composant parent <Membres />
+   * A chaque fois que `projects`, `searchText`, `checked`, `setFilteredProjects` ou `selectedTags` change, on fait une mise à jour des projets filtrés
+   * On met à jour les projets filtrés du composant parent <Projects />
    */
   useEffect(() => {
     // On filtre sur tous les membres
-    const filteredResults = members.filter((member) => {
+    const filteredResults = projects.filter((project) => {
       //* Filtre par nom ou prénom
       // on filtre le nom du membre par rapport à la valeur de la recherche
-      const nameResult = member.lastname
+      const textResult = project.title
         .toLowerCase()
         .includes(searchText.toLowerCase());
-      // on filtre le prénom du membre par rapport à la valeur de la recherche
-      const firstnameResult = member.firstname
-        .toLowerCase()
-        .includes(searchText.toLowerCase());
-
-      // On retourne le résultat de la recherche sur le nom ou le prénom
-      const textResult = nameResult || firstnameResult;
 
       //* Filtre par disponibilité
       // On retourne le résultat de la recherche sur la disponibilité
-      const available = !checked || member.availability;
+      const available = !checked || project.availability;
 
       //* Filtre par techno
       // On retourne le résultat de la recherche sur les technos
@@ -66,11 +59,11 @@ function FilterBar({
         // si aucune techno n'est sélectionnée, on retourne true pour tout afficher
         selectedTags.length === 0 ||
         // sinon on filtre sur les technos sélectionnées
-        (member.tags &&
+        (project.tags &&
           // every pour que les filtres technos soient cumulatifs
           selectedTags.every((techno) =>
             // on vérifie que le nom de la techno est présent dans les tags du membre
-            member.tags.some(
+            project.tags.some(
               (tag) => tag.name.toLowerCase() === techno.value.toLowerCase()
             )
           ));
@@ -78,8 +71,8 @@ function FilterBar({
       return textResult && available && technoResult;
     });
     // On met à jour les membres filtrés du composant parent <Membres /> avec le résultat des différents filtres
-    setFilteredMembers(filteredResults);
-  }, [searchText, members, checked, selectedTags, setFilteredMembers]);
+    setFilteredProjects(filteredResults);
+  }, [searchText, projects, checked, selectedTags, setFilteredProjects]);
 
   // ? Fonctions
   /**  //* Fonction pour le switch open to work

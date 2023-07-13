@@ -8,7 +8,7 @@ import { useAppSelector, useAppDispatch } from '../../../hook/redux';
 
 // ? Fonctions externes
 import { fetchAllTags } from '../../../store/reducer/tag';
-import signinUser from '../../../store/actions/signin';
+import signinUser from '../../../store/actions/memberCreate';
 import checkPseudo from '../../../store/actions/checkPseudo';
 import checkEmail from '../../../store/actions/checkEmail';
 
