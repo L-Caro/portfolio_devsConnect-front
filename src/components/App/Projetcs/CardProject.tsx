@@ -5,15 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 // ? Styles
 import './style.scss';
 
-// ? Typage
+// ? Typage globale
 import { ProjectI } from '../../../@types/interface';
 
-// ? Interface globale
+// ? Interface
 interface CardProjectI {
   project: ProjectI;
 }
-
-// const owner
 
 // ? Fonction principale
 function CardProject({ project }: CardProjectI) {

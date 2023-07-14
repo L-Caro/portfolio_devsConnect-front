@@ -13,6 +13,7 @@ import { fetchAllProjects } from '../../../store/reducer/projects';
 import NotFound from '../../NotFound/NotFound';
 import FilterBar from '../Layout/FilterBarProjects/FilterBarProject';
 import CardProject from './CardProject';
+import ProjectCard from '../ProjectCard/ProjectCard';
 
 // ? Styles
 import './style.scss';
@@ -141,7 +142,8 @@ function Projects() {
              * et une clé unique
              */
             // <li key={project.id}>{project.title}</li>
-            <CardProject key={project.id} project={project} />
+            // <CardProject key={project.id} project={project.id} />
+            <ProjectCard key={project.id} project={project} />
           ))}
       </div>
     </div>
