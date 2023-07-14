@@ -1,30 +1,34 @@
 // ? Librairies
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '../../../hook/redux';
 
 // ? Styles
 import './style.scss';
 
 // ? Typage globale
 import { ProjectI } from '../../../@types/interface';
+import { fetchOneProject } from '../../../store/reducer/projects';
 
-// ? Interface
-interface CardProjectI {
-  project: ProjectI;
-}
 // ? Fonction principale
-function ProjectCard({ project }: CardProjectI) {
-  // On récupère les données de project depuis Projects.tsx
-  const {
-    id,
-    title,
-    description,
-    availability,
-    user_pseudo: userPseudo,
-    users,
-  } = project;
+function ProjectCard({ id }: ProjectI) {
+  // ? State
+  // Store
+  const project = useAppSelector((state) => state.projects.project.data); // On récupère les données du projet
+
+  // ? Dispatch
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const stringId = id.toString();
+    dispatch(fetchOneProject(stringId));
+  }, [dispatch, id]);
 
   // ? Rendu JSX
+  if (!project) {
+    return null; // Si project est null, ne rien afficher
+  }
   return (
     /** //! Lien vers le projet
      * @param {Function} Link - Permet de naviguer entre les pages
@@ -32,22 +36,23 @@ function ProjectCard({ project }: CardProjectI) {
      * @param {string} project.id - On récupère l'ID du projet
      * Permet de naviguer vers la page du projet correspondant a l'id récupéré en state
      */
+
     <section className="CardProject">
       <Link to={`/projects/${id}`}>
         <div className="ProjectCard" key={id}>
           <div className="ProjectCard--firstField">
-            <h4 className="ProjectCard--firstField--title">{title}</h4>
+            <h4 className="ProjectCard--firstField--title">{project.title}</h4>
             <p
-              className={`CardProject--header--link--text--availability ${
-                availability ? 'open' : 'close'
+              className={`ProjectCard--firstField--availability ${
+                project.availability ? 'open' : 'close'
               }`}
             >
               {/* On ajoute une classe pour css en fonction de availability */}{' '}
-              {availability ? 'Disponible' : 'Indisponible'}{' '}
+              {project.availability ? 'Disponible' : 'Indisponible'}{' '}
               {/* On affiche un texte en fonction de availability */}
             </p>
             <p>
-              Propriétaire du projet : <span>{userPseudo}</span>
+              Propriétaire du projet : <span>{project.user_pseudo}</span>
             </p>
           </div>
           <div className="ProjectCard--secondField--technos">
@@ -58,29 +63,28 @@ function ProjectCard({ project }: CardProjectI) {
              * On affiche l'image de la techno avec le nom en alt et title
              */}
             {project.tags &&
-              project.tags
-                .slice(0, 9)
-                .map((tag) => (
-                  <img
-                    key={`${id}-${tag.id}`}
-                    src={`/images/technos/${tag.name.toLowerCase()}.svg`}
-                    alt={tag.name}
-                    title={tag.name}
-                  />
-                ))}
+              // console.log(project.tags) &&
+              project.tags.map((tag) => (
+                <img
+                  key={`${tag.tag_id}-${tag.tag_id}`}
+                  src={`/images/technos/${tag.tag_name.toLowerCase()}.svg`}
+                  alt={tag.tag_name}
+                  title={tag.tag_name}
+                />
+              ))}
           </div>
           <div className="ProjectCard--thirdField">
             <div className="ProjectCard--thirdField--description">
-              {description}
+              {project.description}
             </div>
           </div>
         </div>
       </Link>
       <div className="ProjectCard--footer">
-        {users && users.length > 0 && (
+        {project.users && project.users.length > 0 && (
           <h4 className="ProjectCard--footer--title">Participants :</h4>
         )}
-        {/* //! On map dessus en dur et limite à 3 l'affichage */}
+
         <ul className="ProjectCard--footer--list">
           {/** //! Affichage des utilisateurs
            * Si project.members existe et qu'il y a au moins un membre
@@ -89,9 +93,9 @@ function ProjectCard({ project }: CardProjectI) {
            *
            *  Sinon on affiche un message pour dire qu'il n'y a pas de membre
            */}
-          {users &&
-            users.length > 0 &&
-            users.slice(0, 9).map((user) => (
+          {project.users &&
+            project.users.length > 0 &&
+            project.users.slice(0, 9).map((user) => (
               /** //! Link
                * @param {String} to - Lien vers la page du projet en fonction de son id
                * @param {String} key - Clé unique pour chaque projet (id)

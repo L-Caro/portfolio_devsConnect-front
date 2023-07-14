@@ -12,11 +12,13 @@
     }
     //? Container des cartes
     &--containerCard {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap; // Permet de mettre les cartes en ligne
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        // display: flex;
+        // justify-content: center;
+        // flex-wrap: wrap; // Permet de mettre les cartes en ligne
         gap: 2rem 1rem;
-        margin: 0 auto; // Permet de centrer les cartes
+        // margin: 0 auto; // Permet de centrer les cartes
         padding: v.$font-xsmall;
     }
     @media screen and (min-width: 1400px) {

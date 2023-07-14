@@ -16,7 +16,7 @@ import ProjectCard from '../../ProjectCard/ProjectCard';
 import NotFound from '../../../NotFound/NotFound';
 
 // ? Styles
-import './style.scss';
+import '../../ProjectCard/style.scss';
 
 // ? Fonction principale
 function OneMember() {
@@ -67,7 +67,6 @@ function OneMember() {
     );
   }
 
-  console.log(member);
   // ? Rendu JSX
   return (
     <div className="Member">
@@ -175,7 +174,7 @@ function OneMember() {
                  */}
 
                 {member.projects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
+                  <ProjectCard key={project.id} id={project.id} />
                 ))}
               </Carousel>
             )}

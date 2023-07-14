@@ -16,6 +16,7 @@ import ProjectCard from '../ProjectCard/ProjectCard';
 
 // ? Styles
 import './style.scss';
+import '../ProjectCard/style.scss';
 
 // ? Interface globale
 import { ProjectI } from '../../../@types/interface';
@@ -142,7 +143,7 @@ function Projects() {
              */
             // <li key={project.id}>{project.title}</li>
             // <CardProject key={project.id} project={project.id} />
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard key={project.id} id={project.id} />
           ))}
       </div>
     </div>

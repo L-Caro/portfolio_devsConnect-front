@@ -47,10 +47,12 @@ export interface ProjectsI {
 }
 
 export interface TagI {
+  tag_id: number;
+  tag_name: string;
   id: number;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  tag_createdAt: Date;
+  tag_updatedAt: Date;
 }
 
 //* Utiliser dans Signin par exemple pour l'affichage des technos
