@@ -12,7 +12,6 @@ import { fetchAllProjects } from '../../../store/reducer/projects';
 // ? Composants
 import NotFound from '../../NotFound/NotFound';
 import FilterBar from '../Layout/FilterBarProjects/FilterBarProject';
-import CardProject from './CardProject';
 import ProjectCard from '../ProjectCard/ProjectCard';
 
 // ? Styles

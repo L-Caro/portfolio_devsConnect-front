@@ -27,7 +27,7 @@ import {
 
 // ? Composants
 import CustomSwitch from '../../../../../utils/customSwitchUI';
-import ProjectCard from '../ProjectCard';
+import ProjectCard from '../../../ProjectCard/ProjectCard';
 import Input from '../../../../Form/Input';
 import DeleteModale from './DeleteModale/DeleteModale';
 import PasswordModale from './PasswordModale/PasswordModale';

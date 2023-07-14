@@ -77,7 +77,9 @@ function ProjectCard({ project }: CardProjectI) {
         </div>
       </Link>
       <div className="ProjectCard--footer">
-        <h4 className="ProjectCard--footer--title">Participants :</h4>
+        {users && users.length > 0 && (
+          <h4 className="ProjectCard--footer--title">Participants :</h4>
+        )}
         {/* //! On map dessus en dur et limite à 3 l'affichage */}
         <ul className="ProjectCard--footer--list">
           {/** //! Affichage des utilisateurs

@@ -12,7 +12,7 @@ import { useAppSelector, useAppDispatch } from '../../../../hook/redux';
 import { fetchOneMember } from '../../../../store/reducer/members';
 
 // ? Composants
-import ProjectCard from './ProjectCard';
+import ProjectCard from '../../ProjectCard/ProjectCard';
 import NotFound from '../../../NotFound/NotFound';
 
 // ? Styles
@@ -67,6 +67,7 @@ function OneMember() {
     );
   }
 
+  console.log(member);
   // ? Rendu JSX
   return (
     <div className="Member">
@@ -174,7 +175,7 @@ function OneMember() {
                  */}
 
                 {member.projects.map((project) => (
-                  <ProjectCard key={project.id} projectID={project} />
+                  <ProjectCard key={project.id} project={project} />
                 ))}
               </Carousel>
             )}
