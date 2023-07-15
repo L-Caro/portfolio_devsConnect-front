@@ -11,9 +11,37 @@
     opacity: 1;
     &--firstField {
         &--title {
+            margin: 0 auto;
+            width: fit-content;
+            border: 2px solid v.$color-button;
+            border-top: none;
+            border-radius: 0 0 v.$border-radius v.$border-radius;
+            color: v.$color-button;
             text-align: center;
             letter-spacing: 0.2rem;
-            color: v.$color-button;
+        }
+        &--availability {
+            text-align: right;
+            font-weight: 700;
+        }
+        &--owner {
+            display: flex;
+            justify-content: left;
+            color: v.$color-darkest;
+            letter-spacing: 0.2rem;
+            &--title {
+                text-decoration: underline;
+                font-style: italic;
+            }
+            &--name {
+                margin-left: v.$font-xxsmall;
+                color: #2f4f4f;
+                font-weight: 700;
+
+                &:hover {
+                    border-bottom: 1px solid #2f4f4f;
+                }
+            }
         }
     }
     &--secondField {
@@ -23,41 +51,31 @@
         }
     }
     &--thirdField {
-        border: 1px solid v.$color-darkest;
         &--description {
             overflow: hidden;
             text-align: justify;
-            border: 1px solid v.$color-darkest;
         }
     }
 
     @media screen and (min-width: v.$mq-large) {
         margin: v.$font-xsmall auto;
-        padding: 2rem 5.5rem;
+        padding: 0 5.5rem 2rem;
         width: 95%;
-        height: 300px; // Hauteur du carousel
-        &--secondField {
-            &--technos {
-                gap: v.$font-small;
-                margin: v.$font-small;
-                & img {
-                    width: v.$font-large;
-                    max-width: 15%;
-                    height: v.$font-large;
-                }
+        height: 350px; // Hauteur du carousel
+        &--firstField {
+            &--title {
+                padding: v.$font-xxsmall v.$font-xsmall;
+                font-size: v.$font-medium;
+                letter-spacing: 0.5rem;
+            }
+            &--availability {
+                font-size: v.$font-small;
+            }
+            &--owner {
+                margin-top: v.$font-xsmall;
+                font-size: v.$font-small;
             }
         }
-        &--thirdField {
-            &--description {
-                max-height: 15rem;
-            }
-        }
-    }
-    @media screen and (max-width: v.$mq-large) {
-        margin: v.$font-xsmall auto;
-        padding: 2rem 5.5rem;
-        width: 95%;
-        height: 250px; // Hauteur du carousel
         &--secondField {
             &--technos {
                 gap: v.$font-small;
@@ -75,15 +93,66 @@
             }
         }
     }
-    @media screen and (max-width: v.$mq-medium) {
+    @media screen and (max-width: v.$mq-large) {
         margin: v.$font-xsmall auto;
-        padding: 2rem 5rem;
-        width: 94%;
-        height: 250px; // Hauteur du carousel
+        padding: 0 5.5rem 2rem;
+        width: 95%;
+        height: 290px; // Hauteur du carousel
+        &--firstField {
+            &--title {
+                padding: v.$font-xxsmall v.$font-xsmall;
+                font-size: v.$font-small;
+                letter-spacing: 0.5rem;
+            }
+            &--availability {
+                font-size: v.$font-xsmall + 0.2;
+            }
+            &--owner {
+                margin-top: v.$font-xxsmall;
+                font-size: v.$font-xsmall + 0.2;
+            }
+        }
         &--secondField {
             &--technos {
                 gap: v.$font-small;
-                margin: v.$font-small;
+                margin: v.$font-xsmall;
+                & img {
+                    width: v.$font-large;
+                    max-width: 15%;
+                    height: v.$font-large;
+                }
+            }
+        }
+        &--thirdField {
+            &--description {
+                max-height: 8.5rem;
+            }
+        }
+    }
+    @media screen and (max-width: v.$mq-medium) {
+        margin: v.$font-xsmall auto;
+        padding: 0 5rem 2rem;
+        width: 94%;
+        height: 280px; // Hauteur du carousel
+        &--firstField {
+            &--title {
+                padding: v.$font-xxsmall v.$font-small;
+                font-size: v.$font-xsmall;
+                letter-spacing: 0.5rem;
+            }
+            &--availability {
+                margin-top: 0;
+                font-size: v.$font-xsmall;
+            }
+            &--owner {
+                margin-top: v.$font-xxsmall - 0.3;
+                font-size: v.$font-xsmall;
+            }
+        }
+        &--secondField {
+            &--technos {
+                gap: v.$font-small;
+                margin: v.$font-xxsmall;
                 & img {
                     width: v.$font-medium;
                     max-width: 7%;
@@ -93,24 +162,35 @@
         }
         &--thirdField {
             &--description {
-                max-height: 12rem;
+                font-size: v.$font-xsmall;
+                max-height: 9rem;
             }
         }
     }
     @media screen and (max-width: v.$mq-small) {
+        margin: v.$font-xsmall auto;
+        padding: 0 2rem 2rem;
+        width: 100%;
+        height: 230px; // Hauteur du carousel
         &--firstField {
             &--title {
-                font-size: v.$font-small;
+                padding: v.$font-xxsmall v.$font-xsmall;
+                font-size: v.$font-xsmall;
+                letter-spacing: 0.3rem;
+            }
+            &--availability {
+                margin-top: 0;
+                font-size: v.$font-xxsmall + 0.2;
+            }
+            &--owner {
+                margin-top: v.$font-xxsmall - 0.3;
+                font-size: v.$font-xsmall - 0.1;
             }
         }
-        margin: v.$font-xsmall auto;
-        padding: 2rem;
-        width: 100%;
-        height: 200px; // Hauteur du carousel
         &--secondField {
             &--technos {
                 gap: v.$font-medium;
-                margin: v.$font-small;
+                margin: v.$font-xxsmall;
                 & img {
                     width: v.$font-large;
                     max-width: 6%;
@@ -120,20 +200,29 @@
         }
         &--thirdField {
             &--description {
-                max-height: 9rem;
+                max-height: 6rem;
             }
         }
     }
     @media screen and (max-width: v.$mq-xsmall) {
+        margin: v.$font-xxsmall auto;
+        padding: 0 1rem 1rem;
+        width: 100%;
+        height: 190px; // Hauteur du carousel
         &--firstField {
             &--title {
+                padding: v.$font-xxsmall v.$font-xsmall;
                 font-size: v.$font-xsmall;
             }
+            &--availability {
+                margin-top: v.$font-xxsmall - 0.3;
+                font-size: v.$font-xxsmall + 0.1;
+            }
+            &--owner {
+                margin-top: v.$font-xxsmall - 0.3;
+                font-size: v.$font-xxsmall + 0.2;
+            }
         }
-        margin: v.$font-xxsmall auto;
-        padding: 1rem;
-        width: 100%;
-        height: 150px; // Hauteur du carousel
         &--secondField {
             &--technos {
                 gap: v.$font-small;
@@ -147,7 +236,7 @@
         }
         &--thirdField {
             &--description {
-                max-height: 6rem;
+                max-height: 4rem;
                 font-size: 0.7rem;
             }
         }

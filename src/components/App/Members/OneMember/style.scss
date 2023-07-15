@@ -338,7 +338,7 @@
             }
             &--thirdField {
                 //* Partie projets
-                height: 420px; // Adapter à la hauteur du carousel
+                height: 470px; // Adapter à la hauteur du carousel
             }
         }
         &--fourthField {
@@ -519,7 +519,7 @@
             }
             &--thirdField {
                 //* Partie projets
-                height: 350px; // Adapter à la hauteur du carousel
+                height: 390px; // Adapter à la hauteur du carousel
             }
         }
         &--fourthField {
@@ -706,7 +706,7 @@
             }
             &--thirdField {
                 //* Partie projets
-                height: 350px; // Adapter à la hauteur du carousel
+                height: 380px; // Adapter à la hauteur du carousel
             }
         }
         &--fourthField {
@@ -896,7 +896,7 @@
             }
             &--thirdField {
                 //* Partie projets
-                height: 270px; // Adapter à la hauteur du carousel
+                height: 300px; // Adapter à la hauteur du carousel
             }
         }
         &--fourthField {
@@ -1083,7 +1083,7 @@
             }
             &--thirdField {
                 //* Partie projets
-                height: 220px; // Adapter à la hauteur du carousel
+                height: 250px; // Adapter à la hauteur du carousel
             }
         }
         &--fourthField {
@@ -1141,23 +1141,23 @@
     width: 100%;
     @media screen and (min-width: v.$mq-large) {
         margin: v.$font-small auto;
-        height: 320px;
+        height: 370px;
     }
     @media screen and (max-width: v.$mq-large) {
         margin: v.$font-xsmall auto;
-        height: 265px;
+        height: 310px;
     }
     @media screen and (max-width: v.$mq-medium) {
         margin: v.$font-xsmall auto;
-        height: 265px;
+        height: 295px;
     }
     @media screen and (max-width: v.$mq-small) {
         margin: v.$font-xxsmall auto;
-        height: 215px;
+        height: 245px;
     }
     @media screen and (max-width: v.$mq-xsmall) {
         margin: v.$font-xxsmall auto;
-        height: 150px;
+        height: 190px;
     }
 }
 

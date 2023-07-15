@@ -38,78 +38,56 @@ function ProjectCard({ id }: ProjectI) {
      */
 
     <section className="CardProject">
-      <Link to={`/projects/${id}`}>
-        <div className="ProjectCard" key={id}>
-          <div className="ProjectCard--firstField">
+      <div className="ProjectCard" key={id}>
+        <div className="ProjectCard--firstField">
+          <Link to={`/projects/${id}`}>
             <h4 className="ProjectCard--firstField--title">{project.title}</h4>
-            <p
-              className={`ProjectCard--firstField--availability ${
-                project.availability ? 'open' : 'close'
-              }`}
-            >
-              {/* On ajoute une classe pour css en fonction de availability */}{' '}
-              {project.availability ? 'Disponible' : 'Indisponible'}{' '}
-              {/* On affiche un texte en fonction de availability */}
+          </Link>
+          <p
+            className={`ProjectCard--firstField--availability ${
+              project.availability ? 'open' : 'close'
+            }`}
+          >
+            {/* On ajoute une classe pour css en fonction de availability */}{' '}
+            {project.availability
+              ? 'Ouvert au recrutement'
+              : 'Fermé au recrutement'}{' '}
+            {/* On affiche un texte en fonction de availability */}
+          </p>
+          <div className="ProjectCard--firstField--owner">
+            <p className="ProjectCard--firstField--owner--title">
+              Propriétaire :{' '}
             </p>
-            <p>
-              Propriétaire du projet : <span>{project.user_pseudo}</span>
-            </p>
-          </div>
-          <div className="ProjectCard--secondField--technos">
-            {/** //! Affichage des technos
-             * @param {Array} project.tags - On récupère la liste des tags du projet
-             * On map sur la liste des tags du projet
-             * On limite à 4 l'affichage
-             * On affiche l'image de la techno avec le nom en alt et title
-             */}
-            {project.tags &&
-              // console.log(project.tags) &&
-              project.tags.map((tag) => (
-                <img
-                  key={`${tag.tag_id}-${tag.tag_id}`}
-                  src={`/images/technos/${tag.tag_name.toLowerCase()}.svg`}
-                  alt={tag.tag_name}
-                  title={tag.tag_name}
-                />
-              ))}
-          </div>
-          <div className="ProjectCard--thirdField">
-            <div className="ProjectCard--thirdField--description">
-              {project.description}
-            </div>
+            <Link to={`/users/${project.user_id}`}>
+              <span className="ProjectCard--firstField--owner--name">
+                {project.user_pseudo}
+              </span>
+            </Link>
           </div>
         </div>
-      </Link>
-      <div className="ProjectCard--footer">
-        {project.users && project.users.length > 0 && (
-          <h4 className="ProjectCard--footer--title">Participants :</h4>
-        )}
-
-        <ul className="ProjectCard--footer--list">
-          {/** //! Affichage des utilisateurs
-           * Si project.members existe et qu'il y a au moins un membre
-           * On map sur la liste des membres
-           * On limite à 3 l'affichage
-           *
-           *  Sinon on affiche un message pour dire qu'il n'y a pas de membre
+        <div className="ProjectCard--secondField--technos">
+          {/** //! Affichage des technos
+           * @param {Array} project.tags - On récupère la liste des tags du projet
+           * On map sur la liste des tags du projet
+           * On limite à 4 l'affichage
+           * On affiche l'image de la techno avec le nom en alt et title
            */}
-          {project.users &&
-            project.users.length > 0 &&
-            project.users.slice(0, 9).map((user) => (
-              /** //! Link
-               * @param {String} to - Lien vers la page du projet en fonction de son id
-               * @param {String} key - Clé unique pour chaque projet (id)
-               * Pendant la boucle, on génère un lien pour chaque projet
-               * en lui donnant une clé unique et le titre du projet
-               */
-              <Link key={uuidv4()} to={`/users/${user.id}`}>
-                <li className="ProjectCard--footer--list--item">
-                  {' '}
-                  {user.pseudo}
-                </li>
-              </Link>
+          {project.tags &&
+            // console.log(project.tags) &&
+            project.tags.map((tag) => (
+              <img
+                key={`${tag.tag_id}-${tag.tag_id}`}
+                src={`/images/technos/${tag.tag_name.toLowerCase()}.svg`}
+                alt={tag.tag_name}
+                title={tag.tag_name}
+              />
             ))}
-        </ul>
+        </div>
+        <div className="ProjectCard--thirdField">
+          <div className="ProjectCard--thirdField--description">
+            {project.description}
+          </div>
+        </div>
       </div>
     </section>
   );

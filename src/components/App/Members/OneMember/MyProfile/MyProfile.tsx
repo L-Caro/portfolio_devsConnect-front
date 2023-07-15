@@ -951,7 +951,7 @@ function MyProfile() {
                      */}
 
                     {member.projects.map((project) => (
-                      <ProjectCard key={project.id} projectID={project} />
+                      <ProjectCard key={project.id} id={project.id} />
                     ))}
                   </Carousel>
                 )}

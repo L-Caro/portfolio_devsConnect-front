@@ -5,7 +5,7 @@ import logout from '../store/actions/logout';
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000',
   headers: {
-    'Content-Type': 'application/json',
+    'content-type': 'application/json',
   },
 });
 

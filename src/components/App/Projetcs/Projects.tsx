@@ -111,7 +111,7 @@ function Projects() {
       />
       <ThemeProvider theme={paginationUITheme}>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 50]}
+          rowsPerPageOptions={[5, 10, 15, 20]}
           component="div"
           labelRowsPerPage="Résultats par page"
           labelDisplayedRows={({ from, to, count }) =>
