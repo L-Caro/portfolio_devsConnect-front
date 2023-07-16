@@ -929,15 +929,16 @@ function MyProfile() {
                     draggable={false} // Drag sur mobile (false === interdit)
                     // ? Affichage/Position des éléments
                     // centerMode // Affiche partiellement les cartes gauches et droites
-                    showDots // Affiche les points de navigation
+                    showDots={member.projects.length > 1} // Affiche les points de navigation
                     renderDotsOutside // Affiche les points de navigation en dehors du carousel
                     removeArrowOnDeviceType="mobile" // Supprime les flèches de navigation sur mobile
                     renderButtonGroupOutside={false} // Affiche les boutons de navigation en dehors du carousel
+                    arrows={member.projects.length > 1}
                     // ? Animations
                     // rewind // Permet de revenir au début de la liste après la dernière carte
                     // rewindWithAnimation // Revenir au début de la liste avec une animation
                     infinite // Permet de revenir au début de la liste
-                    autoPlay // Défilement automatique
+                    autoPlay={member.projects.length > 1} // Défilement automatique
                     autoPlaySpeed={7000} // Vitesse de défilement (temps entre chaque slide)
                     customTransition="transform 2000ms ease-in-out" // Transition entre chaque slide
                     shouldResetAutoplay // Reset l'autoplay à chaque interaction
@@ -951,7 +952,7 @@ function MyProfile() {
                      */}
 
                     {member.projects.map((project) => (
-                      <ProjectCard key={project.id} id={project.id} />
+                      <ProjectCard key={project.id} project={project} />
                     ))}
                   </Carousel>
                 )}

@@ -143,7 +143,7 @@ function Projects() {
              */
             // <li key={project.id}>{project.title}</li>
             // <CardProject key={project.id} project={project.id} />
-            <ProjectCard key={project.id} id={project.id} />
+            <ProjectCard key={project.id} project={project} />
           ))}
       </div>
     </div>

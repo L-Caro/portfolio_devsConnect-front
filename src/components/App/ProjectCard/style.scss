@@ -29,6 +29,9 @@
             justify-content: left;
             color: v.$color-darkest;
             letter-spacing: 0.2rem;
+            white-space: nowrap; //* Empêche le retour à la ligne
+            overflow: hidden; //* Cache le contenu dépassant du cadre
+            text-overflow: ellipsis; //* Ajoute des points de suspension
             &--title {
                 text-decoration: underline;
                 font-style: italic;
@@ -52,8 +55,41 @@
     }
     &--thirdField {
         &--description {
-            overflow: hidden;
+            overflow: auto;
             text-align: justify;
+            background-color: v.$color;
+            border-radius: v.$border-radius;
+            color: v.$color-darkest;
+            &::-webkit-scrollbar {
+                width: 0 !important;
+            }
+        }
+    }
+    &--fourthField {
+        &--title {
+            color: v.$color-darkest;
+            text-decoration: underline;
+            font-size: v.$font-small;
+            font-style: italic;
+            letter-spacing: 0.2rem;
+        }
+        &--users {
+            display: grid;
+            overflow: hidden;
+            &--name {
+                width: 90%;
+                color: #025a27;
+                font-weight: 700;
+                white-space: nowrap; //* Empêche le retour à la ligne
+                overflow: hidden; //* Cache le contenu dépassant du cadre
+                text-overflow: ellipsis; //* Ajoute des points de suspension
+                list-style: none;
+                &:hover {
+                    width: fit-content;
+                    max-width: 90%;
+                    border-bottom: 1px solid #2f4f4f;
+                }
+            }
         }
     }
 
@@ -89,7 +125,21 @@
         }
         &--thirdField {
             &--description {
-                max-height: 12rem;
+                padding: 1rem 2rem;
+                max-height: 9rem;
+                font-size: v.$font-small;
+            }
+        }
+        &--fourthField {
+            &--title {
+                margin-top: v.$font-xxsmall;
+            }
+            &--users {
+                grid-template-columns: repeat(5, 20%);
+                max-height: 7rem;
+                &--name {
+                    font-size: v.$font-xsmall + 0.2;
+                }
             }
         }
     }
@@ -115,7 +165,7 @@
         &--secondField {
             &--technos {
                 gap: v.$font-small;
-                margin: v.$font-xsmall;
+                margin: v.$font-xxsmall;
                 & img {
                     width: v.$font-large;
                     max-width: 15%;
@@ -125,7 +175,22 @@
         }
         &--thirdField {
             &--description {
-                max-height: 8.5rem;
+                max-height: 7.3rem;
+                padding: 0.7rem 2rem;
+                font-size: v.$font-xsmall + 0.2;
+            }
+        }
+        &--fourthField {
+            &--title {
+                font-size: v.$font-xsmall + 0.3;
+                margin-bottom: v.$font-xxsmall;
+            }
+            &--users {
+                grid-template-columns: repeat(5, 20%);
+                max-height: 6.8rem;
+                &--name {
+                    font-size: v.$font-xsmall + 0.1;
+                }
             }
         }
     }
@@ -146,13 +211,13 @@
             }
             &--owner {
                 margin-top: v.$font-xxsmall - 0.3;
-                font-size: v.$font-xsmall;
+                font-size: v.$font-xsmall + 0.2;
             }
         }
         &--secondField {
             &--technos {
                 gap: v.$font-small;
-                margin: v.$font-xxsmall;
+                margin: v.$font-xsmall;
                 & img {
                     width: v.$font-medium;
                     max-width: 7%;
@@ -162,8 +227,21 @@
         }
         &--thirdField {
             &--description {
+                padding: 0.9rem 1.3rem;
+                max-height: 7.8rem;
                 font-size: v.$font-xsmall;
-                max-height: 9rem;
+            }
+        }
+        &--fourthField {
+            &--title {
+                font-size: v.$font-xsmall + 0.2;
+            }
+            &--users {
+                grid-template-columns: repeat(4, 25%);
+                max-height: 7rem;
+                &--name {
+                    font-size: v.$font-xsmall;
+                }
             }
         }
     }
@@ -190,7 +268,7 @@
         &--secondField {
             &--technos {
                 gap: v.$font-medium;
-                margin: v.$font-xxsmall;
+                margin: v.$font-xxsmall - 0.3;
                 & img {
                     width: v.$font-large;
                     max-width: 6%;
@@ -200,7 +278,23 @@
         }
         &--thirdField {
             &--description {
+                padding: 0.5rem 1.2rem;
                 max-height: 6rem;
+                font-size: v.$font-xxsmall + 0.2;
+            }
+        }
+        &--fourthField {
+            &--title {
+                font-size: v.$font-xsmall - 0.1;
+                margin-bottom: v.$font-xxsmall - 0.3;
+            }
+            &--users {
+                grid-template-columns: repeat(3, 33%);
+                max-height: 5.4rem;
+                &--name {
+                    margin-top: 0;
+                    font-size: v.$font-xsmall - 0.1;
+                }
             }
         }
     }
@@ -213,6 +307,7 @@
             &--title {
                 padding: v.$font-xxsmall v.$font-xsmall;
                 font-size: v.$font-xsmall;
+                letter-spacing: 0;
             }
             &--availability {
                 margin-top: v.$font-xxsmall - 0.3;
@@ -226,7 +321,7 @@
         &--secondField {
             &--technos {
                 gap: v.$font-small;
-                margin: v.$font-xsmall;
+                margin: v.$font-xxsmall - 0.3;
                 & img {
                     width: v.$font-large;
                     max-width: 5%;
@@ -236,8 +331,22 @@
         }
         &--thirdField {
             &--description {
-                max-height: 4rem;
-                font-size: 0.7rem;
+                padding: 0.3rem 1.2rem;
+                max-height: 3.44rem;
+                font-size: 0.6rem;
+            }
+        }
+        &--fourthField {
+            &--title {
+                font-size: v.$font-xxsmall + 0.2;
+            }
+            &--users {
+                grid-template-columns: repeat(3, 33%);
+                max-height: 3.8rem;
+                &--name {
+                    margin-top: 0;
+                    font-size: v.$font-xxsmall + 0.2;
+                }
             }
         }
     }

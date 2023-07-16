@@ -19,6 +19,7 @@ export interface MemberI {
   availability: boolean;
   picture: string;
   projects: ProjectI[];
+  project: ProjectI[];
   tags: TagI[];
   createdAt: Date;
   updatedAt: Date;
@@ -30,16 +31,16 @@ export interface MembersI {
 
 export interface ProjectI {
   id: number;
-  title: string;
-  description: string;
-  availability: boolean;
-  user: MemberI[];
-  user_id: number;
-  user_pseudo: string;
-  users: MemberI[];
-  tags: TagI[];
-  createdAt: Date;
-  updatedAt: Date;
+  title?: string;
+  description?: string;
+  availability?: boolean;
+  user?: MemberI[];
+  user_id?: number;
+  user_pseudo?: string;
+  users?: MemberI[];
+  tags?: TagI[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface ProjectsI {

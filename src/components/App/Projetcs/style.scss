@@ -13,12 +13,9 @@
     //? Container des cartes
     &--containerCard {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        // display: flex;
-        // justify-content: center;
-        // flex-wrap: wrap; // Permet de mettre les cartes en ligne
+        grid-template-columns: repeat(2, 50%);
         gap: 2rem 1rem;
-        // margin: 0 auto; // Permet de centrer les cartes
+        margin: 0 auto; // Permet de centrer les cartes
         padding: v.$font-xsmall;
     }
     @media screen and (min-width: 1400px) {
@@ -30,5 +27,18 @@
         &--containerCard {
             max-width: 140rem; // Permet de limiter la largeur du container
         }
+    }
+    @media screen and (min-width: v.$mq-large) {
+    }
+    @media screen and (max-width: v.$mq-large) {
+        &--containerCard {
+            grid-template-columns: repeat(1, 100%);
+        }
+    }
+    @media screen and (max-width: v.$mq-medium) {
+    }
+    @media screen and (max-width: v.$mq-small) {
+    }
+    @media screen and (max-width: v.$mq-xsmall) {
     }
 }
