@@ -90,13 +90,15 @@ function ProjectCard(project: ProjectI) {
              * On map sur la liste des membres du projet
              */}
             {users &&
-              users.map((user) => (
-                <Link to={`/users/${user.id}`} key={uuidv4()}>
-                  <li className="ProjectCard--fourthField--users--name">
-                    {user.pseudo}
-                  </li>
-                </Link>
-              ))}
+              users
+                .filter((user) => user.id !== user_id)
+                .map((user) => (
+                  <Link to={`/users/${user.id}`} key={uuidv4()}>
+                    <li className="ProjectCard--fourthField--users--name">
+                      {user.pseudo}
+                    </li>
+                  </Link>
+                ))}
           </div>
         </div>
       </div>

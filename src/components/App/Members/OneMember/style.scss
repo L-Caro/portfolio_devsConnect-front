@@ -1175,8 +1175,8 @@
     position: absolute;
     margin: 0 0.4rem;
     height: 94%;
-    background: v.$color-darkest;
-    opacity: 0.7; // Les flèches sont légèrement transparentes
+    background: v.$color-input;
+    opacity: 0.5; // Les flèches sont légèrement transparentes
     &--left {
         border-radius: v.$border-radius 0 0 v.$border-radius;
         left: 2%;
@@ -1186,11 +1186,11 @@
         border-radius: 0 v.$border-radius v.$border-radius 0;
     }
     &::before {
-        color: v.$color;
+        color: v.$color-darkest;
     }
     &:hover {
         background: v.$color-dark;
-        opacity: 1; // Sauf au survol
+        opacity: 0.8; // Sauf au survol
         &::before {
             color: v.$color;
         }
