@@ -1,21 +1,6 @@
 import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/axios';
 
-export const addParticipantToProject = createAsyncThunk(
-  'participants/addParticipantToProject',
-  async ({ projectId, userId }) => {
-    try {
-      const { data } = await axiosInstance.post(
-        `/api/projects/${projectId}/user/${userId}`
-      );
-      return data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  }
-);
-
 export const deleteParticipantFromProject = createAsyncThunk(
   'participants/deleteParticipant',
   async ({ userId, projectId }) => {

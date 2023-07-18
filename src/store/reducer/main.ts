@@ -7,6 +7,8 @@ import signinUser from '../actions/memberCreate';
 import logout from '../actions/logout';
 import updateMember from '../actions/memberUpdate';
 import deleteMember from '../actions/memberDelete';
+import ProjectAddMember from '../actions/ProjectAddMember';
+import ProjectRemoveMember from '../actions/ProjectRemoveMember';
 
 // ? Typage global
 import { FlashI } from '../../@types/interface';
@@ -107,6 +109,22 @@ const mainReducer = createReducer(initialState, (builder) => {
     state.flash = {
       type: 'error',
       children: 'Une erreur est survenue, veuillez réessayer plus tard !',
+    };
+  });
+
+  //* Cas de l'ajout d'un membre à un projet réussie
+  builder.addCase(ProjectAddMember.fulfilled, (state) => {
+    state.flash = {
+      type: 'success',
+      children: "Votre demande d'ajout est bien prise en compte !",
+    };
+  });
+
+  //* Cas de la suppression d'un membre à un projet réussie
+  builder.addCase(ProjectRemoveMember.fulfilled, (state) => {
+    state.flash = {
+      type: 'success',
+      children: 'Vous ne faites plus parti du projet !',
     };
   });
 });

@@ -12,11 +12,11 @@ import { fetchAllProjects } from '../../../store/reducer/projects';
 // ? Composants
 import NotFound from '../../NotFound/NotFound';
 import FilterBar from '../Layout/FilterBarProjects/FilterBarProject';
-import ProjectCard from '../ProjectCard/ProjectCard';
+import ProjectCard from '../Cards/ProjectCard/ProjectCard';
 
 // ? Styles
 import './style.scss';
-import '../ProjectCard/style.scss';
+import '../Cards/ProjectCard/style.scss';
 
 // ? Interface globale
 import { ProjectI } from '../../../@types/interface';

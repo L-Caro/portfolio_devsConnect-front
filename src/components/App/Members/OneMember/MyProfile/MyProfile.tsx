@@ -27,7 +27,7 @@ import {
 
 // ? Composants
 import CustomSwitch from '../../../../../utils/customSwitchUI';
-import ProjectCard from '../../../ProjectCard/ProjectCard';
+import ProjectCard from '../../../Cards/ProjectCard/ProjectCard';
 import Input from '../../../../Form/Input';
 import DeleteModale from './DeleteModale/DeleteModale';
 import PasswordModale from './PasswordModale/PasswordModale';
@@ -176,7 +176,7 @@ function MyProfile() {
     isFormValid.email = true;
     isFormValid.description = true;
     isFormValid.picture = true;
-    // dispatch(toggleEditMode());
+    dispatch(toggleEditMode());
   };
 
   /** //* Fonction pour le bouton delete
@@ -639,7 +639,7 @@ function MyProfile() {
                   name="firstname"
                   slot={isEditMode ? 'Prénom' : null}
                   type="text"
-                  placeholder={member?.firstname || ''}
+                  placeholder={`Prénom : ${member?.firstname || ''}`}
                   aria-label="Prénom"
                   className={`Member--content--firstField--inputText--firstname Input ${
                     formFields.firstname.className
@@ -668,7 +668,7 @@ function MyProfile() {
                   name="lastname"
                   slot={isEditMode ? 'Nom' : null}
                   type="text"
-                  placeholder={member?.lastname || ''}
+                  placeholder={`Nom : ${member?.lastname || ''}`}
                   aria-label="Nom"
                   className={`Member--content--firstField--inputText--lastname Input ${
                     formFields.lastname.className
@@ -697,7 +697,7 @@ function MyProfile() {
                   name="pseudo"
                   slot={isEditMode ? 'Pseudo' : null}
                   type="text"
-                  placeholder={member?.pseudo || ''}
+                  placeholder={`Pseudo : ${member?.pseudo || ''}`}
                   aria-label="Pseudo"
                   className={`Member--content--firstField--inputText--pseudo Input ${
                     formFields.pseudo.className
@@ -737,7 +737,7 @@ function MyProfile() {
                   name="email"
                   slot={isEditMode ? 'Email' : null}
                   type="email"
-                  placeholder={member?.email || ''}
+                  placeholder={`Email : ${member?.email || ''}`}
                   aria-label="Email"
                   className={`Member--content--firstField--inputText--email Input ${
                     formFields.email.className
@@ -799,7 +799,7 @@ function MyProfile() {
                 rows={5}
                 slot={isEditMode ? 'Description' : null}
                 type="text"
-                placeholder={member?.description || ''}
+                placeholder={`Déscription : ${member?.description || ''}`}
                 aria-label="A propos de moi"
                 className={`Member--content--firstField--description Input ${
                   formFields.description.className

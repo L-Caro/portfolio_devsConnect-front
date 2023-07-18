@@ -5,6 +5,7 @@ const paginationUITheme = createTheme({
     MuiTablePagination: {
       styleOverrides: {
         root: {
+          position: 'relative',
           display: 'flex',
           alignItems: 'center',
           '@media (min-width: 1080px)': {
@@ -117,6 +118,7 @@ const paginationUITheme = createTheme({
         // Style commun des composants
         root: {
           color: '#D3D3D3',
+          zIndex: '0',
           '@media (min-width: 600px)': {
             paddingLeft: '0', // Retire la marge par défaut qui prenait la tête!
           },

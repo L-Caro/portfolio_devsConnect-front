@@ -22,6 +22,7 @@ import MyProfile from '../components/App/Members/OneMember/MyProfile/MyProfile';
 import Projects from '../components/App/Projetcs/Projects';
 import OneProject from '../components/App/Projetcs/OneProject/OneProject';
 import CreateProject from '../components/App/Projetcs/CreateProject/CreateProject';
+import MyProject from '../components/App/Projetcs/OneProject/MyProject/MyProject';
 
 import Cgu from '../components/App/Cgu/Cgu';
 
@@ -74,6 +75,7 @@ const Router = createBrowserRouter(
         {/* Projects */}
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/:id" element={<OneProject />} />
+        <Route path="/projects/:id/edit" element={<MyProject />} />
         <Route path="/create-project" element={<RenderCreateProjectRoute />} />
       </Route>
     </Route>

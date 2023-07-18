@@ -59,7 +59,7 @@ function SelectComponent({
   */
   const placeHolderText =
     windowWidth > 768
-      ? 'Choisissez vos technos (limité à 5 maximum)'
+      ? 'Choisissez vos languages (limité à 5)'
       : 'Limité à 5 maximum';
 
   // ? Fonctions
@@ -164,7 +164,9 @@ function SelectComponent({
     // ! Menu déroulant
     menu: (baseStyles: CSSObject, state) => ({
       ...baseStyles,
+      position: 'absolute',
       margin: '0rem 0',
+      zIndex: '2',
       width: '100%', // Largeur du menu déroulant, même largeur que le select
       borderRadius: '0 0 20px 20px',
       '@media (min-width: 1081px)': { width: '510px' },
@@ -175,6 +177,7 @@ function SelectComponent({
     option: (base) => ({
       ...base,
       cursor: 'pointer',
+      zIndex: '2',
       background: '#3f3f3f',
       ':hover': {
         backgroundColor: '#282828',
@@ -186,6 +189,7 @@ function SelectComponent({
       maxHeight: '280px', // Hauteur du menu déroulant (1 technos = 40px * 7 = 280px)
       overflowY: 'auto',
       color: '#f4fefe',
+      zIndex: '2',
     }),
   };
 

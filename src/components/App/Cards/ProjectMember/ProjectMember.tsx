@@ -1,5 +1,6 @@
 // ? Librairies
 import { Link } from 'react-router-dom'; // Sert à gérer les liens
+import { v4 as uuidv4 } from 'uuid';
 
 // ? Styles
 import './style.scss';
@@ -34,7 +35,7 @@ function CardMember({ member }: CardMemberI) {
        * On utilise Link sur le header uniquement pour garder les projets cliquables
        */}
       <div className="CardMember--header">
-        <Link to={`/users/${id}`} key={id}>
+        <Link to={`/users/${id}`} key={uuidv4()}>
           <div className="CardMember--header--link">
             <div className="CardMember--header--link--text">
               <h3 className="CardMember--header--link--text--title">
@@ -75,7 +76,7 @@ function CardMember({ member }: CardMemberI) {
                 src={`/images/technos/${tag.name.toLowerCase()}.svg`}
                 alt={tag.name}
                 title={tag.name}
-                key={tag.id}
+                key={uuidv4()}
                 className="CardMember--header--technos--list--img"
               />
             ))
@@ -107,8 +108,8 @@ function CardMember({ member }: CardMemberI) {
                * Pendant la boucle, on génère un lien pour chaque projet
                * en lui donnant une clé unique et le titre du projet
                */
-              <Link key={project.id} to={`/projects/${project.id}`}>
-                <li className="CardMember--footer--list--item" key={project.id}>
+              <Link key={uuidv4()} to={`/projects/${project.id}`}>
+                <li className="CardMember--footer--list--item" key={uuidv4()}>
                   {' '}
                   {project.title}
                 </li>

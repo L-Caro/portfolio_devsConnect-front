@@ -16,6 +16,7 @@ const customThemeMUI = createTheme({
     lightestPerso: {
       main: '#D3D3D3',
       contrastText: '#454545',
+      label: '#000000',
     },
   },
   components: {

@@ -13,11 +13,11 @@ import { useAppSelector, useAppDispatch } from '../../../../hook/redux';
 import { fetchOneMember } from '../../../../store/reducer/members';
 
 // ? Composants
-import ProjectCard from '../../ProjectCard/ProjectCard';
+import ProjectCard from '../../Cards/ProjectCard/ProjectCard';
 import NotFound from '../../../NotFound/NotFound';
 
 // ? Styles
-import '../../ProjectCard/style.scss';
+import '../../Cards/ProjectCard/style.scss';
 
 // ? Fonction principale
 function OneMember() {

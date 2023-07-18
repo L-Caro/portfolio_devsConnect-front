@@ -13,7 +13,6 @@
     //? Container des cartes
     &--containerCard {
         display: grid;
-        gap: 2rem 1rem;
         margin: 0 auto; // Permet de centrer les cartes
         padding: v.$font-xsmall;
     }

@@ -6,6 +6,7 @@
 
 .Input {
     .MuiInputBase-root {
+        background-color: v.$color;
         & input,
         & textarea {
             font-weight: 700;

@@ -5,6 +5,8 @@ import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
 import projectCreate from '../actions/projectCreate';
 import projectUpdate from '../actions/projectUpdate';
 import projectDelete from '../actions/projectDelete';
+import ProjectAddMember from '../actions/ProjectAddMember';
+import ProjectRemoveMember from '../actions/ProjectRemoveMember';
 
 // ? Instance Axios
 import axiosInstance from '../../utils/axios';
@@ -144,6 +146,46 @@ const projectsReducer = createReducer(initialState, (builder) => {
     })
     //* Cas de la connexion en cours de projectDelete
     .addCase(projectDelete.pending, (state) => {
+      state.project.loading = true;
+    });
+
+  builder
+    //* Cas de la connexion réussie de ProjectAddMember
+    .addCase(ProjectAddMember.fulfilled, (state, action) => {
+      const { userId } = action.payload;
+      const { project } = state.list;
+      if (project) {
+        if (!project.users) {
+          project.users = []; // Assurez-vous que la propriété `users` est initialisée comme un tableau vide si elle n'existe pas
+        }
+        project.users.push({ id: userId });
+      }
+    })
+    //* Cas de la connexion échouée de ProjectAddMember
+    .addCase(ProjectAddMember.rejected, (state) => {
+      state.project.loading = false;
+    })
+    //* Cas de la connexion en cours de ProjectAddMember
+    .addCase(ProjectAddMember.pending, (state) => {
+      state.project.loading = true;
+    })
+    //* Cas de la connexion réussie de ProjectRemoveMember
+    .addCase(ProjectRemoveMember.fulfilled, (state, action) => {
+      const { userId } = action.payload;
+      const { project } = state.list;
+      if (project) {
+        if (!project.users) {
+          project.users = []; // Assurez-vous que la propriété `users` est initialisée comme un tableau vide si elle n'existe pas
+        }
+        project.users = project.users.filter((user) => user.id !== userId);
+      }
+    })
+    //* Cas de la connexion échouée de ProjectRemoveMember
+    .addCase(ProjectRemoveMember.rejected, (state) => {
+      state.project.loading = false;
+    })
+    //* Cas de la connexion en cours de ProjectRemoveMember
+    .addCase(ProjectRemoveMember.pending, (state) => {
       state.project.loading = true;
     });
 });

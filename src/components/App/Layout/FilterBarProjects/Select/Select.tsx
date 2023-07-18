@@ -59,7 +59,7 @@ function SelectComponent({
   */
   const placeHolderText =
     windowWidth > 768
-      ? 'Choisissez vos technos (limité à 5 maximum)'
+      ? 'Choisissez vos languages (limité à 5)'
       : 'Limité à 5 maximum';
 
   // ? Fonctions

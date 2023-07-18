@@ -12,7 +12,7 @@ import { fetchAllMembers } from '../../../store/reducer/members';
 // ? Composants
 import NotFound from '../../NotFound/NotFound';
 import FilterBar from '../Layout/FilterBar/FilterBar';
-import CardMember from './CardMember';
+import CardMember from '../Cards/ProjectMember/ProjectMember';
 
 // ? Styles
 import './style.scss';
