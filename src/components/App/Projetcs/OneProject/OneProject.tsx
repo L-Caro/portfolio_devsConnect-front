@@ -1,10 +1,10 @@
 /* eslint-disable no-nested-ternary */
 // ? Librairies
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Sert à gérer les liens
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Audio } from 'react-loader-spinner';
-
 import { useAppSelector, useAppDispatch } from '../../../../hook/redux';
 
 // ? Fonctions externes
@@ -15,12 +15,15 @@ import { resetMessage, updateFlash } from '../../../../store/reducer/main';
 import { toggleModalLogin } from '../../../../store/reducer/log';
 
 // ? Composants
-import ProjectMember from '../../Cards/ProjectMember/ProjectMember';
+import ProjectMemberMini from '../../Cards/CardMemberMini/CardMemberMini';
 import NotFound from '../../../NotFound/NotFound';
 
 // ? Typage
 import { ProjectI } from '../../../../@types/interface';
 import MyProject from './MyProject/MyProject';
+
+// ? Styles
+import './style.scss';
 
 function OneProject() {
   // ? State
@@ -68,7 +71,7 @@ function OneProject() {
       dispatch(
         updateFlash({
           type: 'error',
-          children: 'Vous devez être connecté pour postuler à un projet',
+          children: 'Connectez-vous pour postuler à un projet',
         })
       );
       dispatch(toggleModalLogin()); // On ouvre la modal de connexion
@@ -111,11 +114,10 @@ function OneProject() {
       />
     );
   }
+  console.log(project);
   return (
-    <div className="container">
+    <div className="Project">
       <div className="Project--return">
-        {' '}
-        // todo Bouton retour OP, manque le style
         {/** //! Retour
          * @param {Function} navigate - Permet de naviguer entre les pages
          * On envoie au composant la fonction navigate
@@ -125,52 +127,85 @@ function OneProject() {
           Retour
         </button>
       </div>
-
-      {isMine() ? (
-        <button
-          type="button"
-          onClick={() => navigate(`/projects/${projectId}/edit`)}
-        >
-          Modifier mon projet
-        </button>
-      ) : isMember() ? (
-        <button
-          type="button"
-          onClick={(e) => handleRemoveMember(projectId, userId)}
-        >
-          Quitter le projet
-        </button>
-      ) : (
-        <button
-          onClick={(e) => handleAddMember(projectId, userId)}
-          type="button"
-        >
-          postuler au projet
-        </button>
-      )}
-      <div className="OneProject">{project.title}</div>
-      <div className="OneProject__members">{project.id}</div>
-      <div>{project.description}</div>
-      <div>{project.availability}</div>
-      {project.tags.map((tag) => (
-        <div key={uuidv4()}>
-          <p>{tag.tag_name}</p>
-          <img
-            src={`/images/technos/${tag.tag_name.toLowerCase()}.svg`}
-            alt=""
-            width="20px" // todo Supprimer ce style
-            heigth="20px" // todo Supprimer ce style
-          />
+      <div className="Project--header">
+        <div className="Project--header--title">{project.title}</div>
+        <h4 className="Project--title">Propriétaire du projet :</h4>
+        <Link to={`/users/${project.user_id}`} key={uuidv4()}>
+          <p className="Project--header--owner">{project.user_pseudo}</p>
+        </Link>
+      </div>
+      <div className="Project--firstField">
+        <div className="Project--firstField--openToWork">
+          <p className={project.availability ? 'open' : 'close'}>
+            {/* On ajoute une classe pour css en fonction de availability */}{' '}
+            {project.availability
+              ? 'Ouvert au recrutement'
+              : 'Fermé au recrutement'}
+            {/* On affiche un texte en fonction de availability */}
+          </p>
         </div>
-      ))}
-      <div>
-        <div>{project.user_pseudo}</div>
+        <div className="Project--firstField--description">
+          {project.description}
+        </div>
+        <div className="Project--firstField--openToWork">
+          {project.availability}
+        </div>
+      </div>
+      <h4 className="Project--title">Languages utilisés :</h4>
+      <div className="Project--secondField">
+        {project.tags.map((tag) => (
+          <div key={uuidv4()} className="Project--secondField--technos">
+            <div className="Project--secondField--technos--group">
+              <p>{tag.tag_name}</p>
+              <img
+                src={`/images/technos/${tag.tag_name.toLowerCase()}.svg`}
+                alt=""
+                width="20px" // todo Supprimer ce style
+                heigth="20px" // todo Supprimer ce style
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <h4 className="Project--title">Participants :</h4>
+      <div className="Project--thirdField">
         {project.users &&
-          project.users.map((user) =>
-            user.is_active ? (
-              <ProjectMember key={user.id} member={user} />
-            ) : null
-          )}
+          project.users
+            .filter((user) => user.id !== project.user_id)
+            .map((user) =>
+              user.is_active ? (
+                <ProjectMemberMini key={user.id} member={user} />
+              ) : null
+            )}
+      </div>
+      <div className="Project--fourthField">
+        {project.availability && isMine() ? (
+          <button
+            type="button"
+            onClick={() => navigate(`/projects/${projectId}/edit`)}
+            className="Project--fourthField--container--edit"
+          >
+            Modifier mon projet
+          </button>
+        ) : project.availability && isMember() ? (
+          <button
+            type="button"
+            onClick={(e) => handleRemoveMember(projectId, userId)}
+            className="Project--fourthField--container--delete"
+          >
+            Quitter le projet
+          </button>
+        ) : project.availability ? (
+          <button
+            onClick={(e) => handleAddMember(projectId, userId)}
+            type="button"
+            className="Project--fourthField--container--submit"
+          >
+            postuler au projet
+          </button>
+        ) : (
+          <div className="hidden" />
+        )}
       </div>
     </div>
   );

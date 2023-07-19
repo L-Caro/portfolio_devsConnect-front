@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './style.scss';
 
 // ? Typage
-import { MemberI } from '../../../@types/interface';
+import { ProjectI, MemberI } from '../../../../@types/interface';
 
 // ? Interface globale
 interface CardMemberI {
@@ -101,7 +101,7 @@ function CardMember({ member }: CardMemberI) {
            *  Sinon on affiche un message pour dire qu'il n'y a pas de projet
            */}
           {member.projects && member.projects.length > 0 ? (
-            member.projects.slice(0, 3).map((project) => (
+            member.projects.slice(0, 3).map((project: ProjectI) => (
               /** //! Link
                * @param {String} to - Lien vers la page du projet en fonction de son id
                * @param {String} key - Clé unique pour chaque projet (id)

@@ -30,9 +30,7 @@ function PasswordModale(props: string[]) {
   // ? States
   // Redux
   const id = useAppSelector((state) => state.user.login.id); // id du membre connecté
-  const { passwordMessage, passwordStatus } = useAppSelector(
-    (state) => state.ajax
-  ); // Message de validation ou d'erreur
+  const { passwordStatus } = useAppSelector((state) => state.ajax); // Message de validation ou d'erreur
   const { modalPassword } = useAppSelector((state) => state.log); // État des modales
 
   // Local

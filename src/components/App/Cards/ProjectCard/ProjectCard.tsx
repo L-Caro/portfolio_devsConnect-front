@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 // ? Librairies
 import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -6,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './style.scss';
 
 // ? Typage globale
-import { ProjectI } from '../../../../@types/interface';
+import { MemberI, ProjectI, TagI } from '../../../../@types/interface';
 
 // ? Fonction principale
 function ProjectCard(project: ProjectI) {
@@ -68,7 +69,7 @@ function ProjectCard(project: ProjectI) {
            */}
           {tags &&
             // console.log(tags) &&
-            tags.map((tag) => (
+            tags.map((tag: TagI) => (
               <img
                 key={uuidv4()}
                 src={`/images/technos/${tag.name.toLowerCase()}.svg`}
@@ -91,8 +92,8 @@ function ProjectCard(project: ProjectI) {
              */}
             {users &&
               users
-                .filter((user) => user.id !== user_id)
-                .map((user) => (
+                .filter((user: MemberI) => user.id !== user_id)
+                .map((user: MemberI) => (
                   <Link to={`/users/${user.id}`} key={uuidv4()}>
                     <li className="ProjectCard--fourthField--users--name">
                       {user.pseudo}

@@ -46,7 +46,7 @@ function FilterBar({
       //* Filtre par nom ou prénom
       // on filtre le nom du membre par rapport à la valeur de la recherche
       const textResult = project.title
-        .toLowerCase()
+        ?.toLowerCase()
         .includes(searchText.toLowerCase());
 
       //* Filtre par disponibilité
@@ -63,7 +63,7 @@ function FilterBar({
           // every pour que les filtres technos soient cumulatifs
           selectedTags.every((techno) =>
             // on vérifie que le nom de la techno est présent dans les tags du membre
-            project.tags.some(
+            project.tags?.some(
               (tag) => tag.name.toLowerCase() === techno.value.toLowerCase()
             )
           ));

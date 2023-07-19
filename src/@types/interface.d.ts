@@ -10,6 +10,7 @@ export interface BurgerI {
 
 export interface MemberI {
   id: number;
+  user_id: number;
   lastname: string;
   firstname: string;
   email: string;
@@ -18,6 +19,7 @@ export interface MemberI {
   description: string;
   availability: boolean;
   picture: string;
+  is_active: boolean;
   projects: ProjectI[];
   project: ProjectI[];
   tags: TagI[];
