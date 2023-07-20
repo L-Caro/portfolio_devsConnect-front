@@ -432,7 +432,7 @@
 //! La modale d'inscription prend plus que l'écran, on ne peut pas mettre align-items: center
 //! On ajoute la classe .Signin sur le JSX et on modifie le CSS
 //! On place après .Modale pour que le style Signin soit lu en dernier
-.Signin {
+.BigForm {
     align-items: flex-start;
     &--login-box {
         margin: v.$font-xsmall auto;

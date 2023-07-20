@@ -11,6 +11,7 @@ export const isFormValid = {
   description: true,
   cgu: true,
   picture: true,
+  title: true,
 };
 
 export const formRules = {
@@ -46,12 +47,16 @@ export const formRules = {
   cgu: {
     isChecked: true,
   },
+  title: {
+    maxLength: 30,
+  },
 };
 
 // Variable pour les messages d'erreur
 export const errorMessages = {
   firstname: 'Veuillez renseigner un prénom de moins de 30 caractères',
   lastname: 'Veuillez renseigner un nom de moins de 30 caractères',
+  title: 'Veuillez renseigner un titre de moins de 30 caractères',
   pseudo: '',
   email: '',
   oldPassword: 'Ce mot de passe ne correspond pas à votre mot de passe actuel',
@@ -81,6 +86,7 @@ export const validateField = (value, fieldName, options = {}) => {
     newPasswordValue = undefined,
     pseudoStatus = undefined,
     emailStatus = undefined,
+    titleStatus = undefined,
   } = options; // newPasswordValue n'est pas utilisé dans toutes les vérifications, donc on le met en optionnel avec une valeur par défaut
 
   const fieldRules = formRules[fieldName];
@@ -213,6 +219,17 @@ export const validateField = (value, fieldName, options = {}) => {
       };
     }
     isFormValid.pseudo = true;
+  }
+  if (fieldName === 'title') {
+    const { minLength, maxLength } = fieldRules;
+
+    if (value.length < minLength || value.length > maxLength) {
+      isFormValid.lastname = false;
+      return {
+        className: classMapping.wrong,
+      };
+    }
+    isFormValid.lastname = true;
   }
 
   return { className: classMapping.good };

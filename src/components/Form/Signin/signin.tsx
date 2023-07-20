@@ -460,7 +460,7 @@ function Signin() {
   };
   // ? Rendu JSX
   return (
-    <div className="Modale Signin">
+    <div className="Modale BigForm">
       <div
         className="Modale--container"
         ref={modalRef} // On ajoute la référence pour la modale
@@ -499,9 +499,9 @@ function Signin() {
         >
           <legend className="Modale--legend">Informations personnelles</legend>
 
-          <div className="Signin--container--image">
+          <div className="BigForm--container--image">
             <img
-              className="Signin--container--image--profil"
+              className="BigForm--container--image--profil"
               src={
                 formFields.picture.value.includes('blob')
                   ? formFields.picture.value
@@ -515,7 +515,7 @@ function Signin() {
             />
             <img
               src="/images/profil/upload.svg"
-              className="Signin--container--image--upload"
+              className="BigForm--container--image--upload"
               alt="upload"
               onClick={handleUploadClick}
               onKeyDown={handleUploadClick}

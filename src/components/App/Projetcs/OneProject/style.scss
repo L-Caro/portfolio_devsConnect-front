@@ -123,7 +123,8 @@
     }
 
     @media screen and (min-width: v.$mq-large) {
-        max-width: 100rem;
+        width: 70%;
+        max-width: 110rem;
         // ? Sous titre
         &--title {
             padding: 0 v.$font-xsmall;
@@ -155,7 +156,7 @@
         }
         &--secondField {
             //? Technos
-            grid-template-columns: repeat(5, 20%);
+            grid-template-columns: repeat(4, 25%);
             gap: 0.5rem;
             margin: v.$font-small v.$font-large;
             padding: v.$font-xsmall;
@@ -164,7 +165,7 @@
                 &--group {
                     //? Bloc image + texte
                     & p {
-                        margin-right: 0.5rem;
+                        margin-left: 0.8rem;
                     }
                 }
             }
@@ -192,6 +193,7 @@
         }
     }
     @media screen and (max-width: v.$mq-large) {
+        width: 78%;
         max-width: 80rem;
         // ? Sous titre
         &--title {
@@ -224,16 +226,16 @@
         }
         &--secondField {
             //? Technos
-            grid-template-columns: repeat(5, 20%);
+            grid-template-columns: repeat(4, 25%);
             gap: 0.5rem;
             margin: v.$font-small v.$font-large;
-            padding: v.$font-xsmall;
+            padding: v.$font-xsmall v.$font-small;
             &--technos {
                 //? Liste des technos
                 &--group {
                     //? Bloc image + texte
                     & p {
-                        margin-right: 0.5rem;
+                        margin-left: 0.8rem;
                     }
                 }
             }
@@ -261,6 +263,7 @@
         }
     }
     @media screen and (max-width: v.$mq-medium) {
+        width: 90%;
         max-width: 60rem;
         // ? Sous titre
         &--title {
@@ -304,7 +307,7 @@
                 &--group {
                     //? Bloc image + texte
                     & p {
-                        margin-right: 0.5rem;
+                        margin-left: 0.8rem;
                         font-size: v.$font-xsmall;
                     }
                     & img {
@@ -337,7 +340,8 @@
         }
     }
     @media screen and (max-width: v.$mq-small) {
-        max-width: 40rem;
+        width: 100%;
+        max-width: 50rem;
         //? Bouton retour
         &--return {
             position: absolute;
@@ -381,7 +385,7 @@
         }
         &--secondField {
             //? Technos
-            grid-template-columns: repeat(3, 33%);
+            grid-template-columns: repeat(3, 32%);
             gap: v.$font-xsmall;
             margin: v.$font-xsmall v.$font-medium;
             padding: v.$font-xsmall;
@@ -390,7 +394,7 @@
                 &--group {
                     //? Bloc image + texte
                     & p {
-                        margin-right: 0.5rem;
+                        margin-left: 0.8rem;
                         font-size: v.$font-xxsmall + 0.4;
                     }
                     & img {

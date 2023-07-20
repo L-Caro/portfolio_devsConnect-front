@@ -7,28 +7,28 @@ import updateMember from '../actions/memberUpdate';
 
 // ? Typage local
 interface LogState {
+  isEditMode: boolean;
   modalLogin: boolean;
   modalSignin: boolean;
   modalDelete: boolean;
   modalPassword: boolean;
-  isEditMode: boolean;
 }
 
 // ? InitialState
 const initialState: LogState = {
+  isEditMode: false,
   modalLogin: false,
   modalSignin: false,
   modalDelete: false,
   modalPassword: false,
-  isEditMode: false,
 };
 
 // ? Fonctions synchrone
+export const toggleEditMode = createAction('log/toggleEditMode');
 export const toggleModalLogin = createAction('log/toggleModalLogin');
 export const toggleModalSignin = createAction('log/toggleModalSignin');
 export const toggleModalDelete = createAction('log/toggleModalDelete');
 export const toggleModalPassword = createAction('log/toggleModalPassword');
-export const toggleEditMode = createAction('log/toggleEditMode');
 
 // ? Reducer
 const logReducer = createReducer(initialState, (builder) => {
@@ -43,6 +43,7 @@ const logReducer = createReducer(initialState, (builder) => {
       state.modalSignin = !state.modalSignin; // Inverse la valeur du state
       state.modalLogin = false; // Remet la valeur du state login à false
     })
+
     //* Cas du clic sur le bouton de suppression
     .addCase(toggleModalDelete, (state) => {
       state.modalDelete = !state.modalDelete; // Inverse la valeur du state

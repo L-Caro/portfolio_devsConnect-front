@@ -9,11 +9,7 @@ const createProject = createAsyncThunk(
   'project/createProject',
   async (objData: FormData) => {
     try {
-      const { data } = await axiosInstance.post('/api/projects', objData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const { data } = await axiosInstance.post('/api/projects', objData);
       // ? On retourne le state
       return data;
     } catch (error) {

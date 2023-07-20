@@ -8,7 +8,7 @@ function Footer() {
   return (
     <div className="Footer">
       <a className="Footer--contact" href="mailto:lionelcaro74@gmail.com">
-        Contact: mail
+        Me contacter
       </a>
       <p className="Footer--copyright">
         Copyright © 2023 - Tous droits réservés.

@@ -5,6 +5,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import checkPassword from '../actions/checkPassword';
 import checkPseudo from '../actions/checkPseudo';
 import checkEmail from '../actions/checkEmail';
+import checkTitle from '../actions/checkTitle';
 
 // ? Typage global
 interface AjaxState {
@@ -12,9 +13,11 @@ interface AjaxState {
   passwordMessage: string;
   pseudoMessage: string;
   emailMessage: string;
+  titleMessage?: string;
   passwordStatus?: string;
   pseudoStatus?: string;
   emailStatus?: string;
+  titleStatus?: string;
 }
 
 const initialState: AjaxState = {
@@ -22,9 +25,11 @@ const initialState: AjaxState = {
   passwordMessage: '',
   pseudoMessage: '',
   emailMessage: '',
+  titleMessage: '',
   passwordStatus: '',
   pseudoStatus: '',
   emailStatus: '',
+  titleStatus: '',
 };
 
 const ajaxReducer = createReducer(initialState, (builder) => {
@@ -68,6 +73,20 @@ const ajaxReducer = createReducer(initialState, (builder) => {
   builder.addCase(checkEmail.rejected, (state) => {
     state.loading = false;
     state.emailMessage =
+      'Une erreur est survenue, veuillez réessayer ultérieurement.';
+  });
+  builder.addCase(checkTitle.pending, (state) => {
+    state.loading = true;
+    state.titleMessage = '';
+  });
+  builder.addCase(checkTitle.fulfilled, (state, action) => {
+    state.loading = false;
+    state.titleMessage = action.payload.message;
+    state.titleStatus = action.payload.status;
+  });
+  builder.addCase(checkTitle.rejected, (state) => {
+    state.loading = false;
+    state.titleMessage =
       'Une erreur est survenue, veuillez réessayer ultérieurement.';
   });
 });

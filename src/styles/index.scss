@@ -177,6 +177,10 @@ body {
         &.MuiAlert-standardSuccess {
             width: 100%;
         }
+        // Message texte
+        .MuiAlert-message {
+            font-size: 1rem;
+        }
     }
     // Jusqu'à 320px (mobile)
     @media screen and (max-width: v.$mq-xsmall) {

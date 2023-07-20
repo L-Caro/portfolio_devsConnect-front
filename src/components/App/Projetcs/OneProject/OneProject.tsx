@@ -37,7 +37,7 @@ function OneProject() {
   const navigate = useNavigate(); // Permet de naviguer entre les pages
 
   // ? Params
-  const { id } = useParams(); // On récupère l'id du membre dans l'url
+  const { id } = useParams(); // On récupère l'id du projet dans l'url
 
   // ? Dispatch
   const dispatch = useAppDispatch();
@@ -114,7 +114,6 @@ function OneProject() {
       />
     );
   }
-  console.log(project);
   return (
     <div className="Project">
       <div className="Project--return">
@@ -153,19 +152,20 @@ function OneProject() {
       </div>
       <h4 className="Project--title">Languages utilisés :</h4>
       <div className="Project--secondField">
-        {project.tags.map((tag) => (
-          <div key={uuidv4()} className="Project--secondField--technos">
-            <div className="Project--secondField--technos--group">
-              <p>{tag.tag_name}</p>
-              <img
-                src={`/images/technos/${tag.tag_name.toLowerCase()}.svg`}
-                alt=""
-                width="20px" // todo Supprimer ce style
-                heigth="20px" // todo Supprimer ce style
-              />
+        {project.tags &&
+          project.tags.map((tag) => (
+            <div key={uuidv4()} className="Project--secondField--technos">
+              <div className="Project--secondField--technos--group">
+                <img
+                  src={`/images/technos/${tag.tag_name.toLowerCase()}.svg`}
+                  alt=""
+                  width="20px" // todo Supprimer ce style
+                  heigth="20px" // todo Supprimer ce style
+                />
+                <p>{tag.tag_name}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
       <h4 className="Project--title">Participants :</h4>
       <div className="Project--thirdField">
