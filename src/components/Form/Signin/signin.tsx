@@ -443,16 +443,10 @@ function Signin() {
     if (falseFieldCount === 0) {
       // Créer un tableau pour les données de selectedTags
       const selectedTagsData = selectedTags.map((tag) => tag.id);
-      // Convertir le tableau en chaîne JSON
-      const tagsJSON = JSON.stringify(selectedTagsData);
       // Ajouter le tableau selectedTagsData à formData
       objData.tags = selectedTagsData;
       objData.availability = !!checked;
       delete objData.cgu;
-      // formData.delete('cgu');
-      // formData.delete('tags');
-      // formData.append('tags', tagsJSON);
-      // formData.append('availability', String(checked));
       dispatch(signinUser(objData)); // On envoie les données du formulaire à l'API
       dispatch(toggleModalSignin()); // On ferme la modale
       dispatch(toggleModalLogin()); // On ouvre la modale de connexion

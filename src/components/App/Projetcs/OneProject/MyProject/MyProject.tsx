@@ -9,6 +9,8 @@ import { useAppSelector, useAppDispatch } from '../../../../../hook/redux';
 // ? Fonctions externes
 import { fetchAllTags } from '../../../../../store/reducer/tag';
 import updateProject from '../../../../../store/actions/projectUpdate';
+import ProjectAcceptMember from '../../../../../store/actions/ProjectAcceptMember';
+import ProjectDeleteMember from '../../../../../store/actions/ProjectDeleteMember';
 import checkTitle from '../../../../../store/actions/checkTitle';
 
 import { toggleModalDeleteProject } from '../../../../../store/reducer/log';
@@ -32,6 +34,7 @@ import './style.scss';
 // ? Typage global
 import { ProjectI, TagSelectedI } from '../../../../../@types/interface';
 import { fetchOneProject } from '../../../../../store/reducer/projects';
+import Members from '../../../Members/Members';
 
 // ? Typage local
 interface ObjectI {
@@ -56,7 +59,7 @@ function MyProject() {
   ); // State pour la modale de suppression de projet
 
   // Local
-  const [checked, setChecked] = useState(true); // State pour le check de open to work
+  const [checked, setChecked] = useState(project?.availability); // State pour le check de open to work
   const [selectedTags, setSelectedTags] = useState<TagSelectedI[]>([]); // Tableau des tags sélectionnés par l'utilisateur
   const [oldTitle, setOldTitle] = useState(''); // Ancien titre de projet
 
@@ -98,8 +101,7 @@ function MyProject() {
   useEffect(() => {
     const projectId = id.toString();
     dispatch(fetchOneProject(projectId));
-    setChecked(project?.availability);
-  }, [dispatch, id, project?.availability, setSelectedTags]);
+  }, [dispatch, id, project?.availability, setSelectedTags, project?.users]);
 
   // ? Fonctions
 
@@ -109,7 +111,16 @@ function MyProject() {
    * qui affiche ou non la modale de suppression
    */
   const handleDeleteProjectModale = () => {
-    dispatch(toggleModalDeleteProject());
+    if (project?.users.length !== 1) {
+      dispatch(
+        updateFlash({
+          type: 'error',
+          children: 'Vous ne pouvez pas supprimer un projet avec des membres',
+        })
+      );
+    } else {
+      dispatch(toggleModalDeleteProject());
+    }
   };
 
   /** //* Fonction reset du formulaire
@@ -202,6 +213,64 @@ function MyProject() {
   ) => {
     if (event.key === 'enter' || event.key === ' ') {
       handleImageClick(Number(imageId));
+    }
+  };
+
+  /** //* Fonction pour accepter un membre
+   * @param {ProjectAcceptMember} dispatch - Dispatch de l'action pour accepter un membre
+   * @param {number} id - Id du projet
+   * @param {number} userId - Id du membre
+   * Au clic sur le bouton accepter, on dispatch l'action pour accepter un membre
+   * On lui passe en paramètre l'id du projet et l'id du membre
+   * On met à jour le state des membres
+   */
+  const acceptMemberToProject = (projectId: number, userId: number) => {
+    dispatch(ProjectAcceptMember({ projectId, userId }));
+  };
+  /** //! Accessibilité
+   * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
+   * @param {number} projectId - Id du projet
+   * @param {number} userId - Id du membre
+   * * Une div n'est pas un element clickable par défaut.
+   * On ajoute un fonction d’accessibilité pour le clavier.
+   * Si la touche enter ou espace est pressée, on appelle la fonction handleImageClick() juste au dessus.
+   */
+  const acceptMembreToProjectKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+    projectId: number,
+    userId: number
+  ) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      acceptMemberToProject(Number(projectId), Number(userId));
+    }
+  };
+
+  /** //* Fonction pour supprimer un membre
+   * @param {ProjectDeleteMember} dispatch - Dispatch de l'action pour supprimer un membre
+   * @param {number} id - Id du projet
+   * @param {number} userId - Id du membre
+   * Au clic sur le bouton supprimer, on dispatch l'action pour supprimer un membre
+   * On lui passe en paramètre l'id du projet et l'id du membre
+   * On met à jour le state des membres
+   */
+  const deleteMemberToProject = (projectId: number, userId: number) => {
+    dispatch(ProjectDeleteMember({ projectId, userId }));
+  };
+  /** //! Accessibilité
+   * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
+   * @param {number} projectId - Id du projet
+   * @param {number} userId - Id du membre
+   * * Une div n'est pas un element clickable par défaut.
+   * On ajoute un fonction d’accessibilité pour le clavier.
+   * Si la touche enter ou espace est pressée, on appelle la fonction handleImageClick() juste au dessus.
+   */
+  const deleteMembreToProjectKeyDown = (
+    event: React.KeyboardEvent<HTMLDivElement>,
+    projectId: number,
+    userId: number
+  ) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      deleteMemberToProject(Number(projectId), Number(userId));
     }
   };
 
@@ -541,12 +610,92 @@ function MyProject() {
             </div>
           </fieldset>
           <fieldset className="CreateProject--thirdField">
-            <button type="submit" className="CreateProject--thirdField--submit">
+            <legend className="CreateProject--legend">Participants</legend>
+            {project?.users &&
+              project.users.map((user) =>
+                user.is_active === true ? (
+                  <div
+                    className="CreateProject--thirdField--validate-users"
+                    key={user.id}
+                  >
+                    <p>
+                      {user.user_id} {user.pseudo}
+                    </p>
+                    <img
+                      src="/images/icones/error.svg"
+                      alt="Remove user"
+                      onClick={() => deleteMemberToProject(project.id, user.id)}
+                      onKeyDown={(event) =>
+                        deleteMembreToProjectKeyDown(event, project.id, user.id)
+                      }
+                      role="button"
+                      tabIndex={0}
+                    />
+                  </div>
+                ) : (
+                  ''
+                )
+              )}
+
+            <legend className="CreateProject--legend">
+              Postulants au projet
+            </legend>
+            {project?.users &&
+            project?.users.some((user) => user.is_active === false) ? ( // Utilisation de some() pour vérifier s'il y a des postulants inactifs
+              <p className="CreateProject--thirdField--noWanted">
+                Aucun postulant pour le moment
+              </p>
+            ) : null}
+            {project?.users &&
+              project?.users.map((user) =>
+                user.is_active === false ? (
+                  <div
+                    className="CreateProject--thirdField--wanted-users"
+                    key={user.id}
+                  >
+                    <p>
+                      {user.id} {user.firstname} {user.lastname}
+                    </p>
+                    <img
+                      src="/images/icones/error.svg"
+                      alt="Remove user"
+                      onClick={() => deleteMemberToProject(project.id, user.id)}
+                      onKeyDown={(event) =>
+                        deleteMembreToProjectKeyDown(event, project.id, user.id)
+                      }
+                      role="button"
+                      tabIndex={0}
+                    />
+                    <img
+                      src="/images/icones/good.svg"
+                      alt="Accept user"
+                      onClick={() => acceptMemberToProject(project.id, user.id)}
+                      onKeyDown={(event) =>
+                        acceptMembreToProjectKeyDown(event, project.id, user.id)
+                      }
+                      role="button"
+                      tabIndex={0}
+                    />
+                  </div>
+                ) : (
+                  ''
+                  // <p className="CreateProject--thirdField--noWanted">
+                  //   Aucun postulant pour le moment
+                  // </p>
+                  // Si aucun membre n'a postulé, on affiche un message
+                )
+              )}
+          </fieldset>
+          <fieldset className="CreateProject--fourthField">
+            <button
+              type="submit"
+              className="CreateProject--fourthField--submit"
+            >
               Valider
             </button>
             <button // ? Bouton supprimer le projet
               type="button"
-              className="CreateProject--thirdField--delete"
+              className="CreateProject--fourthField--delete"
               onClick={handleDeleteProjectModale} // On appelle la fonction handleDeleteModale au clic sur le bouton
             >
               Supprimer le projet
@@ -555,7 +704,7 @@ function MyProject() {
         </form>
       </div>
       {/* Modale de suppression de projet */}
-      {modaleDeleteProject && <DeleteProjectModale />}
+      {modaleDeleteProject && <DeleteProjectModale project={project} />}
     </>
   );
 }

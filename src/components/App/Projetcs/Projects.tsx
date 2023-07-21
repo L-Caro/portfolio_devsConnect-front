@@ -109,12 +109,25 @@ function Projects() {
         projects={projects}
         setFilteredProjects={setFilteredProjects}
       />
-
+      <ThemeProvider theme={paginationUITheme}>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 15, 20]}
+          component="div"
+          labelRowsPerPage="Résultats par page"
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to} sur ${count !== -1 ? count : `plus de ${to}`}`
+          }
+          count={filteredProjects.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </ThemeProvider>
       <h2 className="Projects--title">Tous les projets</h2>
       {filteredProjects.length === 0 && (
         <p className="noResult">Aucun résultat pour vos critères</p>
       )}
-
       <div className="Projects--containerCard">
         {/* On map sur la liste en retour de la barre de recherche pour les cartes projects */}
         {filteredProjects
@@ -131,21 +144,6 @@ function Projects() {
             <ProjectCard key={project.id} project={project} />
           ))}
       </div>
-      <ThemeProvider theme={paginationUITheme}>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15, 20]}
-          component="div"
-          labelRowsPerPage="Résultats par page"
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from}-${to} sur ${count !== -1 ? count : `plus de ${to}`}`
-          }
-          count={filteredProjects.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </ThemeProvider>
     </div>
   );
 }

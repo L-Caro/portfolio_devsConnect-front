@@ -82,7 +82,7 @@
             }
         }
     }
-    &--thirdField {
+    &--fourthField {
         //* Partie boutons
         display: flex;
         align-items: center;
@@ -168,18 +168,16 @@
                 }
             }
         }
-        &--thirdField {
+        &--fourthField {
             //* Partie boutons
             margin: 0 0 v.$font-large 0; // Pour espacer le bloc en hauteur
             //? Bouton Valider
             &--submit,
             &--delete {
+                margin-top: v.$font-small;
                 padding: v.$font-xsmall v.$font-large; // Pour agrandir la surface du bouton
                 width: 55rem;
                 border-radius: v.$border-radius; // Pour rendre droit la face commune avec annuler
-            }
-            &--delete {
-                margin-top: v.$font-small;
             }
         }
     }
@@ -243,17 +241,15 @@
                 }
             }
         }
-        &--thirdField {
+        &--fourthField {
             //* Partie boutons
             margin: v.$font-medium 0 v.$font-large; // Pour espacer le bloc en hauteur
             //? Bouton Valider
             &--submit,
             &--delete {
+                margin-top: v.$font-small;
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
                 width: 45rem;
-            }
-            &--delete {
-                margin-top: v.$font-small;
             }
         }
     }
@@ -320,18 +316,16 @@
                 }
             }
         }
-        &--thirdField {
+        &--fourthField {
             //* Partie boutons
             margin: v.$font-medium 0 v.$font-large; // Pour espacer le bloc en hauteur
 
             //? Bouton Valider
             &--submit,
             &--delete {
+                margin-top: v.$font-small;
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
                 width: 35rem; // Largeur du container
-            }
-            &--delete {
-                margin-top: v.$font-small;
             }
         }
     }
@@ -403,17 +397,15 @@
                 }
             }
         }
-        &--thirdField {
+        &--fourthField {
             //* Partie boutons
             margin: v.$font-small 0 v.$font-medium; // Pour espacer le bloc en hauteur
             //? Bouton Valider
             &--submit,
             &--delete {
+                margin-top: v.$font-xsmall;
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
                 width: 25rem; // Largeur du container
-            }
-            &--delete {
-                margin-top: v.$font-xsmall;
             }
         }
     }
@@ -480,17 +472,31 @@
                 }
             }
         }
-        &--thirdField {
+        &--fourthField {
             //* Partie boutons
             margin: v.$font-small 0 v.$font-medium; // Pour espacer le bloc en hauteur
             //? Bouton Valider
             &--submit,
             &--delete {
+                margin-top: v.$font-xsmall;
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
                 width: 100%; // Largeur du container
             }
-            &--delete {
-                margin-top: v.$font-xsmall;
+        }
+    }
+    &--thirdField {
+        &--wanted-users,
+        &--validate-users {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin: 3rem auto;
+            & img {
+                margin-top: 1rem;
+                margin-left: 2rem;
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
             }
         }
     }

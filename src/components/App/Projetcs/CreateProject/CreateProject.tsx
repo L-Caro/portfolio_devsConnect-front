@@ -290,7 +290,6 @@ function CreateProject() {
       objData.tags = selectedTagsData;
       objData.availability = !!checked;
       objData.user_id = user_id;
-      console.log(objData);
       const response = await dispatch(createProject(objData)); // On envoie les données du formulaire à l'API
       const projectId = response.payload.data.id;
 
@@ -433,8 +432,8 @@ function CreateProject() {
             ))}
           </div>
         </fieldset>
-        <fieldset className="CreateProject--thirdField">
-          <button type="submit" className="CreateProject--thirdField--submit">
+        <fieldset className="CreateProject--fourthField">
+          <button type="submit" className="CreateProject--fourthField--submit">
             Créer le projet
           </button>
         </fieldset>

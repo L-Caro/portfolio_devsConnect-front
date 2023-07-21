@@ -10,10 +10,13 @@ import deleteMember from '../actions/memberDelete';
 import ProjectAddMember from '../actions/ProjectAddMember';
 import ProjectRemoveMember from '../actions/ProjectRemoveMember';
 import createProject from '../actions/projectCreate';
+import updateProject from '../actions/projectUpdate';
+import deleteProject from '../actions/projectDelete';
+import ProjectAcceptMember from '../actions/ProjectAcceptMember';
+import ProjectDeleteMember from '../actions/ProjectDeleteMember';
 
 // ? Typage global
 import { FlashI } from '../../@types/interface';
-import updateProject from '../actions/projectUpdate';
 
 // ? Typage local
 
@@ -151,6 +154,62 @@ const mainReducer = createReducer(initialState, (builder) => {
     state.flash = {
       type: 'success',
       children: 'Le projet a bien été mis à jour !',
+    };
+  });
+
+  //* Cas de la mise à jour d'un projet échouée
+  builder.addCase(updateProject.rejected, (state) => {
+    state.flash = {
+      type: 'error',
+      children: 'Une erreur est survenue, veuillez réessayer plus tard !',
+    };
+  });
+
+  //* Cas de la suppression d'un projet réussie
+  builder.addCase(deleteProject.fulfilled, (state) => {
+    state.flash = {
+      type: 'success',
+      children: 'Le projet a bien été supprimé !',
+    };
+  });
+
+  //* Cas de la suppression d'un projet échouée
+  builder.addCase(deleteProject.rejected, (state) => {
+    state.flash = {
+      type: 'error',
+      children: 'Une erreur est survenue, veuillez réessayer plus tard !',
+    };
+  });
+
+  //* Cas de l'acceptation d'un membre à un projet réussie
+  builder.addCase(ProjectAcceptMember.fulfilled, (state) => {
+    state.flash = {
+      type: 'success',
+      children: 'Le membre a bien été ajouté au projet !',
+    };
+  });
+
+  //* Cas de l'acceptation d'un membre à un projet échouée
+  builder.addCase(ProjectAcceptMember.rejected, (state) => {
+    state.flash = {
+      type: 'error',
+      children: 'Une erreur est survenue, veuillez réessayer plus tard !',
+    };
+  });
+
+  //* Cas de la suppression d'un membre à un projet réussie
+  builder.addCase(ProjectDeleteMember.fulfilled, (state) => {
+    state.flash = {
+      type: 'success',
+      children: 'Le membre a bien été supprimé du projet !',
+    };
+  });
+
+  //* Cas de la suppression d'un membre à un projet échouée
+  builder.addCase(ProjectDeleteMember.rejected, (state) => {
+    state.flash = {
+      type: 'error',
+      children: 'Une erreur est survenue, veuillez réessayer plus tard !',
     };
   });
 });

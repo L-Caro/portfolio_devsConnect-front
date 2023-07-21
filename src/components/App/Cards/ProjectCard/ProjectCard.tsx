@@ -68,7 +68,6 @@ function ProjectCard(project: ProjectI) {
            * On affiche l'image de la techno avec le nom en alt et title
            */}
           {tags &&
-            // console.log(tags) &&
             tags.map((tag: TagI) => (
               <img
                 key={uuidv4()}

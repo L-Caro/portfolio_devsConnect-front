@@ -7,8 +7,6 @@ import { useAppSelector, useAppDispatch } from '../../../../../../hook/redux';
 import deleteProject from '../../../../../../store/actions/projectDelete';
 import { toggleModalDeleteProject } from '../../../../../../store/reducer/log';
 
-// ? Composants
-
 // ? Styles
 import '../../../../../../styles/modale.scss';
 
@@ -87,7 +85,6 @@ function DeleteProjectModale() {
       navigate('/'); // On redirige vers la page d'accueil
     }
   };
-
   // ? Rendu JSX
   return (
     <div className="Modale">
