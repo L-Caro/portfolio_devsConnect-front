@@ -8,7 +8,6 @@ const paginationUITheme = createTheme({
           position: 'relative',
           display: 'flex',
           alignItems: 'center',
-          zIndex: '0',
           '@media (min-width: 1080px)': {
             justifyContent: 'center',
           },

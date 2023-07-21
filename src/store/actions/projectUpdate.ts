@@ -20,14 +20,8 @@ type UpdateProjectI = {
 const updateProject = createAsyncThunk(
   'project/projectUpdate',
   async ({ id, objData }: UpdateProjectI) => {
-    console.log('id2', id);
-    console.log('objData2', objData);
     try {
-      const data = await axiosInstance.put(`/api/projects/${id}`, objData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const data = await axiosInstance.put(`/api/projects/${id}`, objData);
 
       // ? On retourne le state
       return data;

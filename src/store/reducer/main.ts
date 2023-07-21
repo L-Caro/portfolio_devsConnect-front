@@ -13,6 +13,7 @@ import createProject from '../actions/projectCreate';
 
 // ? Typage global
 import { FlashI } from '../../@types/interface';
+import updateProject from '../actions/projectUpdate';
 
 // ? Typage local
 
@@ -142,6 +143,14 @@ const mainReducer = createReducer(initialState, (builder) => {
     state.flash = {
       type: 'error',
       children: 'Une erreur est survenue, veuillez réessayer plus tard !',
+    };
+  });
+
+  //* Cas de la mise à jour d'un projet réussie
+  builder.addCase(updateProject.fulfilled, (state) => {
+    state.flash = {
+      type: 'success',
+      children: 'Le projet a bien été mis à jour !',
     };
   });
 });

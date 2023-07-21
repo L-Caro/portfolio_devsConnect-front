@@ -87,13 +87,20 @@
         display: flex;
         align-items: center;
         //? Bouton Valider
-        &--submit {
-            background: green;
-            border: 0.2rem solid green;
+        &--submit,
+        &--delete {
             border-radius: v.$border-radius;
             color: white;
             font-weight: 700;
             cursor: pointer;
+        }
+        &--submit {
+            background: green;
+            border: 0.2rem solid green;
+        }
+        &--delete {
+            background: rgb(125, 26, 26);
+            border: 0.2rem solid rgb(125, 26, 26);
         }
     }
 
@@ -165,10 +172,14 @@
             //* Partie boutons
             margin: 0 0 v.$font-large 0; // Pour espacer le bloc en hauteur
             //? Bouton Valider
-            &--submit {
+            &--submit,
+            &--delete {
                 padding: v.$font-xsmall v.$font-large; // Pour agrandir la surface du bouton
                 width: 55rem;
                 border-radius: v.$border-radius; // Pour rendre droit la face commune avec annuler
+            }
+            &--delete {
+                margin-top: v.$font-small;
             }
         }
     }
@@ -236,9 +247,13 @@
             //* Partie boutons
             margin: v.$font-medium 0 v.$font-large; // Pour espacer le bloc en hauteur
             //? Bouton Valider
-            &--submit {
+            &--submit,
+            &--delete {
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
                 width: 45rem;
+            }
+            &--delete {
+                margin-top: v.$font-small;
             }
         }
     }
@@ -310,9 +325,13 @@
             margin: v.$font-medium 0 v.$font-large; // Pour espacer le bloc en hauteur
 
             //? Bouton Valider
-            &--submit {
+            &--submit,
+            &--delete {
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
                 width: 35rem; // Largeur du container
+            }
+            &--delete {
+                margin-top: v.$font-small;
             }
         }
     }
@@ -327,7 +346,7 @@
         }
         // ? En-tête
         &--header {
-            margin: v.$font-xlarge 0 v.$font-small 0;
+            margin: v.$font-xlarge + 0.6 0 v.$font-small 0;
             flex-direction: column-reverse;
             //* Bloc complet sans le message d'erreur
             //? Titre
@@ -388,9 +407,13 @@
             //* Partie boutons
             margin: v.$font-small 0 v.$font-medium; // Pour espacer le bloc en hauteur
             //? Bouton Valider
-            &--submit {
+            &--submit,
+            &--delete {
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
-                width: 100%; // Largeur du container
+                width: 25rem; // Largeur du container
+            }
+            &--delete {
+                margin-top: v.$font-xsmall;
             }
         }
     }
@@ -461,9 +484,13 @@
             //* Partie boutons
             margin: v.$font-small 0 v.$font-medium; // Pour espacer le bloc en hauteur
             //? Bouton Valider
-            &--submit {
+            &--submit,
+            &--delete {
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
                 width: 100%; // Largeur du container
+            }
+            &--delete {
+                margin-top: v.$font-xsmall;
             }
         }
     }

@@ -13,7 +13,7 @@ type UpdateMemberI = {
 //* Update un membre
 const updateMember = createAsyncThunk(
   'user/updateMember',
-  async ({ id, objData }) => {
+  async ({ id, objData }: UpdateMemberI) => {
     try {
       const { data } = await axiosInstance.put(`/api/users/${id}`, objData);
       // ? On retourne le state

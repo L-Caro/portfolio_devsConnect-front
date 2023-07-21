@@ -412,8 +412,6 @@ function MyProfile() {
     const textareaName: keyof MemberI = textarea?.name as keyof MemberI; // On récupère le name du textarea
     const textareaValue: string | undefined = textarea?.value; // On récupère la value du textarea
 
-    // erreurs du formulaire
-
     // ! Gestion des erreurs
 
     dispatch(resetMessage()); // On reset le message flash
@@ -532,7 +530,6 @@ function MyProfile() {
         objData.tags = selectedTagsData; // On ajoute le tableau selectedTagsData à objData
       }
 
-      console.log(objData);
       dispatch(
         // On dispatch l'action updateMember avec l'id du membre et les données du formulaire
         updateMember({

@@ -5,8 +5,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/axios';
 
 //* Supprimer un projet
-const projectDelete = createAsyncThunk(
-  'project/projectDelete',
+const deleteProject = createAsyncThunk(
+  'project/deleteProject',
   async (id: string) => {
     try {
       await axiosInstance.delete(`/api/projects/${id}`);
@@ -18,4 +18,4 @@ const projectDelete = createAsyncThunk(
   }
 );
 
-export default projectDelete;
+export default deleteProject;

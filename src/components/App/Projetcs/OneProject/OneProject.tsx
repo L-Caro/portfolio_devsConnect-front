@@ -179,7 +179,7 @@ function OneProject() {
             )}
       </div>
       <div className="Project--fourthField">
-        {project.availability && isMine() ? (
+        {isMine() ? (
           <button
             type="button"
             onClick={() => navigate(`/projects/${projectId}/edit`)}
