@@ -12,6 +12,7 @@ interface LogState {
   modalSignin: boolean;
   modalDelete: boolean;
   modalPassword: boolean;
+  modalDeleteProject: boolean;
 }
 
 // ? InitialState
@@ -21,6 +22,7 @@ const initialState: LogState = {
   modalSignin: false,
   modalDelete: false,
   modalPassword: false,
+  modalDeleteProject: false,
 };
 
 // ? Fonctions synchrone
@@ -29,6 +31,9 @@ export const toggleModalLogin = createAction('log/toggleModalLogin');
 export const toggleModalSignin = createAction('log/toggleModalSignin');
 export const toggleModalDelete = createAction('log/toggleModalDelete');
 export const toggleModalPassword = createAction('log/toggleModalPassword');
+export const toggleModalDeleteProject = createAction(
+  'log/toggleModalDeleteProject'
+);
 
 // ? Reducer
 const logReducer = createReducer(initialState, (builder) => {
@@ -65,6 +70,11 @@ const logReducer = createReducer(initialState, (builder) => {
     //* Cas de l'update de membre échouée
     .addCase(updateMember.rejected, (state) => {
       state.isEditMode = true;
+    })
+
+    //* Cas du clic sur le bouton de suppression de projet
+    .addCase(toggleModalDeleteProject, (state) => {
+      state.modalDeleteProject = !state.modalDeleteProject; // Inverse la valeur du state
     });
 });
 

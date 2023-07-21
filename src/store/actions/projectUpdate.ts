@@ -7,17 +7,25 @@ import axiosInstance from '../../utils/axios';
 // ? Typage local
 type UpdateProjectI = {
   id: number | null;
-  objData: FormData;
+  objData: {
+    // Propriétés sérialisables nécessaires
+    availability: boolean;
+    tags: string[];
+    title?: string;
+    description?: string;
+  };
 };
 
 //* Update un projet
-const projectUpdate = createAsyncThunk(
+const updateProject = createAsyncThunk(
   'project/projectUpdate',
-  async ({ id, objData }) => {
+  async ({ id, objData }: UpdateProjectI) => {
+    console.log('id2', id);
+    console.log('objData2', objData);
     try {
-      const { data } = await axiosInstance.put(`/api/projects/${id}`, objData, {
+      const data = await axiosInstance.put(`/api/projects/${id}`, objData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       });
 
@@ -30,4 +38,4 @@ const projectUpdate = createAsyncThunk(
   }
 );
 
-export default projectUpdate;
+export default updateProject;

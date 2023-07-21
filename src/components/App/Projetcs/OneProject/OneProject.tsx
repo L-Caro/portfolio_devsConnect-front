@@ -157,12 +157,12 @@ function OneProject() {
             <div key={uuidv4()} className="Project--secondField--technos">
               <div className="Project--secondField--technos--group">
                 <img
-                  src={`/images/technos/${tag.tag_name.toLowerCase()}.svg`}
+                  src={`/images/technos/${tag.name.toLowerCase()}.svg`}
                   alt=""
                   width="20px" // todo Supprimer ce style
                   heigth="20px" // todo Supprimer ce style
                 />
-                <p>{tag.tag_name}</p>
+                <p>{tag.name}</p>
               </div>
             </div>
           ))}

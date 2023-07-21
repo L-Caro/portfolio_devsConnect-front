@@ -290,6 +290,7 @@ function CreateProject() {
       objData.tags = selectedTagsData;
       objData.availability = !!checked;
       objData.user_id = user_id;
+      console.log(objData);
       const response = await dispatch(createProject(objData)); // On envoie les données du formulaire à l'API
       const projectId = response.payload.data.id;
 

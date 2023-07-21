@@ -52,6 +52,7 @@ function MyProfile() {
   const isEditMode = useAppSelector((state) => state.log.isEditMode); // On récupère le state isEditMode
   const { pseudoMessage, emailMessage, pseudoStatus, emailStatus } =
     useAppSelector((state) => state.ajax);
+  const { modalDelete, modalPassword } = useAppSelector((state) => state.log); // On récupère le state modale
 
   // Local
   const [checked, setChecked] = useState(false); // Valeur du switch
@@ -61,9 +62,6 @@ function MyProfile() {
   const [oldPseudo, setOldPseudo] = useState(''); // Ancien mot de passe
   const [oldEmail, setOldEmail] = useState(''); // Ancien mot de passe
   const [currentPicture, setCurrentPicture] = useState({}); // Image de profil à envoyer au back
-
-  const { modalDelete, modalPassword } = useAppSelector((state) => state.log); // On récupère le state modale
-  const [isOpenPasswordModale, setIsOpenPasswordModale] = useState(false); // State pour la modale de modification du mot de passe
 
   // Etats pour la gestion du formulaire et des erreurs associées
   const [formFields, setFormFields] = useState({
@@ -529,7 +527,6 @@ function MyProfile() {
       if (selectedTags && selectedTags.length > 0) {
         // On vérifie que selectedTags existe et qu'il contient au moins un tag
         const selectedTagsData = selectedTags.map((tag) => tag.id); // On crée un tableau avec les id des tags sélectionnés
-        // const tagsJSON = JSON.stringify(selectedTagsData); // On convertie le tableau en chaîne JSON
 
         formData.append('tags', selectedTagsData); // On ajoute le tableau selectedTagsData à formData
         objData.tags = selectedTagsData; // On ajoute le tableau selectedTagsData à objData
@@ -799,7 +796,7 @@ function MyProfile() {
                 rows={5}
                 slot={isEditMode ? 'Description' : null}
                 type="text"
-                placeholder={`Déscription : ${member?.description || ''}`}
+                placeholder={`Description : ${member?.description || ''}`}
                 aria-label="A propos de moi"
                 className={`Member--content--firstField--description Input ${
                   formFields.description.className

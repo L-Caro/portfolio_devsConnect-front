@@ -3,7 +3,7 @@ import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
 
 // ? Fonctions externes
 import projectCreate from '../actions/projectCreate';
-import projectUpdate from '../actions/projectUpdate';
+import updateProject from '../actions/projectUpdate';
 import projectDelete from '../actions/projectDelete';
 import ProjectAddMember from '../actions/ProjectAddMember';
 import ProjectRemoveMember from '../actions/ProjectRemoveMember';
@@ -122,16 +122,16 @@ const projectsReducer = createReducer(initialState, (builder) => {
 
   builder
     //* Cas de la connexion réussie de projectUpdate
-    .addCase(projectUpdate.fulfilled, (state, action) => {
-      state.project.data = action.payload.data;
+    .addCase(updateProject.fulfilled, (state, action) => {
+      state.project.data = action.payload;
       state.project.loading = false;
     })
     //* Cas de la connexion échouée de projectUpdate
-    .addCase(projectUpdate.rejected, (state) => {
+    .addCase(updateProject.rejected, (state) => {
       state.project.loading = false;
     })
     //* Cas de la connexion en cours de projectUpdate
-    .addCase(projectUpdate.pending, (state) => {
+    .addCase(updateProject.pending, (state) => {
       state.project.loading = true;
     });
 
