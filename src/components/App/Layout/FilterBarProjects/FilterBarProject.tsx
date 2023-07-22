@@ -45,9 +45,16 @@ function FilterBar({
     const filteredResults = projects.filter((project) => {
       //* Filtre par nom ou prénom
       // on filtre le nom du membre par rapport à la valeur de la recherche
-      const textResult = project.title
+      const titleResult = project.title
         ?.toLowerCase()
         .includes(searchText.toLowerCase());
+      // on filtre le pseudo du propriétaire par rapport à la valeur de la recherche
+      const pseudoResult = project.user_pseudo
+        ?.toLowerCase()
+        .includes(searchText.toLowerCase());
+
+      // On retourne le résultat de la recherche sur le titre ou le pseudo
+      const textResult = titleResult || pseudoResult;
 
       //* Filtre par disponibilité
       // On retourne le résultat de la recherche sur la disponibilité
@@ -127,7 +134,7 @@ function FilterBar({
             value={searchText} // On récupère la valeur du paramètre `search` de l'url
             onChange={handleSearch} // On enregistre la recherche dans l'url
             className="FilterBar--secondField--search"
-            placeholder="Entrez votre recherche"
+            placeholder="Rechercher par titre ou propriétaire"
           />
         </div>
         <div className="FilterBar--thirdField">
