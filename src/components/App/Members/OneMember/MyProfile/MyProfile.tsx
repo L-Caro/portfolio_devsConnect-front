@@ -425,12 +425,14 @@ function MyProfile() {
     }
 
     // On vérifie si les champs sont vides
-    ['firstname', 'lastname', 'pseudo', 'email'].forEach((field) => {
-      if (eval(field).value === '') {
-        // Si le champ est vide, on passe isFormValid[field] à true, car dans l'update on n'est pas obligé de tout modifier
-        isFormValid[field] = true;
+    ['firstname', 'lastname', 'pseudo', 'email', 'description'].forEach(
+      (field) => {
+        if (eval(field).value === '') {
+          // Si le champ est vide, on passe isFormValid[field] à true, car dans l'update on n'est pas obligé de tout modifier
+          isFormValid[field] = true;
+        }
       }
-    });
+    );
 
     const validProfile = [
       isFormValid.firstname,
@@ -441,6 +443,7 @@ function MyProfile() {
       isFormValid.tags,
       isFormValid.picture,
     ];
+    console.log(validProfile);
     // On compte le nombre de false dans isFormValid
     const falseFieldCount = Object.values(validProfile).filter(
       (value) => value === false

@@ -175,7 +175,6 @@ function OneMember() {
                  * et une clé unique
                  */}
                 {member.projects.map((project) => {
-                  console.log('project', project);
                   return <ProjectCard key={uuidv4()} project={project} />;
                 })}
               </Carousel>

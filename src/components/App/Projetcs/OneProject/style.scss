@@ -167,6 +167,10 @@
                     & p {
                         margin-left: 0.8rem;
                     }
+                    & img {
+                        width: v.$font-medium;
+                        height: v.$font-medium;
+                    }
                 }
             }
         }
@@ -236,6 +240,10 @@
                     //? Bloc image + texte
                     & p {
                         margin-left: 0.8rem;
+                    }
+                    & img {
+                        width: v.$font-medium;
+                        height: v.$font-medium;
                     }
                 }
             }
@@ -311,7 +319,8 @@
                         font-size: v.$font-xsmall;
                     }
                     & img {
-                        width: 1.5rem;
+                        width: v.$font-medium;
+                        height: v.$font-medium;
                     }
                 }
             }
@@ -398,7 +407,8 @@
                         font-size: v.$font-xxsmall + 0.4;
                     }
                     & img {
-                        width: 1.2rem;
+                        width: v.$font-small;
+                        height: v.$font-small;
                     }
                 }
             }
@@ -484,7 +494,8 @@
                         font-size: v.$font-xxsmall + 0.2;
                     }
                     & img {
-                        width: 1rem;
+                        width: v.$font-xsmall;
+                        height: v.$font-xsmall;
                     }
                 }
             }

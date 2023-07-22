@@ -82,6 +82,40 @@
             }
         }
     }
+    &--thirdField {
+        &--noWanted {
+            margin: v.$font-small 0;
+            font-style: italic;
+            list-style: none;
+            text-align: center;
+            color: rgb(125, 10, 10);
+            border-radius: 1.3rem;
+            font-weight: 700;
+        }
+        &--container {
+            background-color: v.$color-input;
+            border-radius: v.$border-radius;
+            color: v.$color-darkest;
+            font-weight: 700;
+            opacity: 0.9;
+            &--users {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                &--text {
+                    white-space: nowrap; //* Empêche le retour à la ligne
+                    overflow: hidden; //* Cache le contenu dépassant du cadre
+                    text-overflow: ellipsis; //* Ajoute des points de suspension
+                }
+                &--img-bloc {
+                    display: flex;
+                    &--img {
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
     &--fourthField {
         //* Partie boutons
         display: flex;
@@ -110,6 +144,7 @@
         font-size: v.$font-medium; // Taille de la police
         // ? Sous titre
         &--legend {
+            margin-top: v.$font-small;
             padding: 0 v.$font-large; // Espace entre le titre et le container
             font-size: v.$font-medium;
         }
@@ -141,7 +176,7 @@
         &--secondField {
             //* Partie languages
             //? Technos
-            margin: v.$font-small 0;
+            // margin: v.$font-small 0;
             &--text {
                 padding: 0 v.$font-large; // Espace entre le titre et le container
                 font-size: v.$font-small - 0.2;
@@ -149,13 +184,15 @@
             &--technos {
                 //? Liste des technos
                 grid-template-columns: repeat(3, 1fr); // 3 languages par lignes
-                margin: v.$font-medium 0;
+                // margin: v.$font-medium 0;
                 padding: 0 v.$font-medium;
                 &--group,
                 &--group--selected {
                     //? Bloc image + texte
                     gap: v.$font-medium;
                     margin: v.$font-xsmall 0;
+                    font-size: v.$font-small;
+
                     & img {
                         width: v.$font-medium;
                         height: v.$font-medium;
@@ -164,6 +201,32 @@
                         padding: 0.3rem v.$font-xsmall;
                         width: 80%;
                         border: 2px solid rgb(91, 166, 91);
+                    }
+                }
+            }
+        }
+        &--thirdField {
+            padding: v.$font-xsmall;
+
+            &--container {
+                padding: 0 v.$font-medium;
+                width: 60%;
+                &--users {
+                    margin: 0 v.$font-xlarge;
+                    padding: v.$font-xxsmall 0;
+                    width: 80%;
+                    &--text {
+                        margin-right: v.$font-medium;
+                        width: 70%;
+                        font-size: v.$font-small;
+                    }
+                    &--img-bloc {
+                        width: 30%;
+                        &--img {
+                            margin-left: 2rem;
+                            width: 3rem;
+                            height: 3rem;
+                        }
                     }
                 }
             }
@@ -215,20 +278,19 @@
         &--secondField {
             //* Partie languages
             //? Technos
-            margin: v.$font-small 0;
             &--text {
                 font-size: v.$font-small;
             }
             &--technos {
                 //? Liste des technos
                 grid-template-columns: repeat(3, 1fr); // 3 languages par lignes
-                margin: v.$font-small 0;
                 padding: v.$font-xsmall v.$font-medium;
                 &--group,
                 &--group--selected {
                     //? Bloc image + texte
                     gap: v.$font-small;
                     margin: v.$font-xsmall 0;
+                    font-size: v.$font-xsmall + 0.3;
                     & img {
                         width: v.$font-medium;
                         height: v.$font-medium;
@@ -237,6 +299,30 @@
                         padding: 0.3rem v.$font-xsmall;
                         width: 80%;
                         border: 2px solid rgb(91, 166, 91);
+                    }
+                }
+            }
+        }
+        &--thirdField {
+            padding: v.$font-xsmall 0;
+            &--container {
+                width: 50%;
+                &--users {
+                    margin: 0 auto;
+                    padding: v.$font-xxsmall 0;
+                    width: 80%;
+                    &--text {
+                        margin-right: v.$font-medium;
+                        width: 70%;
+                        font-size: v.$font-xsmall + 0.3;
+                    }
+                    &--img-bloc {
+                        width: 30%;
+                        &--img {
+                            margin-left: 2rem;
+                            width: 2.5rem;
+                            height: 2.5rem;
+                        }
                     }
                 }
             }
@@ -290,20 +376,19 @@
         &--secondField {
             //* Partie languages
             //? Technos
-            margin: v.$font-small 0;
             &--text {
                 font-size: v.$font-xsmall;
             }
             &--technos {
                 //? Liste des technos
                 grid-template-columns: repeat(2, 1fr); // 2 languages par lignes
-                margin: v.$font-small 0;
                 padding: v.$font-xsmall v.$font-medium;
                 &--group,
                 &--group--selected {
                     //? Bloc image + texte
                     gap: v.$font-small;
                     margin: v.$font-xsmall v.$font-small;
+                    font-size: v.$font-xsmall + 0.1;
                     & img {
                         width: v.$font-medium;
                         height: v.$font-medium;
@@ -312,6 +397,30 @@
                         padding: 0.3rem v.$font-xsmall;
                         width: 80%;
                         border: 3px solid rgb(91, 166, 91);
+                    }
+                }
+            }
+        }
+        &--thirdField {
+            padding: v.$font-xsmall 0;
+            &--container {
+                width: 70%;
+                &--users {
+                    margin: 0 auto;
+                    padding: v.$font-xxsmall 0;
+                    width: 80%;
+                    &--text {
+                        margin-right: v.$font-medium;
+                        width: 60%;
+                        font-size: v.$font-xsmall + 0.1;
+                    }
+                    &--img-bloc {
+                        width: 40%;
+                        &--img {
+                            margin-left: 2rem;
+                            width: 2rem;
+                            height: 2rem;
+                        }
                     }
                 }
             }
@@ -371,20 +480,19 @@
         &--secondField {
             //* Partie languages
             //? Technos
-            margin: v.$font-small 0;
             &--text {
                 font-size: v.$font-xxsmall;
             }
             &--technos {
                 //? Liste des technos
                 grid-template-columns: repeat(2, 1fr); // 2 languages par lignes
-                margin: v.$font-small 0;
                 padding: v.$font-xsmall v.$font-small;
                 &--group,
                 &--group--selected {
                     //? Bloc image + texte
                     gap: v.$font-xsmall;
                     margin: v.$font-xxsmall v.$font-small;
+                    font-size: v.$font-xxsmall + 0.2;
                     & img {
                         width: v.$font-small;
                         height: v.$font-small;
@@ -393,6 +501,30 @@
                         padding: 0.3rem v.$font-xxsmall;
                         width: 80%;
                         border: 2px solid rgb(91, 166, 91);
+                    }
+                }
+            }
+        }
+        &--thirdField {
+            padding: v.$font-xsmall 0;
+            &--container {
+                width: 100%;
+                &--users {
+                    margin: 0 auto;
+                    padding: v.$font-xxsmall 0;
+                    width: 70%;
+                    &--text {
+                        margin-right: v.$font-medium;
+                        width: 60%;
+                        font-size: v.$font-xxsmall + 0.2;
+                    }
+                    &--img-bloc {
+                        width: 40%;
+                        &--img {
+                            margin-left: 2rem;
+                            width: 1.7rem;
+                            height: 1.7rem;
+                        }
                     }
                 }
             }
@@ -446,20 +578,19 @@
         &--secondField {
             //* Partie languages
             //? Technos
-            margin: v.$font-xsmall 0;
             &--text {
                 font-size: v.$font-xxsmall;
             }
             &--technos {
                 //? Liste des technos
                 grid-template-columns: repeat(2, 1fr); // 2 languages par lignes
-                margin: v.$font-xsmall 0;
                 padding: v.$font-xxsmall v.$font-xsmall;
                 &--group,
                 &--group--selected {
                     //? Bloc image + texte
                     gap: v.$font-xxsmall;
                     margin: v.$font-xxsmall v.$font-xsmall;
+                    font-size: v.$font-xxsmall;
                     & img {
                         width: v.$font-small;
                         height: v.$font-small;
@@ -468,6 +599,31 @@
                         padding: 0.2rem v.$font-xxsmall;
                         width: 75%;
                         border: 1px solid rgb(91, 166, 91);
+                    }
+                }
+            }
+        }
+        &--thirdField {
+            padding: v.$font-xsmall 0;
+
+            &--container {
+                width: 100%;
+                &--users {
+                    margin: 0 auto;
+                    padding: v.$font-xxsmall 0;
+                    width: 70%;
+                    &--text {
+                        margin-right: v.$font-medium;
+                        width: 60%;
+                        font-size: v.$font-xxsmall;
+                    }
+                    &--img-bloc {
+                        width: 40%;
+                        &--img {
+                            margin-left: 2rem;
+                            width: 1.5rem;
+                            height: 1.5rem;
+                        }
                     }
                 }
             }
@@ -481,22 +637,6 @@
                 margin-top: v.$font-xsmall;
                 padding: v.$font-xsmall v.$font-medium; // Pour agrandir la surface du bouton
                 width: 100%; // Largeur du container
-            }
-        }
-    }
-    &--thirdField {
-        &--wanted-users,
-        &--validate-users {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            margin: 3rem auto;
-            & img {
-                margin-top: 1rem;
-                margin-left: 2rem;
-                width: 30px;
-                height: 30px;
-                cursor: pointer;
             }
         }
     }

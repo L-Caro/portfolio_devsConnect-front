@@ -158,9 +158,8 @@ function OneProject() {
               <div className="Project--secondField--technos--group">
                 <img
                   src={`/images/technos/${tag.name.toLowerCase()}.svg`}
-                  alt=""
-                  width="20px" // todo Supprimer ce style
-                  heigth="20px" // todo Supprimer ce style
+                  alt="tag"
+                  className="Project--secondField--technos--group--img"
                 />
                 <p>{tag.name}</p>
               </div>

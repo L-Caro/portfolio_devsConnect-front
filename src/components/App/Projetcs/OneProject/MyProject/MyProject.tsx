@@ -29,7 +29,7 @@ import Input from '../../../../Form/Input';
 import DeleteProjectModale from './DeleteProjectModale/DeleteProjectModale';
 
 // ? Styles
-import './style.scss';
+import '../../CreateProject/style.scss';
 
 // ? Typage global
 import { ProjectI, TagSelectedI } from '../../../../../@types/interface';
@@ -509,9 +509,9 @@ function MyProject() {
             <Input
               id="title"
               name="title"
-              slot="Titre du projet"
+              slot={`Titre du projet : ${project?.title || ''}`}
               type="text"
-              placeholder={`Projet : ${project?.title || ''}`}
+              placeholder="Titre du projet"
               aria-label="Titre du projet"
               value={formFields.title.value}
               className={`CreateProject--firstField--description Input Input-darkest ${formFields.title.className}`}
@@ -542,9 +542,9 @@ function MyProject() {
             <Input
               id="description"
               name="description"
-              slot="A propose du projet :"
+              slot={`Description : ${project?.description || ''}`}
               type="text"
-              placeholder={`Description : ${project?.description || ''}`}
+              placeholder="A propos de projet"
               aria-label="A propos du projet"
               multiline
               rows={5}
@@ -617,94 +617,144 @@ function MyProject() {
               })}
             </div>
           </fieldset>
+          <legend className="CreateProject--legend">Participants</legend>
           <fieldset className="CreateProject--thirdField">
-            <legend className="CreateProject--legend">Participants</legend>
+            <div className="CreateProject--thirdField--container">
+              {project?.users &&
+                project.users.map((user) =>
+                  user.id === ownerId ? (
+                    <div
+                      className="CreateProject--thirdField--container--users"
+                      key={user.id}
+                    >
+                      <p className="CreateProject--thirdField--container--users--text">
+                        {user.pseudo}
+                      </p>
+                      <div className="CreateProject--thirdField--container--users--img-bloc">
+                        <img
+                          src="/images/icones/error_black.svg"
+                          alt="Remove user"
+                          title="Vous ne pouvez pas vous supprimer de votre projet"
+                          className="CreateProject--thirdField--container--users--img-bloc--img"
+                          onClick={() =>
+                            deleteMemberToProject(project.id, user.id)
+                          }
+                          onKeyDown={(event) =>
+                            deleteMembreToProjectKeyDown(
+                              event,
+                              project.id,
+                              user.id
+                            )
+                          }
+                          role="button"
+                          tabIndex={0}
+                        />
+                      </div>
+                    </div>
+                  ) : // Si le membre est actif, on l'affiche dans la liste des membres
+                  user.is_active === true ? (
+                    <div
+                      className="CreateProject--thirdField--container--users"
+                      key={user.id}
+                    >
+                      <p className="CreateProject--thirdField--container--users--text">
+                        {user.pseudo}
+                      </p>
+                      <div className="CreateProject--thirdField--container--users--img-bloc">
+                        <img
+                          src="/images/icones/error.svg"
+                          alt="Remove user"
+                          title={`Supprimer ${user.pseudo} du projet`}
+                          className="CreateProject--thirdField--container--users--img-bloc--img"
+                          onClick={() =>
+                            deleteMemberToProject(project.id, user.id)
+                          }
+                          onKeyDown={(event) =>
+                            deleteMembreToProjectKeyDown(
+                              event,
+                              project.id,
+                              user.id
+                            )
+                          }
+                          role="button"
+                          tabIndex={0}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    ''
+                  )
+                )}
+            </div>
+          </fieldset>
+          <legend className="CreateProject--legend">
+            Postulants au projet
+          </legend>
+          <fieldset className="CreateProject--thirdField">
+            <div className="CreateProject--thirdField--container">
+              {project?.users &&
+                project?.users.map((user) =>
+                  user.is_active === false && user.id !== ownerId ? (
+                    <>
+                      <div
+                        className="CreateProject--thirdField--container--users"
+                        key={user.id}
+                      >
+                        <p className="CreateProject--thirdField--container--users--text">
+                          {user.pseudo}
+                        </p>
+                        <div className="CreateProject--thirdField--container--users--img-bloc">
+                          <img
+                            src="/images/icones/error.svg"
+                            alt="Remove user"
+                            title={`Supprimer ${user.pseudo} du projet`}
+                            className="CreateProject--thirdField--container--users--img-bloc--img"
+                            onClick={() =>
+                              deleteMemberToProject(project.id, user.id)
+                            }
+                            onKeyDown={(event) =>
+                              deleteMembreToProjectKeyDown(
+                                event,
+                                project.id,
+                                user.id
+                              )
+                            }
+                            role="button"
+                            tabIndex={0}
+                          />
+                          <img
+                            src="/images/icones/good.svg"
+                            alt="Accept user"
+                            title={`Accepter ${user.pseudo} dans le projet`}
+                            className="CreateProject--thirdField--container--users--img-bloc--img"
+                            onClick={() =>
+                              acceptMemberToProject(project.id, user.id)
+                            }
+                            onKeyDown={(event) =>
+                              acceptMembreToProjectKeyDown(
+                                event,
+                                project.id,
+                                user.id
+                              )
+                            }
+                            role="button"
+                            tabIndex={0}
+                          />
+                        </div>
+                      </div>
+                      <div className="CreateProject--thirdField--separate" />
+                    </>
+                  ) : null
+                )}
+            </div>
+            {/* Si il n'y a aucun postulant dans le projet : */}
             {project?.users &&
-              project.users.map((user) =>
-                user.is_active === true ? (
-                  <div
-                    className="CreateProject--thirdField--validate-users"
-                    key={user.id}
-                  >
-                    <p>
-                      {user.user_id} {user.pseudo}
-                    </p>
-                    <img
-                      src="/images/icones/error.svg"
-                      alt="Remove user"
-                      onClick={() => deleteMemberToProject(project.id, user.id)}
-                      onKeyDown={(event) =>
-                        deleteMembreToProjectKeyDown(event, project.id, user.id)
-                      }
-                      role="button"
-                      tabIndex={0}
-                    />
-                  </div>
-                ) : user.id === ownerId ? (
-                  <div
-                    className="CreateProject--thirdField--validate-users"
-                    key={user.id}
-                  >
-                    <p>
-                      {user.user_id} {user.pseudo}
-                    </p>
-                    <img
-                      src="/images/icones/error.svg"
-                      alt="Remove user"
-                      onClick={() => deleteMemberToProject(project.id, user.id)}
-                      onKeyDown={(event) =>
-                        deleteMembreToProjectKeyDown(event, project.id, user.id)
-                      }
-                      role="button"
-                      tabIndex={0}
-                    />
-                  </div>
-                ) : (
-                  ''
-                )
-              )}
-
-            <legend className="CreateProject--legend">
-              Postulants au projet
-            </legend>
-            {project?.users &&
-              project?.users.map((user) =>
-                user.is_active === false && user.id !== ownerId ? (
-                  <div
-                    className="CreateProject--thirdField--wanted-users"
-                    key={user.id}
-                  >
-                    <p>
-                      {user.id} {user.firstname} {user.lastname}
-                    </p>
-                    <img
-                      src="/images/icones/error.svg"
-                      alt="Remove user"
-                      onClick={() => deleteMemberToProject(project.id, user.id)}
-                      onKeyDown={(event) =>
-                        deleteMembreToProjectKeyDown(event, project.id, user.id)
-                      }
-                      role="button"
-                      tabIndex={0}
-                    />
-                    <img
-                      src="/images/icones/good.svg"
-                      alt="Accept user"
-                      onClick={() => acceptMemberToProject(project.id, user.id)}
-                      onKeyDown={(event) =>
-                        acceptMembreToProjectKeyDown(event, project.id, user.id)
-                      }
-                      role="button"
-                      tabIndex={0}
-                    />
-                  </div>
-                ) : (
-                  ''
-                  // <p className="CreateProject--thirdField--noWanted">
-                  //   Aucun postulant pour le moment
-                  // </p>
-                  // Si aucun membre n'a postulé, on affiche un message
-                )
+              project.users.filter(
+                (user) => user.is_active === false && user.id !== ownerId
+              ).length === 0 && (
+                <p className="CreateProject--thirdField--noWanted">
+                  Aucun postulant pour le moment
+                </p>
               )}
           </fieldset>
           <fieldset className="CreateProject--fourthField">
@@ -725,7 +775,7 @@ function MyProject() {
         </form>
       </div>
       {/* Modale de suppression de projet */}
-      {modaleDeleteProject && <DeleteProjectModale project={project} />}
+      {modaleDeleteProject && <DeleteProjectModale />}
     </>
   );
 }
