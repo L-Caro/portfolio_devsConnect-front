@@ -34,7 +34,6 @@ import './style.scss';
 // ? Typage global
 import { ProjectI, TagSelectedI } from '../../../../../@types/interface';
 import { fetchOneProject } from '../../../../../store/reducer/projects';
-import Members from '../../../Members/Members';
 
 // ? Typage local
 interface ObjectI {
@@ -57,6 +56,7 @@ function MyProject() {
   const modaleDeleteProject = useAppSelector(
     (state) => state.log.modalDeleteProject
   ); // State pour la modale de suppression de projet
+  const ownerId = useAppSelector((state) => state.user.login.id);
 
   // Local
   const [checked, setChecked] = useState(project?.availability); // State pour le check de open to work
@@ -91,7 +91,7 @@ function MyProject() {
   useEffect(() => {
     dispatch(fetchAllTags());
     setSelectedTags(project?.tags);
-  }, [dispatch, project?.tags]);
+  }, [dispatch]);
 
   /** //* useEffect pour la récupération des données du projet
    * @param {updateProject} dispatch - Dispatch de l'action pour récupérer les données du projet
@@ -177,11 +177,10 @@ function MyProject() {
       } else {
         // On ajoute le tag à la variable updatedTags
         if (selectedTags.length < 10) {
-          // Si le tableau des tags sélectionnés contient déjà 14 tags, on ne fait rien
+          // Si le tableau des tags sélectionnés contient déjà 10 tags, on ne fait rien
           const updatedTags = [...selectedTags, selectedTag];
           // On met à jour le state des technos sélectionnées
           setSelectedTags(updatedTags);
-
           // On ajoute la classe `selected` au tag
           const tagElement = document.getElementById(`tag-${selectedTag.id}`); // On cible l'element par son id spécifique
           if (tagElement)
@@ -254,7 +253,16 @@ function MyProject() {
    * On met à jour le state des membres
    */
   const deleteMemberToProject = (projectId: number, userId: number) => {
-    dispatch(ProjectDeleteMember({ projectId, userId }));
+    if (userId === ownerId) {
+      dispatch(
+        updateFlash({
+          type: 'error',
+          children: 'Vous ne pouvez pas vous supprimer du projet',
+        })
+      );
+    } else {
+      dispatch(ProjectDeleteMember({ projectId, userId }));
+    }
   };
   /** //! Accessibilité
    * @param {React.KeyboardEvent<HTMLDivElement>} event - Événement clavier
@@ -632,6 +640,25 @@ function MyProject() {
                       tabIndex={0}
                     />
                   </div>
+                ) : user.id === ownerId ? (
+                  <div
+                    className="CreateProject--thirdField--validate-users"
+                    key={user.id}
+                  >
+                    <p>
+                      {user.user_id} {user.pseudo}
+                    </p>
+                    <img
+                      src="/images/icones/error.svg"
+                      alt="Remove user"
+                      onClick={() => deleteMemberToProject(project.id, user.id)}
+                      onKeyDown={(event) =>
+                        deleteMembreToProjectKeyDown(event, project.id, user.id)
+                      }
+                      role="button"
+                      tabIndex={0}
+                    />
+                  </div>
                 ) : (
                   ''
                 )
@@ -641,14 +668,8 @@ function MyProject() {
               Postulants au projet
             </legend>
             {project?.users &&
-            project?.users.some((user) => user.is_active === false) ? ( // Utilisation de some() pour vérifier s'il y a des postulants inactifs
-              <p className="CreateProject--thirdField--noWanted">
-                Aucun postulant pour le moment
-              </p>
-            ) : null}
-            {project?.users &&
               project?.users.map((user) =>
-                user.is_active === false ? (
+                user.is_active === false && user.id !== ownerId ? (
                   <div
                     className="CreateProject--thirdField--wanted-users"
                     key={user.id}

@@ -24,6 +24,7 @@ function CardMember({ member }: CardMemberI) {
     availability,
     description,
     picture,
+    projects,
   } = member;
 
   // ? Rendu JSX
@@ -100,7 +101,7 @@ function CardMember({ member }: CardMemberI) {
            *
            *  Sinon on affiche un message pour dire qu'il n'y a pas de projet
            */}
-          {member.projects && member.projects.length > 0 ? (
+          {projects && projects.length > 0 ? (
             member.projects.slice(0, 3).map((project: ProjectI) => (
               /** //! Link
                * @param {String} to - Lien vers la page du projet en fonction de son id

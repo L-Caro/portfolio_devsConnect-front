@@ -12,7 +12,7 @@ import { fetchAllMembers } from '../../../store/reducer/members';
 // ? Composants
 import NotFound from '../../NotFound/NotFound';
 import FilterBar from '../Layout/FilterBar/FilterBar';
-import CardMember from '../Cards/ProjectMember/ProjectMember';
+import CardMember from '../Cards/CardMember/CardMember';
 
 // ? Styles
 import './style.scss';
@@ -103,21 +103,6 @@ function Members() {
        * On envoie au composant la fonction pour mettre à jour la liste des membres filtrés
        */}
       <FilterBar members={members} setFilteredMembers={setFilteredMembers} />
-      <ThemeProvider theme={paginationUITheme}>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25, 50]}
-          component="div"
-          labelRowsPerPage="Résultats par page"
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from}-${to} sur ${count !== -1 ? count : `plus de ${to}`}`
-          }
-          count={filteredMembers.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </ThemeProvider>
       <h2 className="Members--title">Tous les membres</h2>
       {filteredMembers.length === 0 && (
         <p className="noResult">Aucun résultat pour vos critères</p>
@@ -137,6 +122,21 @@ function Members() {
             <CardMember key={member.id} member={member} />
           ))}
       </div>
+      <ThemeProvider theme={paginationUITheme}>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          component="div"
+          labelRowsPerPage="Résultats par page"
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to} sur ${count !== -1 ? count : `plus de ${to}`}`
+          }
+          count={filteredMembers.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </ThemeProvider>
     </div>
   );
 }
