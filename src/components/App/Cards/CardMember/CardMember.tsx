@@ -53,7 +53,7 @@ function CardMember({ member }: CardMemberI) {
               </p>
             </div>
             <img
-              src={`https://backdevsconnect.lionelcaro-book.fr${picture}`}
+              src={picture}
               alt="profil"
               title={pseudo}
               className="CardMember--header--link--img"

@@ -90,7 +90,7 @@ function OneMember() {
           <div className="Member--header--container--image">
             <img
               className="Member--header--container--image--profil"
-              src={`https://backdevsconnect.lionelcaro-book.fr${member?.picture}`}
+              src={member?.picture}
               alt="profil"
             />
             <div className="Member--header--container--image--contact">

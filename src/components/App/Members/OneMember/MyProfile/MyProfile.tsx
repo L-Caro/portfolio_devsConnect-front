@@ -576,7 +576,7 @@ function MyProfile() {
                 src={
                   formFields.picture.value.includes('blob')
                     ? formFields.picture.value
-                    : `https://backdevsconnect.lionelcaro-book.fr${member?.picture}`
+                    : member?.picture
                 }
                 alt="profil"
                 onClick={handleUploadClick}
