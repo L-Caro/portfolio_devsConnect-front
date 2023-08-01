@@ -77,7 +77,11 @@ function OneMember() {
          * On envoie au composant la fonction navigate
          * A chaque clic sur le bouton, on retourne à la page précédente
          */}
-        <button type="button" onClick={() => navigate(-1)}>
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className={window.history.length > 1 ? '' : 'hidden'}
+        >
           Retour
         </button>
       </div>
@@ -86,7 +90,7 @@ function OneMember() {
           <div className="Member--header--container--image">
             <img
               className="Member--header--container--image--profil"
-              src={`http://localhost:3000${member?.picture}`}
+              src={`https://backdevsconnect.lionelcaro-book.fr${member?.picture}`}
               alt="profil"
             />
             <div className="Member--header--container--image--contact">

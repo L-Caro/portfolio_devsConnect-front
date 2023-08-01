@@ -3,7 +3,7 @@ import axios from 'axios';
 import logout from '../store/actions/logout';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'https://backdevsconnect.lionelcaro-book.fr',
   headers: {
     'content-type': 'application/json',
   },

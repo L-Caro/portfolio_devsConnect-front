@@ -37,7 +37,7 @@ function CardMemberMini({ member }: CardMemberI) {
             </div>
             <div className="CardMemberMini--header--link--container">
               <img
-                src={`http://localhost:3000${picture}`}
+                src={`https://backdevsconnect.lionelcaro-book.fr${picture}`}
                 alt="profil"
                 title={pseudo}
                 className="CardMemberMini--header--link--container--img"

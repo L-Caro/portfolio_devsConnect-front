@@ -541,6 +541,7 @@ function MyProfile() {
         })
       );
       handleResetForm(); // On réinitialise le formulaire
+      dispatch(toggleEditMode());
     }
   };
 
@@ -575,7 +576,7 @@ function MyProfile() {
                 src={
                   formFields.picture.value.includes('blob')
                     ? formFields.picture.value
-                    : `http://localhost:3000${member?.picture}`
+                    : `https://backdevsconnect.lionelcaro-book.fr${member?.picture}`
                 }
                 alt="profil"
                 onClick={handleUploadClick}
@@ -860,6 +861,7 @@ function MyProfile() {
                         <div
                           className="Member--content--secondField--container--technos--group"
                           key={tag.id}
+                          style={{ cursor: 'default' }}
                         >
                           <img
                             src={`/images/technos/${tag.name.toLowerCase()}.svg`}
@@ -897,6 +899,7 @@ function MyProfile() {
                               `${className}`
                             }
                             id={`tag-${tag.id}`} // Sert de référence pour la fonction handleImageClick ( permet d'ajouter ou de retirer la classe selected quand on ajoute/supprime le tag)
+                            style={{ cursor: 'pointer' }}
                           >
                             <img
                               src={`/images/technos/${tag.name.toLowerCase()}.svg`}

@@ -1,11 +1,15 @@
 {
   "name": "DevsConnect",
+  "homepage": "https://devsconnect.lionelcaro-book.fr",
+  "description": "A social network for developers",
+  "author": "Lionel Caro",
+  "license": "MIT",
+  "version": "1.2.0",
   "private": true,
-  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "tsc --noEmit && eslint src/**/*.{js,jsx,ts,tsx} --cache --max-warnings=0",
     "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
