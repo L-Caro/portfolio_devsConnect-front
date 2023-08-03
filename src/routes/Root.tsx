@@ -22,7 +22,7 @@ function Root() {
   const flash: FlashI | null | undefined = useAppSelector(
     (state) => state.main.flash
   );
-  const { modalLogin, modalSignin, modalDelete, modalPassword } =
+  const { modalLogin, modalSignin, modalDelete, modalPassword, isOpen } =
     useAppSelector((state) => state.log);
 
   // ? Dispatch
@@ -47,7 +47,7 @@ function Root() {
   }, [dispatch, flash]);
 
   // ? Empêche le scroll sur le body quand une modale est ouverte
-  if (modalLogin || modalSignin || modalDelete || modalPassword) {
+  if (modalLogin || modalSignin || modalDelete || modalPassword || isOpen) {
     document.body.style.overflow = 'hidden';
   } else {
     document.body.style.overflow = 'unset';

@@ -102,6 +102,9 @@
     .MuiSvgIcon-root {
         cursor: pointer;
     }
+    .MuiInputBase-root fieldset {
+        border: 1px solid v.$color;
+    }
 }
 
 .Input-dark {
@@ -131,6 +134,13 @@
     //? Icône d'ceil pour afficher le mot de passe
     .MuiSvgIcon-root {
         color: v.$color-darkest;
+    }
+
+    .wrong {
+        color: #d32f2f;
+    }
+    .good {
+        color: #2e7d32;
     }
 }
 
@@ -164,11 +174,28 @@
     .MuiSvgIcon-root {
         color: v.$color;
     }
-}
 
-.wrong {
-    color: rgba(185, 6, 6, 0.9);
-}
-.good {
-    color: rgba(6, 133, 38, 0.9);
+    .wrong {
+        color: rgba(216, 91, 85, 0.9);
+    }
+    .good {
+        color: rgba(2, 223, 58, 0.902);
+    }
+
+    // Couleur du label en cas d'erreur
+    .MuiFormLabel-root.MuiFormLabel-colorError.Mui-focused {
+        color: rgba(216, 91, 85, 0.9);
+    }
+    // Couleur du contour en cas d'erreur
+    .MuiInputBase-root.MuiInputBase-colorError.Mui-focused fieldset {
+        border: 1px solid rgba(216, 91, 85, 0.9);
+    }
+    // Couleur du label en cas de succès
+    .MuiFormLabel-colorSuccess.Mui-focused {
+        color: rgba(2, 223, 58, 0.902);
+    }
+    // Couleur du contour en cas de succès
+    .MuiInputBase-root.MuiInputBase-colorSuccess.Mui-focused fieldset {
+        border: 1px solid rgba(2, 223, 58, 0.902);
+    }
 }

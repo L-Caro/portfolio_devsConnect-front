@@ -11,6 +11,7 @@ import customThemeMUI from '../../../utils/customInputUI';
 
 // ? Styles
 import './style.scss';
+import { yellow } from '@mui/material/colors';
 
 // ? Typage local
 interface InputProps {

@@ -26,16 +26,15 @@ export const formRules = {
     pattern: /^[a-zA-Z0-9#@_$'&%éèàùµç¤]+$/,
   },
   password: {
-    minLength: 8,
+    minLength: 12,
     hasLowercase: /[a-z]/,
     hasUppercase: /[A-Z]/,
-    hasSpecialChar: /[\W_]/,
+    hasNumber: /[0-9]/,
   },
   newPassword: {
-    minLength: 8,
+    minLength: 12,
     hasLowercase: /[a-z]/,
-    hasUppercase: /[A-Z]/,
-    hasSpecialChar: /[\W_]/,
+    hasNumber: /[0-9]/,
   },
   description: {
     minLength: 2,
@@ -60,10 +59,9 @@ export const errorMessages = {
   pseudo: '',
   email: '',
   oldPassword: 'Ce mot de passe ne correspond pas à votre mot de passe actuel',
-  password:
-    'Le mot de passe doit contenir au moins 8 caractères dont une majuscule, une minuscule et un caractère spécial',
+  password: 'Minimum 12 caractères dont 1 minuscule, 1 majuscule et 1 chiffre',
   newPassword:
-    'Le mot de passe doit contenir au moins 8 caractères dont une majuscule, une minuscule et un caractère spécial',
+    'Minimum 12 caractères dont 1 minuscule, 1 majuscule et 1 chiffre',
   confirmPassword:
     'La confirmation du mot de passe doit être identique au nouveau mot de passe',
   tags: 'Veuillez sélectionner au moins un language',
@@ -92,14 +90,13 @@ export const validateField = (value, fieldName, options = {}) => {
   const fieldRules = formRules[fieldName];
 
   if (fieldName === 'password') {
-    const { minLength, hasLowercase, hasUppercase, hasSpecialChar } =
-      fieldRules;
+    const { minLength, hasLowercase, hasUppercase, hasNumber } = fieldRules;
 
     if (
       value.length < minLength ||
       !hasLowercase.test(value) ||
       !hasUppercase.test(value) ||
-      !hasSpecialChar.test(value)
+      !hasNumber.test(value)
     ) {
       isFormValid.password = false;
       return {
@@ -110,14 +107,13 @@ export const validateField = (value, fieldName, options = {}) => {
     isFormValid.password = true;
   }
   if (fieldName === 'newPassword') {
-    const { minLength, hasLowercase, hasUppercase, hasSpecialChar } =
-      fieldRules;
+    const { minLength, hasLowercase, hasUppercase, hasNumber } = fieldRules;
 
     if (
       value.length < minLength ||
       !hasLowercase.test(value) ||
       !hasUppercase.test(value) ||
-      !hasSpecialChar.test(value)
+      !hasNumber.test(value)
     ) {
       isFormValid.newPassword = false;
       return {
@@ -246,7 +242,7 @@ function getFileExtension(filename) {
 export const validatePicture = (filename) => {
   const extension = getFileExtension(filename.name);
   if (
-    filename.size < 5 * 1024 * 1024 &&
+    filename.size < 6 * 1024 * 100 &&
     (extension === 'jpg' ||
       extension === 'jpeg' ||
       extension === 'webp' ||
@@ -255,9 +251,9 @@ export const validatePicture = (filename) => {
       extension === 'gif')
   ) {
     isFormValid.picture = true;
-  } else if (filename.size > 5 * 1024 * 1024) {
+  } else if (filename.size > 6 * 1024 * 100) {
     errorMessages.picture =
-      'La taille de la photo de profil ne doit pas dépasser 5Mo';
+      'La taille de la photo de profil ne doit pas dépasser 600ko';
     isFormValid.picture = false;
   } else {
     errorMessages.picture = 'Mauvais format de photo';

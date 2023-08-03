@@ -4,15 +4,13 @@ import { useAppDispatch, useAppSelector } from '../../../../../hook/redux';
 
 // ? Fonctions externes
 import { toggleModalLogin } from '../../../../../store/reducer/log';
+import { toggleIsOpen } from '../../../../../store/reducer/log';
 
 // ? Typage global
-import { BurgerI } from '../../../../../@types/interface';
 import { resetMessage, updateFlash } from '../../../../../store/reducer/main';
 
 // ? Fonction principale
-function LinksComponent(props: BurgerI) {
-  const { setIsOpen } = props; // Props de la gestion du burger
-
+function LinksComponent() {
   // ? State
   // Redux
   const windowWidth = useAppSelector((state) => state.main.windowWidth); // On récupère la state windowWidth pour la taille de la fenêtre
@@ -33,7 +31,7 @@ function LinksComponent(props: BurgerI) {
     if (windowWidth > 768) {
       return;
     }
-    setIsOpen(false);
+    dispatch(toggleIsOpen()); // On inverse la valeur de isOpen pour fermer le burger
   };
 
   /** //! Accessibilité
@@ -65,7 +63,7 @@ function LinksComponent(props: BurgerI) {
       if (windowWidth > 768) {
         return;
       }
-      setIsOpen(false);
+      dispatch(toggleIsOpen());
     } else {
       dispatch(resetMessage()); // On reset le message flash
       dispatch(
@@ -87,7 +85,7 @@ function LinksComponent(props: BurgerI) {
         // Si la fenêtre est plus grande que 768px, on ignore
         return;
       }
-      setIsOpen(false); // Sinon on ferme le burger
+      dispatch(toggleIsOpen()); // Sinon on ferme le burger
     }
   };
 

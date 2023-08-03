@@ -7,6 +7,7 @@ import updateMember from '../actions/memberUpdate';
 
 // ? Typage local
 interface LogState {
+  isOpen: boolean;
   isEditMode: boolean;
   modalLogin: boolean;
   modalSignin: boolean;
@@ -17,6 +18,7 @@ interface LogState {
 
 // ? InitialState
 const initialState: LogState = {
+  isOpen: false,
   isEditMode: false,
   modalLogin: false,
   modalSignin: false,
@@ -26,6 +28,7 @@ const initialState: LogState = {
 };
 
 // ? Fonctions synchrone
+export const toggleIsOpen = createAction('log/isOpen');
 export const toggleEditMode = createAction('log/toggleEditMode');
 export const toggleModalLogin = createAction('log/toggleModalLogin');
 export const toggleModalSignin = createAction('log/toggleModalSignin');
@@ -38,6 +41,10 @@ export const toggleModalDeleteProject = createAction(
 // ? Reducer
 const logReducer = createReducer(initialState, (builder) => {
   builder
+    //* Cas du clic sur le bouton burger
+    .addCase(toggleIsOpen, (state) => {
+      state.isOpen = !state.isOpen; // Inverse la valeur du state
+    })
     //* Cas du clic sur le bouton de connexion
     .addCase(toggleModalLogin, (state) => {
       state.modalLogin = !state.modalLogin; // Inverse la valeur du state

@@ -10,7 +10,6 @@ const deleteProject = createAsyncThunk(
   async (id: string) => {
     try {
       await axiosInstance.delete(`/api/projects/${id}`);
-      // ? On retourne le state
     } catch (error) {
       console.error('Error:', error);
       throw error;

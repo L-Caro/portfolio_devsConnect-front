@@ -5,14 +5,10 @@ import { useAppSelector, useAppDispatch } from '../../../../../hook/redux';
 
 // ? Fonctions externes
 import logout from '../../../../../store/actions/logout';
-
-// ? Typage global
-import { BurgerI } from '../../../../../@types/interface';
+import { toggleIsOpen } from '../../../../../store/reducer/log';
 
 // ? Fonction principale
-function LogoutComponent(props: BurgerI) {
-  const { setIsOpen } = props; // Props de la gestion du burger
-
+function LogoutComponent() {
   // ? State
   // Redux
   const userId = useAppSelector((state) => state.user.login.id); // Id de l'utilisateur connecté
@@ -38,7 +34,7 @@ function LogoutComponent(props: BurgerI) {
     if (windowWidth > 768) {
       return;
     }
-    setIsOpen(false);
+    dispatch(toggleIsOpen()); // On inverse la valeur de isOpen pour fermer le burger
   };
 
   /** //* Mon Profil
@@ -51,7 +47,7 @@ function LogoutComponent(props: BurgerI) {
     if (windowWidth > 768) {
       return;
     }
-    setIsOpen(false);
+    dispatch(toggleIsOpen()); // On inverse la valeur de isOpen pour fermer le burger
   };
 
   // ? Rendu JSX

@@ -48,7 +48,7 @@
         &--header {
             &--link {
                 &--text {
-                    width: 75%;
+                    width: 65%;
                     //? Nom/Prénom du membre
                     &--title {
                         margin: auto v.$font-xsmall;
@@ -58,9 +58,10 @@
                 }
                 //? Image du membre
                 &--container {
-                    width: 25%;
+                    width: 35%;
                     &--img {
-                        height: v.$font-xlarge;
+                        max-width: v.$font-large;
+                        height: v.$font-large;
                     }
                 }
             }
@@ -71,7 +72,7 @@
         &--header {
             &--link {
                 &--text {
-                    width: 75%;
+                    width: 65%;
                     //? Nom/Prénom du membre
                     &--title {
                         margin: auto v.$font-xsmall;
@@ -81,9 +82,10 @@
                 }
                 //? Image du membre
                 &--container {
-                    width: 25%;
+                    width: 35%;
                     &--img {
-                        height: v.$font-xlarge;
+                        max-width: v.$font-large;
+                        height: v.$font-large;
                     }
                 }
             }
@@ -94,7 +96,7 @@
         &--header {
             &--link {
                 &--text {
-                    width: 75%;
+                    width: 70%;
                     //? Nom/Prénom du membre
                     &--title {
                         margin: auto v.$font-xsmall;
@@ -104,8 +106,9 @@
                 }
                 //? Image du membre
                 &--container {
-                    width: 25%;
+                    width: 30%;
                     &--img {
+                        max-width: v.$font-medium;
                         height: v.$font-medium;
                     }
                 }
@@ -117,7 +120,7 @@
         &--header {
             &--link {
                 &--text {
-                    width: 75%;
+                    width: 70%;
                     //? Nom/Prénom du membre
                     &--title {
                         margin: auto v.$font-xsmall;
@@ -127,9 +130,10 @@
                 }
                 //? Image du membre
                 &--container {
-                    width: 25%;
+                    width: 30%;
                     &--img {
-                        height: v.$font-small;
+                        max-width: v.$font-medium;
+                        height: v.$font-medium;
                     }
                 }
             }

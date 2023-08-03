@@ -101,6 +101,7 @@ function ProjectCard(project: ProjectI) {
                 {users &&
                   users
                     .filter((user: MemberI) => user.id !== user_id)
+                    .slice(0, 12) // Limiter à 12 éléments
                     .map((user: MemberI) =>
                       user.is_active ? (
                         <Link to={`/users/${user.id}`} key={uuidv4()}>

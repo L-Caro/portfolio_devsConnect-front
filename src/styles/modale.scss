@@ -43,9 +43,6 @@
             display: flex;
             flex-direction: column;
             margin: 0 auto;
-            & fieldset {
-                border: none;
-            }
         }
         &--cancel,
         &--confirm,
@@ -103,6 +100,9 @@
                 text-decoration: underline;
                 color: v.$color-button;
                 cursor: pointer;
+            }
+            .MuiSvgIcon-root {
+                color: gray;
             }
         }
     }

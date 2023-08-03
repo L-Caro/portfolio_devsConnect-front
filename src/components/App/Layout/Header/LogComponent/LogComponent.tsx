@@ -5,15 +5,11 @@ import { useAppSelector, useAppDispatch } from '../../../../../hook/redux';
 import {
   toggleModalLogin,
   toggleModalSignin,
+  toggleIsOpen,
 } from '../../../../../store/reducer/log';
 
-// ? Typage global
-import { BurgerI } from '../../../../../@types/interface';
-
 // ? Fonction principale
-function LogComponent(props: BurgerI) {
-  const { setIsOpen } = props; // Props de la gestion du burger
-
+function LogComponent() {
   // ? State
   // Redux
   const windowWidth = useAppSelector((state) => state.main.windowWidth); // On récupère la state windowWidth du reducer main
@@ -33,7 +29,7 @@ function LogComponent(props: BurgerI) {
       return;
     }
     // sinon on met la valeur de isOpen sur false pour fermer le burger en ouvrant la modale
-    setIsOpen(false);
+    dispatch(toggleIsOpen());
   };
 
   /** //* Inscription
@@ -47,7 +43,7 @@ function LogComponent(props: BurgerI) {
       return;
     }
     // sinon on met la valeur de isOpen sur false pour fermer le burger en ouvrant la modale
-    setIsOpen(false);
+    dispatch(toggleIsOpen());
   };
 
   // ? Rendu JSX

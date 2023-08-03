@@ -146,12 +146,16 @@
                         //? Bloc image + texte
                         display: flex;
                         align-items: center;
+                        background-color: rgb(91, 166, 91, 0);
+                        border: 2px solid rgba(91, 166, 91, 0);
+                        border-radius: v.$border-radius;
+                        cursor: pointer;
                         & p {
                             font-weight: 700;
                         }
                         &--selected {
                             background-color: rgb(91, 166, 91, 0.2);
-                            border-radius: v.$border-radius;
+                            border: 2px solid rgba(91, 166, 91, 1);
                         }
                     }
                 }
@@ -322,14 +326,11 @@
                             //? Bloc image + texte
                             gap: v.$font-medium;
                             margin: v.$font-xsmall 0;
+                            padding: 0.3rem v.$font-xsmall;
+                            width: 80%;
                             & img {
                                 width: v.$font-medium;
                                 height: v.$font-medium;
-                            }
-                            &--selected {
-                                padding: 0.3rem v.$font-xsmall;
-                                width: 80%;
-                                border: 2px solid rgb(91, 166, 91);
                             }
                         }
                     }
@@ -503,14 +504,11 @@
                             //? Bloc image + texte
                             gap: v.$font-small;
                             margin: v.$font-xsmall 0;
+                            padding: 0.3rem v.$font-xsmall;
+                            width: 80%;
                             & img {
                                 width: v.$font-medium;
                                 height: v.$font-medium;
-                            }
-                            &--selected {
-                                padding: 0.3rem v.$font-xsmall;
-                                width: 80%;
-                                border: 2px solid rgb(91, 166, 91);
                             }
                         }
                     }
@@ -690,14 +688,11 @@
                             //? Bloc image + texte
                             gap: v.$font-small;
                             margin: v.$font-xsmall v.$font-small;
+                            padding: 0.3rem v.$font-xsmall;
+                            width: 80%;
                             & img {
                                 width: v.$font-medium;
                                 height: v.$font-medium;
-                            }
-                            &--selected {
-                                padding: 0.3rem v.$font-xsmall;
-                                width: 80%;
-                                border: 3px solid rgb(91, 166, 91);
                             }
                         }
                     }
@@ -880,14 +875,11 @@
                             //? Bloc image + texte
                             gap: v.$font-xsmall;
                             margin: v.$font-xxsmall v.$font-small;
+                            padding: 0.3rem v.$font-xxsmall;
+                            width: 80%;
                             & img {
                                 width: v.$font-small;
                                 height: v.$font-small;
-                            }
-                            &--selected {
-                                padding: 0.3rem v.$font-xxsmall;
-                                width: 80%;
-                                border: 2px solid rgb(91, 166, 91);
                             }
                         }
                     }
@@ -1067,14 +1059,11 @@
                             //? Bloc image + texte
                             gap: v.$font-xxsmall;
                             margin: v.$font-xxsmall v.$font-xsmall;
+                            padding: 0.2rem v.$font-xxsmall;
+                            width: 75%;
                             & img {
                                 width: v.$font-small;
                                 height: v.$font-small;
-                            }
-                            &--selected {
-                                padding: 0.2rem v.$font-xxsmall;
-                                width: 75%;
-                                border: 1px solid rgb(91, 166, 91);
                             }
                         }
                     }

@@ -5,7 +5,7 @@
     @include m.flex-center;
     justify-content: space-between;
     padding: 2rem;
-    border-top: 1px solid black;
+    border-top: 1px solid v.$color;
     font-weight: 700;
     background: v.$color-dark;
     color: v.$color;

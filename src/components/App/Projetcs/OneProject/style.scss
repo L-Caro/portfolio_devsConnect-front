@@ -176,7 +176,7 @@
         }
         &--thirdField {
             // ? Participants
-            grid-template-columns: repeat(5, 20%);
+            grid-template-columns: repeat(3, 32%);
             gap: v.$font-xsmall;
             margin: v.$font-small v.$font-large;
         }
@@ -250,7 +250,7 @@
         }
         &--thirdField {
             // ? Participants
-            grid-template-columns: repeat(5, 20%);
+            grid-template-columns: repeat(3, 32%);
             gap: v.$font-xsmall;
             margin: v.$font-small v.$font-large;
         }
@@ -327,7 +327,7 @@
         }
         &--thirdField {
             // ? Participants
-            grid-template-columns: repeat(4, 25%);
+            grid-template-columns: repeat(3, 32%);
             gap: v.$font-xsmall;
             margin: v.$font-xsmall v.$font-medium;
         }
@@ -416,7 +416,7 @@
         &--thirdField {
             // ? Participants
             grid-template-columns: repeat(3, 30%);
-            gap: 0;
+            gap: v.$font-xsmall;
             margin: v.$font-xsmall v.$font-medium;
         }
         &--fourthField {

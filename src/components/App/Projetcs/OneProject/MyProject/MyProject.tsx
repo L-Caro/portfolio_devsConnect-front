@@ -101,7 +101,7 @@ function MyProject() {
   useEffect(() => {
     const projectId = id.toString();
     dispatch(fetchOneProject(projectId));
-  }, [dispatch, id, project?.availability, setSelectedTags, project?.users]);
+  }, [dispatch, id, project?.availability, setSelectedTags]);
 
   // ? Fonctions
 
@@ -476,6 +476,7 @@ function MyProject() {
       handleResetForm(); // On réinitialise le formulaire
     }
   };
+  console.log(project);
   // ? Rendu JSX
   return (
     <>

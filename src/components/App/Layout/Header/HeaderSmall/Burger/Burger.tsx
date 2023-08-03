@@ -1,12 +1,20 @@
-// ? Typage global
-import { BurgerI } from '../../../../../../@types/interface';
+// ? Librairies
+import { useAppSelector, useAppDispatch } from '../../../../../../hook/redux';
+
+// ? Fonctions externes
+import { toggleIsOpen } from '../../../../../../store/reducer/log';
 
 // ? Style
 import './style.scss';
 
 // ? Fonction principale
-function Burger(props: BurgerI) {
-  const { isOpen, setIsOpen } = props; // Props de la gestion du burger
+function Burger() {
+  // ? State
+  // Redux
+  const isOpen = useAppSelector((state) => state.log.isOpen); // On récupère la state isOpen du reducer log
+
+  // ? dispatch
+  const dispatch = useAppDispatch();
 
   // ? Fonctions
   /** //* Gestion du burger
@@ -14,7 +22,7 @@ function Burger(props: BurgerI) {
    * Au clic sur le burger, on ouvre ou ferme le burger
    */
   const handleClick = () => {
-    setIsOpen(!isOpen);
+    dispatch(toggleIsOpen()); // On lance la fonction toggleIsOpen() du reducer log
   };
   /** //! Accessibilité
    * Une div n'est pas un element clickable par défaut.

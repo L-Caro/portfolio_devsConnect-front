@@ -239,6 +239,10 @@ function CreateProject() {
     // ! Gestion des erreurs
     dispatch(resetMessage()); // On reset le message flash
 
+    //* Le champs pseudo et email posent problème alors on les passent à true
+    isFormValid.pseudo = true;
+    isFormValid.email = true;
+
     // Gestion des erreurs tags
     if (selectedTags.length === 0) {
       // Si aucun tag n'est sélectionné, on passe isFormValid.tags à false
@@ -273,6 +277,7 @@ function CreateProject() {
 
     // Si plusieurs champs sont vides, on affiche un message d'erreur général
     if (falseFieldCount > 1) {
+      console.log(Object.values(isFormValid));
       dispatch(
         updateFlash({
           type: 'error',

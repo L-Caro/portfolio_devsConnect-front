@@ -41,7 +41,7 @@ function OneProject() {
   // ? useEffect
   useEffect(() => {
     if (id) dispatch(fetchOneProject(id)); // On récupère les infos du membre avec l'id en url
-  }, [dispatch, id, project?.users]); // On met à jour le useEffect si l'id change
+  }, [dispatch, id]); // On met à jour le useEffect si l'id change
 
   // ? Fonctions
   //* On vérifie si le membre est le propriétaire du projet
@@ -168,6 +168,12 @@ function OneProject() {
       </div>
       <h4 className="Project--title">Participants :</h4>
       <div className="Project--thirdField">
+        {project.users &&
+          project.users.map((user) =>
+            user.id === project.user_id ? (
+              <ProjectMemberMini key={user.id} member={user} />
+            ) : null
+          )}
         {project.users &&
           project.users.map((user) =>
             user.is_active ? (
