@@ -1,9 +1,8 @@
 @use '../../../styles/variables' as v;
 @use '../../../styles/mixins' as m; // @include pour utiliser
 
-// ! Style pour les erreurs/succès de formulaire
-//? Container d'input
-
+//! Style pour les erreurs/succès de formulaire
+// ? Container d'input
 .Input {
     .MuiInputBase-root {
         background-color: v.$color;
@@ -118,7 +117,6 @@
             }
         }
     }
-
     //? Textarea
     .MuiInputBase-inputMultiline {
         &::placeholder {
@@ -143,7 +141,6 @@
         color: #2e7d32;
     }
 }
-
 //! Couleur plus clair dans les modales
 .Input-light {
     // border-radius: v.$border-radius;

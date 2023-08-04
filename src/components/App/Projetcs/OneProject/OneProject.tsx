@@ -170,12 +170,6 @@ function OneProject() {
       <div className="Project--thirdField">
         {project.users &&
           project.users.map((user) =>
-            user.id === project.user_id ? (
-              <ProjectMemberMini key={user.id} member={user} />
-            ) : null
-          )}
-        {project.users &&
-          project.users.map((user) =>
             user.is_active ? (
               <ProjectMemberMini key={user.id} member={user} />
             ) : null

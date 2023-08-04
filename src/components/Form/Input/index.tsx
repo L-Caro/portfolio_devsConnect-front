@@ -11,7 +11,6 @@ import customThemeMUI from '../../../utils/customInputUI';
 
 // ? Styles
 import './style.scss';
-import { yellow } from '@mui/material/colors';
 
 // ? Typage local
 interface InputProps {
@@ -49,9 +48,9 @@ function Input({ name, placeholder, slot, ...props }: InputProps) {
     <ThemeProvider theme={customThemeMUI}>
       <TextField
         key={inputId}
+        id={inputId}
         variant="outlined"
         color="perso"
-        id={inputId}
         slot={slot}
         label={slot}
         name={name}

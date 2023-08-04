@@ -62,6 +62,18 @@ function RenderCreateProjectRoute() {
   return userLogged ? <CreateProject /> : <Navigate to="/" />;
 }
 
+function RenderUpdateProject() {
+  const projects = useAppSelector((state) => state.projects.list.data); // Récupère les projets
+  const { id } = useParams(); // Récupère l'ID de l'URL (id du projet)
+  const userId = useAppSelector((state) => state.user.login.id); // Récupère l'ID du membre connecté;
+  const project = projects.find((project) => project.id === Number(id)); // Récupère le projet correspondant à l'ID de l'url
+  return project && project.user_id === userId ? (
+    <MyProject />
+  ) : (
+    <Navigate to={`/projects/${id}`} />
+  );
+}
+
 // ? Fonction principale
 const Router = createBrowserRouter(
   createRoutesFromElements(
@@ -75,7 +87,7 @@ const Router = createBrowserRouter(
         {/* Projects */}
         <Route path="/projects" element={<Projects />} />
         <Route path="/projects/:id" element={<OneProject />} />
-        <Route path="/projects/:id/edit" element={<MyProject />} />
+        <Route path="/projects/:id/edit" element={<RenderUpdateProject />} />
         <Route path="/create-project" element={<RenderCreateProjectRoute />} />
       </Route>
     </Route>
