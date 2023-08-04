@@ -6,7 +6,9 @@ import {
   useParams,
   Navigate,
 } from 'react-router-dom';
-import { useAppSelector } from '../hook/redux';
+import { useAppSelector, useAppDispatch } from '../hook/redux';
+import { useEffect } from 'react';
+import { fetchOneProject } from '../store/reducer/projects';
 
 // ? Composants
 import Root from './Root';
@@ -62,11 +64,35 @@ function RenderCreateProjectRoute() {
   return userLogged ? <CreateProject /> : <Navigate to="/" />;
 }
 
+/** //! Fonction de rendu conditionnel pour la route de modification de projet
+ * @param {project} object - Objet du projet
+ * @param {dispatch} function - Fonction dispatch de Redux
+ * Récupère l'ID de l'URL (id du projet)
+ * Récupère l'ID du membre connecté
+ * Récupère le projet en fonction de l'ID
+ * Affiche MyProject si l'ID du membre connecté correspond à l'ID du membre qui a créé le projet
+ * Navigate vers la page du projet si l'ID du membre connecté ne correspond pas à l'ID du membre qui a créé le projet
+ */
 function RenderUpdateProject() {
-  const projects = useAppSelector((state) => state.projects.list.data); // Récupère les projets
-  const { id } = useParams(); // Récupère l'ID de l'URL (id du projet)
+  // ? State
+  const project = useAppSelector((state) => state.projects.project.data); // Récupère les projets
   const userId = useAppSelector((state) => state.user.login.id); // Récupère l'ID du membre connecté;
-  const project = projects.find((project) => project.id === Number(id)); // Récupère le projet correspondant à l'ID de l'url
+
+  // ? Dispatch
+  const dispatch = useAppDispatch();
+
+  // ? Récupère l'ID de l'URL (id du projet)
+  const { id } = useParams();
+
+  // ? useEffect
+  // Récupère le projet en fonction de l'ID
+  useEffect(() => {
+    dispatch(fetchOneProject(id));
+  }, [dispatch]);
+
+  // ? Rendu conditionnel
+  // Si l'ID du membre connecté correspond à l'ID du membre qui a créé le projet, affiche MyProject
+  // Sinon, navigate vers la page du projet
   return project && project.user_id === userId ? (
     <MyProject />
   ) : (

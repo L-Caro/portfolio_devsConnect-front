@@ -476,7 +476,6 @@ function MyProject() {
       handleResetForm(); // On réinitialise le formulaire
     }
   };
-  console.log(project);
   // ? Rendu JSX
   return (
     <>
